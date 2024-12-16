@@ -124,6 +124,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:layout_marginTop="40dp"
             android:id="@+id/button_signIn"
+            android:onClick="button_signIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_corner_yellow_gradient"

@@ -28,4 +28,10 @@ public class SignInActivity extends AppCompatActivity {
         Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
         startActivity(intent);
     }
+
+    public void button_signIn(View v) {
+        Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }
