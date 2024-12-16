@@ -111,8 +111,25 @@
 
         </LinearLayout>
 
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
         <TextView
-            android:layout_marginTop="5dp"
+            android:id="@+id/error_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="Incorrect email or password. Please try again."
+            android:textColor="#cd0046"
+            android:textSize="10sp"
+            android:fontFamily="@font/montserrat_bold"/>
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
@@ -120,6 +137,8 @@
             android:textColor="#cd0046"
             android:textSize="10sp"
             android:fontFamily="@font/montserrat_bold"/>
+
+    </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_marginTop="40dp"
