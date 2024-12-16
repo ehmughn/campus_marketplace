@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.TestProject2" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/main_blue</item>
         <item name="android:fontFamily">@font/montserrat_regular</item>
     </style>
 </resources>
