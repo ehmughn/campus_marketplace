@@ -22,10 +22,11 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/foreground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -93,6 +94,48 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp">
+
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/rounded_corner">
+
+                <ImageView
+                    android:id="@+id/icon_search"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/search"/>
+
+                <EditText
+                    android:id="@+id/input_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:hint="Search in Marketplace"
+                    android:textColorHint="@color/text_blue"
+                    android:inputType="text"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="center"
+                    android:textSize="12sp"/>
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    </LinearLayout>
 
 </FrameLayout>
