@@ -54,6 +54,10 @@ public class SignInActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void finish(View v) {
+        finish();
+    }
+
     public void button_signIn(View v) {
         String temporary_email = "admin@gmail.com";
         String temporary_password = "admin";
