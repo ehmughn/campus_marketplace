@@ -28,7 +28,6 @@
             android:layout_gravity="start"
             android:text="Welcome Back!"
             android:fontFamily="@font/montserrat_bold"
-            android:textColor="@color/text_blue"
             android:textSize="40sp"
             android:textStyle="bold"/>
 
@@ -37,7 +36,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:text="Access your account securely by using your email and password."
-            android:textColor="@color/text_blue"
             android:textSize="15sp"/>
 
         <TextView
@@ -46,7 +44,6 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:text="Email"
-            android:textColor="@color/text_blue"
             android:textSize="10sp"/>
 
         <LinearLayout
@@ -85,7 +82,6 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:text="Password"
-            android:textColor="@color/text_blue"
             android:textSize="10sp"/>
 
         <LinearLayout
@@ -154,7 +150,8 @@
             android:onClick="button_signIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corner_yellow_gradient"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/main_yellow"
             android:text="Sign In"
             android:textAllCaps="false"
             android:textColor="#021e4d"
@@ -173,7 +170,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:textColor="@color/text_blue"
                 android:text="Don't have an account? "
                 android:textSize="15sp"/>
 
@@ -185,7 +181,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:textColor="@color/text_blue"
                 android:text="Sign up."
                 android:fontFamily="@font/montserrat_bold"
                 android:textSize="15sp"/>
