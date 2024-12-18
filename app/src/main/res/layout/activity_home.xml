@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
+        <View
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:background="@drawable/rounded_corner_only_bottom"
@@ -30,11 +30,66 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_marginTop="30dp">
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/four_circles"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="20dp"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:background="@drawable/rounded_corner_yellow_gradient"
+                    android:padding="8dp">
+
+                    <ImageButton
+                        android:id="@+id/cart1"
+                        android:layout_width="35dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/shopping_bag"/>
+
+                    <TextView
+                        android:id="@+id/cart2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/main_yellow"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="10"
+                        android:textSize="25sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_marginStart="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:background="@drawable/rounded_corner_yellow_gradient"
+                    android:padding="8dp">
+
+                    <ImageButton
+                        android:id="@+id/profile"
+                        android:layout_width="45dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/profile"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
