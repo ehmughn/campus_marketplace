@@ -26,7 +26,8 @@
         android:id="@+id/foreground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,14 +38,12 @@
             <ImageButton
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="20dp"
                 android:backgroundTint="?viewColor"
                 android:background="@drawable/four_circles"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginEnd="20dp"
                 android:gravity="end"
                 android:orientation="horizontal">
 
@@ -53,12 +52,13 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="?viewColor"
                     android:background="@drawable/rounded_corner_yellow_gradient"
-                    android:padding="8dp">
+                    android:padding="5dp">
 
                     <ImageButton
                         android:id="@+id/cart1"
                         android:layout_width="35dp"
                         android:layout_height="40dp"
+                        android:layout_margin="4dp"
                         android:background="@drawable/shopping_bag"/>
 
                     <TextView
@@ -69,13 +69,14 @@
                         android:layout_marginStart="10dp"
                         android:textColor="@color/main_yellow"
                         android:fontFamily="@font/montserrat_bold"
+                        android:layout_margin="4dp"
                         android:text="10"
                         android:textSize="25sp"/>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_marginStart="40dp"
+                    android:layout_marginStart="25dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:backgroundTint="?viewColor"
@@ -86,6 +87,7 @@
                         android:id="@+id/profile"
                         android:layout_width="45dp"
                         android:layout_height="50dp"
+                        android:layout_margin="4dp"
                         android:background="@drawable/profile"/>
 
                 </LinearLayout>
@@ -130,11 +132,126 @@
                     android:layout_gravity="center"
                     android:textSize="12sp"/>
 
-
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:columnCount="3"
+            android:rowCount="1">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_gravity="fill"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:backgroundTint="?viewColor"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp">
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical|center_horizontal">
+                    
+                    <ImageView
+                        android:layout_width="75dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/food"/>
+                    
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="FOOD"
+                        android:textAlignment="center"
+                        android:textSize="10sp"/>
+                    
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_gravity="fill"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:backgroundTint="?viewColor"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical|center_horizontal">
+
+                    <ImageView
+                        android:layout_width="75dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/clothes"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CLOTHES"
+                        android:textAlignment="center"
+                        android:textSize="10sp"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_row="0"
+                android:layout_column="2"
+                android:layout_gravity="fill"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:backgroundTint="?viewColor"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center_vertical|center_horizontal">
+
+                    <ImageView
+                        android:layout_width="75dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/study_materials"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="STUDY MATERIALS"
+                        android:textAlignment="center"
+                        android:textSize="10sp"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </GridLayout>
 
     </LinearLayout>
 
