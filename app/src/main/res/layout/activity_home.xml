@@ -89,6 +89,8 @@
 
                         <ImageButton
                             android:id="@+id/profile"
+                            android:onClick="toProfile"
+                            android:clickable="true"
                             android:layout_width="45dp"
                             android:layout_height="50dp"
                             android:layout_margin="4dp"
