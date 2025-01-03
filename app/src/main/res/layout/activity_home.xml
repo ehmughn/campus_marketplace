@@ -257,6 +257,277 @@
 
             </GridLayout>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="POPULAR ITEMS"
+                    android:textAlignment="center"
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textSize="25sp"/>
+
+            </LinearLayout>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2">
+
+                <GridLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:columnCount="1">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="250dp"
+                        android:layout_gravity="fill"
+                        android:layout_rowWeight="1"
+                        android:layout_columnWeight="1"
+                        android:backgroundTint="@color/main_blue"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="140dp"
+                                android:layout_height="140dp"
+                                android:layout_marginTop="15dp"
+                                android:src="@drawable/cookies"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="₱25"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                android:fontFamily="@font/montserrat_bold"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="COOKIES"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat_bold"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="STOCKS: 50"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat_bold"/>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="240dp"
+                        android:layout_gravity="fill"
+                        android:layout_rowWeight="1"
+                        android:layout_columnWeight="1"
+                        android:backgroundTint="@color/main_yellow"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="140dp"
+                                android:layout_height="130dp"
+                                android:layout_marginTop="15dp"
+                                android:src="@drawable/uniform"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="₱400"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                android:fontFamily="@font/montserrat_bold"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="UNIFORM"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat_bold"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="STOCKS: 10"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat_bold"/>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </GridLayout>
+
+                <GridLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:columnCount="1">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="210dp"
+                        android:layout_gravity="fill"
+                        android:layout_rowWeight="1"
+                        android:layout_columnWeight="1"
+                        android:backgroundTint="@color/main_yellow"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                                android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="140dp"
+                                android:layout_height="100dp"
+                                android:layout_marginTop="15dp"
+                                android:src="@drawable/notes"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="₱250"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                android:fontFamily="@font/montserrat_bold"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="NOTES"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat_bold"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="STOCKS: 5"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat_bold"/>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="230dp"
+                        android:layout_gravity="fill"
+                        android:layout_rowWeight="1"
+                        android:layout_columnWeight="1"
+                        android:backgroundTint="@color/main_blue"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="140dp"
+                                android:layout_height="120dp"
+                                android:layout_marginTop="15dp"
+                                android:src="@drawable/burger"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="₱70"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                android:fontFamily="@font/montserrat_bold"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="BURGER"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat_bold"/>
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="STOCKS: 30"
+                                android:layout_marginStart="20dp"
+                                android:layout_marginEnd="20dp"
+                                android:textColor="@color/white"
+                                android:textSize="12sp"
+                                android:fontFamily="@font/montserrat_bold"/>
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </GridLayout>
+
+            </GridLayout>
+
         </LinearLayout>
 
     </FrameLayout>
