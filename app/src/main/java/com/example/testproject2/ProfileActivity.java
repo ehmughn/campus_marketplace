@@ -1,5 +1,6 @@
 package com.example.testproject2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridLayout;
@@ -33,6 +34,11 @@ public class ProfileActivity extends AppCompatActivity {
         textView_likes = findViewById(R.id.text_likes);
         gridLayout_uploads = findViewById(R.id.profle_uploads);
         textView_noLikes = findViewById(R.id.profle_likes);
+    }
+
+    public void toUpload(View v) {
+        Intent intent = new Intent(ProfileActivity.this, UploadActivity.class);
+        startActivity(intent);
     }
 
     public void toUploads(View v) {
