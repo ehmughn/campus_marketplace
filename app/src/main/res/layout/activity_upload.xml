@@ -5,9 +5,11 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".SignUpActivity">
 
     <LinearLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -68,47 +70,133 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_marginTop="20dp"
-            android:id="@+id/button_signUp"
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corner"
-            android:backgroundTint="@color/main_yellow"
-            android:text="Sign Up"
-            android:textAllCaps="false"
-            android:textColor="#021e4d"
-            android:fontFamily="@font/montserrat_bold"/>
+            android:columnCount="2">
 
-        <LinearLayout
-            android:layout_marginTop="50dp"
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:columnCount="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:text="Price"
+                        android:textSize="10sp"/>
+
+                    <EditText
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="start"
+                        android:orientation="horizontal"
+                        android:inputType="textEmailAddress"
+                        android:padding="10dp"
+                        android:textSize="12sp"
+                        android:background="@drawable/rounded_corner"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:text="Quantity"
+                        android:textSize="10sp"/>
+
+                    <EditText
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="start"
+                        android:orientation="horizontal"
+                        android:inputType="textEmailAddress"
+                        android:padding="10dp"
+                        android:textSize="12sp"
+                        android:background="@drawable/rounded_corner"/>
+
+                </LinearLayout>
+
+            </GridLayout>
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:columnCount="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="50dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:background="@drawable/icon_upload"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upload Image"
+                        android:textAlignment="center"
+                        android:textSize="15sp"/>
+
+                </LinearLayout>
+
+            </GridLayout>
+
+        </GridLayout>
+
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:layout_marginTop="10dp"
+            android:columnCount="2"
+            android:rowCount="1">
 
-            <TextView
-                android:layout_marginTop="20dp"
-                android:layout_width="wrap_content"
+            <Button
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Already have an account? "
-                android:textSize="15sp"/>
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:text="Back"
+                android:textColor="@color/text_blue"
+                android:backgroundTint="@color/main_yellow"
+                android:fontFamily="@font/montserrat_bold"/>
 
-            <TextView
-                android:id="@+id/text_signIn"
-                android:onClick="toSignIn"
-                android:clickable="true"
-                android:layout_marginTop="20dp"
-                android:layout_width="wrap_content"
+            <Button
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Sign in."
-                android:fontFamily="@font/montserrat_bold"
-                android:textSize="15sp"/>
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                android:text="Add Product"
+                android:textColor="@color/text_blue"
+                android:backgroundTint="@color/main_yellow"
+                android:fontFamily="@font/montserrat_bold"/>
 
-        </LinearLayout>
+        </GridLayout>
 
     </LinearLayout>
 
