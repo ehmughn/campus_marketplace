@@ -28,7 +28,7 @@ public class UploadActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        inputCategory = findViewById(R.id.input_category);
-        inputCatergoryList = findViewById(R.id.input_category_list);
+//        inputCategory = findViewById(R.id.input_category);
+//        inputCatergoryList = findViewById(R.id.input_category_list);
     }
 }
