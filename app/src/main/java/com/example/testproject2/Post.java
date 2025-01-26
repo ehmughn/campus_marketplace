@@ -1,13 +1,13 @@
 package com.example.testproject2;
 
-public class HomePost {
+public class Post {
 
     private int image;
     private double price;
     private String title;
     private int stockCount;
 
-    public HomePost(int image, double price, String title, int stockCount) {
+    public Post(int image, double price, String title, int stockCount) {
         this.image = image;
         this.price = price;
         this.title = title;
