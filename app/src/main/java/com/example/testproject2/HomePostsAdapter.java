@@ -27,6 +27,10 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Post post = posts.get(position);
+        holder.imageView_image.setImageResource(post.getImage());
+        holder.textView_price.setText(post.getPrice());
+        holder.textView_title.setText(post.getTitle());
+        holder.textView_stock.setText(post.getStockCount());
     }
 
     @Override

@@ -26,7 +26,7 @@ public class Post {
         return title;
     }
 
-    public String stockCount() {
+    public String getStockCount() {
         return Integer.toString(stockCount);
     }
 
