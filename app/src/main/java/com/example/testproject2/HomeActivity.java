@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,8 +38,9 @@ public class HomeActivity extends AppCompatActivity {
         homePosts.add(new Post(R.drawable.notes, 250, "Notes", 5));
         homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 10));
         homePosts.add(new Post(R.drawable.burger, 70, "Burger", 30));
-        adapter_posts = new HomePostsAdapter(homePosts);
+        adapter_posts = new HomePostsAdapter(this, homePosts);
         recyclerView_posts.setAdapter(adapter_posts);
+        recyclerView_posts.setLayoutManager(new GridLayoutManager(this, 2));
     }
 
     public void toProfile(View v) {
