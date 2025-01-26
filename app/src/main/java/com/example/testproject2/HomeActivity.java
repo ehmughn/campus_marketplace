@@ -35,10 +35,19 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView_posts = findViewById(R.id.recyclerView_posts);
         recyclerView_posts.setLayoutManager(new LinearLayoutManager(this));
         homePosts = new ArrayList<>();
+
+        // a bunch of temporary posts until we get to know how to deal with databases
         homePosts.add(new Post(R.drawable.cookies, 25, "Cookies", 50));
         homePosts.add(new Post(R.drawable.notes, 250, "Notes", 5));
         homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 10));
         homePosts.add(new Post(R.drawable.burger, 70, "Burger", 30));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 10));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 10));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 10));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 10));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 10));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 10));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 10));
         adapter_posts = new HomePostsAdapter(this, homePosts);
         recyclerView_posts.setAdapter(adapter_posts);
         recyclerView_posts.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));

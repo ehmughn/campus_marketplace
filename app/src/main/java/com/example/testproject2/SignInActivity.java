@@ -59,6 +59,8 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void button_signIn(View v) {
+
+        // temporary login information until we get to know how to deal with databases
         String temporary_email = "admin@gmail.com";
         String temporary_password = "admin";
 
