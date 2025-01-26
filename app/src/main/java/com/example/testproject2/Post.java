@@ -5,6 +5,8 @@ public class Post {
     private int image;
     private double price;
     private String title;
+    private int category;
+    private String description;
     private int stockCount;
 
     public Post(int image, double price, String title, int stockCount) {

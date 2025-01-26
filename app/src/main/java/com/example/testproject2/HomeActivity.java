@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
         homePosts.add(new Post(R.drawable.burger, 70, "Burger", 30));
         adapter_posts = new HomePostsAdapter(this, homePosts);
         recyclerView_posts.setAdapter(adapter_posts);
-        recyclerView_posts.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView_posts.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
     }
 
     public void toProfile(View v) {
