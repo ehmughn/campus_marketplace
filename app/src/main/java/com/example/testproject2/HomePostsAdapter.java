@@ -35,7 +35,10 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Post post = posts.get(position);
-        holder.cardView.setBackgroundColor(ContextCompat.getColor(context, R.color.main_blue));
+        if(position % 4 == 1 || position % 4 == 2)
+            holder.cardView.setBackgroundColor(ContextCompat.getColor(context, R.color.main_yellow));
+        else
+            holder.cardView.setBackgroundColor(ContextCompat.getColor(context, R.color.main_blue));
         holder.imageView_image.setImageResource(post.getImage());
         holder.textView_price.setText("₱" + post.getPrice());
         holder.textView_title.setText(post.getTitle());
