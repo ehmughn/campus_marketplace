@@ -1,4 +1,4 @@
-package com.example.testproject2;
+package com.example.objects;
 
 public class Post {
 
@@ -9,10 +9,11 @@ public class Post {
     private String description;
     private int stockCount;
 
-    public Post(int image, double price, String title, int stockCount) {
+    public Post(int image, double price, String title, String description, int stockCount) {
         this.image = image;
         this.price = price;
         this.title = title;
+        this.description = description;
         this.stockCount = stockCount;
     }
 
@@ -26,6 +27,10 @@ public class Post {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public String getStockCount() {
