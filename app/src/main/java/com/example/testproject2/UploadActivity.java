@@ -15,9 +15,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class UploadActivity extends AppCompatActivity {
 
-    TextInputLayout inputCategory;
-    MaterialAutoCompleteTextView inputCatergoryList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +25,5 @@ public class UploadActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-//        inputCategory = findViewById(R.id.input_category);
-//        inputCatergoryList = findViewById(R.id.input_category_list);
     }
 }

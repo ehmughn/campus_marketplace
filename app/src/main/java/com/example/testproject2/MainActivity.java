@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridLayout;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -43,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
     private InboxFragment inboxFragment;
     private ProfileFragment profileFragment;
 
+    private TextView profile_textView_uploads;
+    private TextView profile_textView_likes;
+    private GridLayout profile_gridLayout_uploads;
+    private TextView profile_textView_noLikes;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +84,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        profile_textView_uploads = profileFragment.textView_uploads;
+        profile_textView_likes = profileFragment.textView_likes;
+        profile_gridLayout_uploads = profileFragment.gridLayout_uploads;
+        profile_textView_noLikes = profileFragment.textView_noLikes;
     }
 
     public void toProfile(View v) {
@@ -87,5 +100,19 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.main_layout, fragment);
         fragmentTransaction.commit();
+    }
+
+    public void toUploads(View v) {
+        profileFragment.textView_uploads.setTypeface(ResourcesCompat.getFont(getApplicationContext(), R.font.montserrat_bold));
+        profileFragment.textView_likes.setTypeface(ResourcesCompat.getFont(getApplicationContext(), R.font.montserrat_regular));
+        profileFragment.gridLayout_uploads.setVisibility(View.VISIBLE);
+        profileFragment.textView_noLikes.setVisibility(View.INVISIBLE);
+    }
+
+    public void toLikes(View v) {
+        profileFragment.textView_uploads.setTypeface(ResourcesCompat.getFont(getApplicationContext(), R.font.montserrat_regular));
+        profileFragment.textView_likes.setTypeface(ResourcesCompat.getFont(getApplicationContext(), R.font.montserrat_bold));
+        profileFragment.gridLayout_uploads.setVisibility(View.INVISIBLE);
+        profileFragment.textView_noLikes.setVisibility(View.VISIBLE);
     }
 }
