@@ -1,25 +1,24 @@
-package com.example.testproject2;
+package com.example.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.example.adapters.HomeCategoryAdapter;
 import com.example.adapters.HomePostsAdapter;
 import com.example.objects.Categories;
 import com.example.objects.Post;
+import com.example.testproject2.R;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeFragment extends Fragment {
 
     private ArrayList<Categories> homeCategories;
     private ArrayList<Post> homePosts;
@@ -29,17 +28,18 @@ public class HomeActivity extends AppCompatActivity {
     private HomePostsAdapter adapter_posts;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        recyclerView_posts = findViewById(R.id.recyclerView_home_posts);
-        recyclerView_posts.setLayoutManager(new LinearLayoutManager(this));
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        super.onViewCreated(view, savedInstanceState);
+
+        recyclerView_posts = view.findViewById(R.id.recyclerView_home_posts);
+        recyclerView_posts.setLayoutManager(new LinearLayoutManager(getContext()));
         homePosts = new ArrayList<>();
 
         // a bunch of temporary posts until we get to know how to deal with databases
@@ -57,11 +57,11 @@ public class HomeActivity extends AppCompatActivity {
         homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10));
         homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10));
 
-        adapter_posts = new HomePostsAdapter(this, homePosts);
+        adapter_posts = new HomePostsAdapter(getContext(), homePosts);
         recyclerView_posts.setAdapter(adapter_posts);
 
-        recyclerView_categories = findViewById(R.id.recyclerView_home_categories);
-        recyclerView_categories.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        recyclerView_categories = view.findViewById(R.id.recyclerView_home_categories);
+        recyclerView_categories.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         homeCategories = new ArrayList<>();
 
         homeCategories.add(new Categories("Popular"));
@@ -73,12 +73,7 @@ public class HomeActivity extends AppCompatActivity {
         homeCategories.add(new Categories("Pagmamahal"));
         homeCategories.add(new Categories("DNFJSDIHFSDI"));
 
-        adapter_categories = new HomeCategoryAdapter(this, homeCategories);
+        adapter_categories = new HomeCategoryAdapter(getContext(), homeCategories);
         recyclerView_categories.setAdapter(adapter_categories);
-    }
-
-    public void toProfile(View v) {
-        Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
-        startActivity(intent);
     }
 }

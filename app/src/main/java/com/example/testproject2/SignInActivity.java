@@ -65,7 +65,7 @@ public class SignInActivity extends AppCompatActivity {
         String temporary_password = "admin";
 
         if(editText_email.getText().toString().equals(temporary_email) && editText_password.getText().toString().equals(temporary_password)) {
-            Intent intent = new Intent(SignInActivity.this, HomeActivity.class);
+            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
