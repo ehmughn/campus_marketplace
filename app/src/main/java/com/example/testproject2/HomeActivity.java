@@ -12,15 +12,20 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.adapters.HomeCategoryAdapter;
 import com.example.adapters.HomePostsAdapter;
+import com.example.objects.Categories;
 import com.example.objects.Post;
 
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private ArrayList<Categories> homeCategories;
     private ArrayList<Post> homePosts;
+    private RecyclerView recyclerView_categories;
     private RecyclerView recyclerView_posts;
+    private HomeCategoryAdapter adapter_categories;
     private HomePostsAdapter adapter_posts;
 
     @Override
@@ -33,7 +38,7 @@ public class HomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        recyclerView_posts = findViewById(R.id.recyclerView_posts);
+        recyclerView_posts = findViewById(R.id.recyclerView_home_posts);
         recyclerView_posts.setLayoutManager(new LinearLayoutManager(this));
         homePosts = new ArrayList<>();
 
@@ -54,7 +59,22 @@ public class HomeActivity extends AppCompatActivity {
 
         adapter_posts = new HomePostsAdapter(this, homePosts);
         recyclerView_posts.setAdapter(adapter_posts);
-//        recyclerView_posts.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
+
+        recyclerView_categories = findViewById(R.id.recyclerView_home_categories);
+        recyclerView_categories.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        homeCategories = new ArrayList<>();
+
+        homeCategories.add(new Categories("Popular"));
+        homeCategories.add(new Categories("Uniform"));
+        homeCategories.add(new Categories("Crafts"));
+        homeCategories.add(new Categories("Foods"));
+        homeCategories.add(new Categories("Droga"));
+        homeCategories.add(new Categories("Alak"));
+        homeCategories.add(new Categories("Pagmamahal"));
+        homeCategories.add(new Categories("DNFJSDIHFSDI"));
+
+        adapter_categories = new HomeCategoryAdapter(this, homeCategories);
+        recyclerView_categories.setAdapter(adapter_categories);
     }
 
     public void toProfile(View v) {
