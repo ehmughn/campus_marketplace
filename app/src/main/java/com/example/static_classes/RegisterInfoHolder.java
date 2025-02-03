@@ -5,6 +5,7 @@ public class RegisterInfoHolder {
     private static String password = "";
     private static String firstName = "";
     private static String lastName = "";
+    private static String username = "";
 
     public static void setEmail(String register_email) {
         RegisterInfoHolder.email = register_email;
@@ -40,5 +41,13 @@ public class RegisterInfoHolder {
 
     public static void setLastName(String lastName) {
         RegisterInfoHolder.lastName = lastName;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        RegisterInfoHolder.username = username;
     }
 }
