@@ -23,39 +23,10 @@
                 android:layout_marginTop="30dp"
                 android:padding="8dp">
 
-                <LinearLayout
+                <include
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@drawable/logo"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_gravity="center"
-                        android:text="NU"
-                        android:textSize="30sp"
-                        android:textAlignment="center"
-                        android:textColor="@color/main_yellow"
-                        android:fontFamily="@font/montserrat_bold"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:layout_gravity="center"
-                        android:text="MART"
-                        android:textSize="30sp"
-                        android:textAlignment="center"
-                        android:fontFamily="@font/montserrat_bold"/>
-
-
-                </LinearLayout>
+                    android:layout_height="60dp"
+                    layout="@layout/header_numart"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
