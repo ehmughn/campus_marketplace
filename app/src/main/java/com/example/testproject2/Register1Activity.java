@@ -65,6 +65,7 @@ public class Register1Activity extends AppCompatActivity {
                 Intent intent = new Intent(Register1Activity.this, Register2Activity.class);
                 RegisterInfoHolder.setEmail(check_email);
                 startActivity(intent);
+                overridePendingTransition(R.anim.animate_slide_in_right, R.anim.animate_slide_out_left);
             }
         });
     }
