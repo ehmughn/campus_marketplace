@@ -9,6 +9,11 @@
         <item name="viewColorOpposite">#424242</item>
     </style>
 
+    <style name="CustomDialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
     <style name="Theme.TestProject2" parent="Base.Theme.TestProject2" />
     
     <attr name="viewColor" format="color"/>

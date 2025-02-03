@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@android:color/white"
+    android:background="@android:color/transparent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardBackgroundColor="#808b9694"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_gravity="start"
+                android:text="Welcome to NU-Mart"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="32sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="You can now start exploring or customize your profile."
+                android:textSize="15sp"/>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:columnCount="2">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_margin="20dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:backgroundTint="@color/main_yellow"
+                    android:text="Go To Home"
+                    android:textAllCaps="false"
+                    android:textColor="#021e4d"
+                    android:enabled="false"
+                    android:fontFamily="@font/montserrat_bold"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_margin="20dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:backgroundTint="@color/main_yellow"
+                    android:text="Edit Profile"
+                    android:enabled="false"
+                    android:textAllCaps="false"
+                    android:textColor="#021e4d"
+                    android:fontFamily="@font/montserrat_bold"/>
+
+            </GridLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="12dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_gravity="start"
+                android:text="Welcome to NU-Mart"
+                android:fontFamily="@font/montserrat_bold"
+                android:textSize="32sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="You can now start exploring or customize your profile."
+                android:textSize="15sp"/>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:columnCount="2">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/dialog_button_goToHome"
+                    android:layout_margin="20dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:backgroundTint="@color/main_yellow"
+                    android:text="Go To Home"
+                    android:textAllCaps="false"
+                    android:textColor="#021e4d"
+                    android:fontFamily="@font/montserrat_bold"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/dialog_button_editProfile"
+                    android:layout_margin="20dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:background="@drawable/rounded_corner"
+                    android:backgroundTint="@color/main_yellow"
+                    android:text="Edit Profile"
+                    android:textAllCaps="false"
+                    android:textColor="#021e4d"
+                    android:fontFamily="@font/montserrat_bold"/>
+
+            </GridLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

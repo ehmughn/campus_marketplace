@@ -90,6 +90,7 @@
                             android:layout_marginLeft="10dp"
                             android:hint="Enter password"
                             android:inputType="textPassword"
+                            android:enabled="false"
                             android:background="@android:color/transparent"
                             android:layout_gravity="center"
                             android:textSize="12sp"/>
@@ -126,6 +127,7 @@
                             android:layout_marginLeft="10dp"
                             android:hint="Confirm your password"
                             android:inputType="textPassword"
+                            android:enabled="false"
                             android:background="@android:color/transparent"
                             android:layout_gravity="center"
                             android:textSize="12sp"/>

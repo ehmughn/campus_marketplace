@@ -88,6 +88,7 @@
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
                             android:hint="Enter email"
+                            android:enabled="false"
                             android:inputType="textEmailAddress"
                             android:background="@android:color/transparent"
                             android:layout_gravity="center"

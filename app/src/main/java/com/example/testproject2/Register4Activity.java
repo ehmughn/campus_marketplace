@@ -1,14 +1,18 @@
 package com.example.testproject2;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,6 +27,12 @@ public class Register4Activity extends AppCompatActivity {
     private EditText editText_username;
     private TextView textView_errorMessage;
     private Button button_next;
+    private LayoutInflater inflater;
+    private View dialogView;
+    private Button dialog_button_goToHome;
+    private Button dialog_button_editProfile;
+    private AlertDialog.Builder builder;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +78,31 @@ public class Register4Activity extends AppCompatActivity {
                     textView_errorMessage.setText("Username already taken.");
                     return;
                 }
-                Intent intent = new Intent(Register4Activity.this, Register5Activity.class);
-                RegisterInfoHolder.setUsername(check_username);
-                startActivity(intent);
-                overridePendingTransition(R.anim.animate_slide_in_right, R.anim.animate_slide_out_left);
+                dialog.show();
+//                Intent intent = new Intent(Register4Activity.this, Register5Activity.class);
+//                RegisterInfoHolder.setUsername(check_username);
+//                startActivity(intent);
+//                overridePendingTransition(R.anim.animate_slide_in_right, R.anim.animate_slide_out_left);
             }
         });
+        inflater = getLayoutInflater();
+        dialogView = inflater.inflate(R.layout.dialog_welcome, null);
+        dialog_button_goToHome = dialogView.findViewById(R.id.dialog_button_goToHome);
+        dialog_button_goToHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Register4Activity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        });
+        dialog_button_editProfile = dialogView.findViewById(R.id.dialog_button_editProfile);
+        builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView).setCancelable(false);
+        dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
     }
 
     public void randomizeUsername(View v) {
