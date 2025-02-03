@@ -32,7 +32,6 @@
                 app:cardElevation="8dp"
                 app:cardMaxElevation="12dp"
                 app:cardBackgroundColor="#808b9694"
-                android:background="@drawable/card_shadow"
                 app:cardUseCompatPadding="true"
                 android:layout_marginEnd="24dp"
                 android:layout_marginTop="24dp"
@@ -136,6 +135,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:orientation="horizontal"
+                        android:layout_marginBottom="20dp"
                         android:padding="10dp">
 
                         <TextView
@@ -158,18 +158,6 @@
                             android:fontFamily="@font/montserrat_bold"/>
 
                     </LinearLayout>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_marginTop="40dp"
-                        android:onClick="button_signIn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rounded_corner"
-                        android:backgroundTint="@color/main_yellow"
-                        android:text="Sign In"
-                        android:textAllCaps="false"
-                        android:textColor="#021e4d"
-                        android:fontFamily="@font/montserrat_bold"/>
 
                 </LinearLayout>
 
@@ -223,7 +211,6 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:orientation="horizontal"
-                        android:padding="10dp"
                         android:background="@drawable/rounded_corner">
 
                         <ImageView
@@ -231,10 +218,11 @@
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:layout_gravity="center"
+                            android:layout_margin="10dp"
                             android:src="@drawable/mail"/>
 
                         <EditText
-                            android:id="@+id/input_email"
+                            android:id="@+id/login_edittext_email"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
@@ -261,18 +249,18 @@
                         android:layout_height="wrap_content"
                         android:gravity="start"
                         android:orientation="horizontal"
-                        android:padding="10dp"
                         android:background="@drawable/rounded_corner">
 
                         <ImageView
                             android:id="@+id/icon_lock1"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
+                            android:layout_margin="10dp"
                             android:layout_gravity="center"
                             android:src="@drawable/lock"/>
 
                         <EditText
-                            android:id="@+id/input_password"
+                            android:id="@+id/login_edittext_password"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
@@ -290,11 +278,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
+                        android:layout_marginBottom="20dp"
                         android:orientation="horizontal"
                         android:padding="10dp">
 
                         <TextView
-                            android:id="@+id/error_message"
+                            android:id="@+id/login_textview_errormessage"
                             android:visibility="invisible"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -315,24 +304,23 @@
 
                     </LinearLayout>
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_marginTop="40dp"
-                        android:id="@+id/button_signIn"
-                        android:onClick="button_signIn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/rounded_corner"
-                        android:backgroundTint="@color/main_yellow"
-                        android:text="Sign In"
-                        android:textAllCaps="false"
-                        android:textColor="#021e4d"
-                        android:fontFamily="@font/montserrat_bold"/>
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
         </FrameLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/login_button_signIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/main_yellow"
+            android:text="Sign In"
+            android:textAllCaps="false"
+            android:textColor="#021e4d"
+            android:fontFamily="@font/montserrat_bold"/>
 
         <FrameLayout
             android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.example.testproject2;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -22,6 +23,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

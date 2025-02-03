@@ -5,196 +5,276 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUpActivity">
+    tools:context=".Register1Activity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
         android:orientation="vertical">
 
-        <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="start"
-            android:layout_marginTop="40dp"
-            android:onClick="toSignIn"
-            android:background="@drawable/arrow_circle_left"/>
-        
-        <TextView
+        <include
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_gravity="start"
-            android:text="Register Now"
-            android:fontFamily="@font/montserrat_bold"
-            android:textSize="40sp"
-            android:textStyle="bold"/>
+            android:layout_height="100dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"
+            layout="@layout/header_numart"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="Sign up with your email and password to continue."
-            android:textSize="15sp"/>
-
-        <TextView
-            android:layout_marginTop="40dp"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:text="Email"
-            android:textSize="10sp"/>
-        
-        <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:background="@drawable/rounded_corner">
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/icon_mail"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:src="@drawable/mail"/>
-
-            <EditText
-                android:id="@+id/input_email"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:hint="Enter email"
-                android:inputType="textEmailAddress"
-                android:background="@android:color/transparent"
-                android:layout_gravity="center"
-                android:textSize="12sp"/>
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="8dp"
+                app:cardMaxElevation="12dp"
+                app:cardBackgroundColor="#808b9694"
+                app:cardUseCompatPadding="true"
+                android:layout_marginEnd="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:layout_gravity="start"
+                        android:text="Register Now"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textSize="32sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="Enter your email first."
+                        android:textSize="15sp"/>
+
+                    <TextView
+                        android:layout_marginTop="40dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:text="Email"
+                        android:textSize="10sp"/>
+
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:orientation="horizontal"
+                        android:background="@drawable/rounded_corner">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="10dp"
+                            android:layout_gravity="center"/>
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:hint="Enter email"
+                            android:inputType="textEmailAddress"
+                            android:background="@android:color/transparent"
+                            android:layout_gravity="center"
+                            android:textSize="12sp"/>
 
 
-        </LinearLayout>
+                    </LinearLayout>
 
-        <TextView
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:text="Password"
-            android:textSize="10sp"/>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
 
-        <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:background="@drawable/rounded_corner">
+                        <TextView
+                            android:visibility="invisible"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Email is invalid."
+                            android:textColor="#cd0046"
+                            android:textSize="8sp"
+                            android:fontFamily="@font/montserrat_bold"/>
 
-            <ImageView
-                android:id="@+id/icon_lock1"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:src="@drawable/lock"/>
+                    </LinearLayout>
 
-            <EditText
-                android:id="@+id/input_password"
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:hint="Enter password"
-                android:inputType="textPassword"
-                android:background="@android:color/transparent"
-                android:layout_gravity="center"
-                android:textSize="12sp"/>
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="8dp"
+                app:cardMaxElevation="12dp"
+                app:cardBackgroundColor="@color/white"
+                android:background="@drawable/card_shadow"
+                app:cardUseCompatPadding="true"
+                android:layout_margin="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:layout_gravity="start"
+                        android:text="Register Now"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textSize="32sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="Enter your email first."
+                        android:textSize="15sp"/>
+
+                    <TextView
+                        android:layout_marginTop="40dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:text="Email"
+                        android:textSize="10sp"/>
+
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:orientation="horizontal"
+                        android:background="@drawable/rounded_corner">
+
+                        <ImageView
+                            android:id="@+id/icon_mail"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="10dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/mail"/>
+
+                        <EditText
+                            android:id="@+id/register1_edittext_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:hint="Enter email"
+                            android:inputType="textEmailAddress"
+                            android:background="@android:color/transparent"
+                            android:layout_gravity="center"
+                            android:textSize="12sp"/>
 
 
-        </LinearLayout>
+                    </LinearLayout>
 
-        <TextView
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:text="Confirm Password"
-            android:textSize="10sp"/>
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
 
-        <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:background="@drawable/rounded_corner">
+                        <TextView
+                            android:id="@+id/register1_edittext_error_message"
+                            android:visibility="invisible"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Email is invalid."
+                            android:textColor="#cd0046"
+                            android:textSize="8sp"
+                            android:fontFamily="@font/montserrat_bold"/>
 
-            <ImageView
-                android:id="@+id/icon_lock2"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:src="@drawable/lock"/>
+                    </LinearLayout>
 
-            <EditText
-                android:id="@+id/input_confirm_password"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:hint="Confirm your password"
-                android:inputType="textPassword"
-                android:background="@android:color/transparent"
-                android:layout_gravity="center"
-                android:textSize="12sp"/>
+                </LinearLayout>
 
+            </androidx.cardview.widget.CardView>
 
-        </LinearLayout>
+        </FrameLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_marginTop="20dp"
-            android:id="@+id/button_signUp"
+            android:id="@+id/register1_button_continue"
+            android:layout_margin="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_corner"
             android:backgroundTint="@color/main_yellow"
-            android:text="Sign Up"
+            android:text="Continue"
             android:textAllCaps="false"
             android:textColor="#021e4d"
             android:fontFamily="@font/montserrat_bold"/>
 
-        <LinearLayout
-            android:layout_marginTop="50dp"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_marginTop="20dp"
+            <ImageView
                 android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:layout_marginTop="120dp"
+                android:scaleType="center"
+                android:src="@drawable/wave_background"
+                android:layout_gravity="bottom"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Already have an account? "
-                android:textSize="15sp"/>
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-            <TextView
-                android:id="@+id/text_signIn"
-                android:onClick="toSignIn"
-                android:clickable="true"
-                android:layout_marginTop="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Sign in."
-                android:fontFamily="@font/montserrat_bold"
-                android:textSize="15sp"/>
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="Already have an account? "
+                    android:textSize="15sp"/>
 
+                <TextView
+                    android:id="@+id/register1_textview_signIn"
+                    android:onClick="toSignIn"
+                    android:clickable="true"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:text="Sign in."
+                    android:fontFamily="@font/montserrat_bold"
+                    android:textSize="15sp"/>
 
-        </LinearLayout>
-        
+            </LinearLayout>
+
+        </FrameLayout>
+
     </LinearLayout>
 
 </ScrollView>
