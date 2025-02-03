@@ -61,7 +61,7 @@ public class SignInActivity extends AppCompatActivity {
     public void toSignUp(View v) {
         Intent intent = new Intent(SignInActivity.this, Register1Activity.class);
         startActivity(intent);
-//        this.overridePendingTransition(R.anim.animate_spin_enter, R.anim.animate_spin_exit);
+        this.overridePendingTransition(R.anim.animate_slide_in_right, R.anim.animate_slide_out_left);
     }
 
     public void finish(View v) {

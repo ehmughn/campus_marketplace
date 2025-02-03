@@ -70,6 +70,11 @@ public class Register1Activity extends AppCompatActivity {
     }
 
     public void toSignIn(View v) {
+        Intent intent = new Intent(this, SignInActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        this.overridePendingTransition(R.anim.animate_slide_in_left, R.anim.animate_slide_out_right);
         finish();
+
     }
 }
