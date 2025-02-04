@@ -1,5 +1,9 @@
 package com.example.static_classes;
 
+import com.example.objects.Reviews;
+
+import java.util.ArrayList;
+
 public class ShowCurrentPost {
 
     private static int image;
@@ -8,6 +12,7 @@ public class ShowCurrentPost {
     private static int category;
     private static String description;
     private static int stockCount;
+    private static ArrayList<Reviews> reviews;
 
     public static int getImage() {
         return image;
@@ -55,5 +60,13 @@ public class ShowCurrentPost {
 
     public static void setStockCount(int stockCount) {
         ShowCurrentPost.stockCount = stockCount;
+    }
+
+    public static ArrayList<Reviews> getReviews() {
+        return reviews;
+    }
+
+    public static void setReviews(ArrayList<Reviews> reviews) {
+        ShowCurrentPost.reviews = reviews;
     }
 }

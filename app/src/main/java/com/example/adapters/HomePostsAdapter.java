@@ -56,6 +56,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                 ShowCurrentPost.setTitle(post.getTitle());
                 ShowCurrentPost.setDescription(post.getDescription());
                 ShowCurrentPost.setStockCount(Integer.parseInt(post.getStockCount()));
+                ShowCurrentPost.setReviews(post.getReviews());
             }
         });
     }

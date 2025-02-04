@@ -14,6 +14,7 @@ import com.example.adapters.HomeCategoryAdapter;
 import com.example.adapters.HomePostsAdapter;
 import com.example.objects.Categories;
 import com.example.objects.Post;
+import com.example.objects.Reviews;
 import com.example.testproject2.R;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class HomeFragment extends Fragment {
 
     private ArrayList<Categories> homeCategories;
     private ArrayList<Post> homePosts;
+    private ArrayList<Reviews> example_reviews;
     private RecyclerView recyclerView_categories;
     private RecyclerView recyclerView_posts;
     private HomeCategoryAdapter adapter_categories;
@@ -38,24 +40,34 @@ public class HomeFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
 
+        example_reviews = new ArrayList<>();
+        example_reviews.add(new Reviews());
+        example_reviews.add(new Reviews());
+        example_reviews.add(new Reviews());
+        example_reviews.add(new Reviews());
+        example_reviews.add(new Reviews());
+        example_reviews.add(new Reviews());
+        example_reviews.add(new Reviews());
+
         recyclerView_posts = view.findViewById(R.id.recyclerView_home_posts);
         recyclerView_posts.setLayoutManager(new LinearLayoutManager(getContext()));
         homePosts = new ArrayList<>();
 
         // a bunch of temporary posts until we get to know how to deal with databases
-        homePosts.add(new Post(R.drawable.cookies, 25, "Cookies", "Cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! " , 50));
-        homePosts.add(new Post(R.drawable.notes, 250, "Notes", "We're no strangers to love. You know the rules and so do I. A full commitment's what I'm thinkin' of. You wouldn't get this from any other guy. I just wanna tell you how I'm feeling. Gotta make you understand. Never gonna give you up. Never gonna let you down. Never gonna run around and desert you. Never gonna make you cry. Never gonna say goodbye. Never gonna tell a lie and hurt you.", 5));
-        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10));
-        homePosts.add(new Post(R.drawable.burger, 70, "Burger", "I hate jollibee, I hate mcdonalds, I hate burger king, I hate zarks, I hate popeyes, I hate angels burger, Ikaw lang ang gusto ko",30));
-        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10));
-        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10));
-        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10));
-        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10));
-        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10));
-        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10));
-        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10));
-        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10));
-        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10));
+        homePosts.add(new Post(R.drawable.cookies, 25, "Cookies", 0, "Cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! " , 50, example_reviews));
+        homePosts.add(new Post(R.drawable.notes, 250, "Notes", 1, "We're no strangers to love. You know the rules and so do I. A full commitment's what I'm thinkin' of. You wouldn't get this from any other guy. I just wanna tell you how I'm feeling. Gotta make you understand. Never gonna give you up. Never gonna let you down. Never gonna run around and desert you. Never gonna make you cry. Never gonna say goodbye. Never gonna tell a lie and hurt you.", 5, example_reviews));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10, example_reviews));
+        homePosts.add(new Post(R.drawable.burger, 70, "Burger", 0, "I hate jollibee, I hate mcdonalds, I hate burger king, I hate zarks, I hate popeyes, I hate angels burger, Ikaw lang ang gusto ko",30,example_reviews));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
+        homePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
 
         adapter_posts = new HomePostsAdapter(getContext(), homePosts);
         recyclerView_posts.setAdapter(adapter_posts);
