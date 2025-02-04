@@ -1,6 +1,7 @@
 package com.example.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.objects.Post;
+import com.example.static_classes.ShowCurrentPost;
+import com.example.testproject2.MainActivity;
+import com.example.testproject2.PostActivity;
 import com.example.testproject2.R;
 
 import java.util.ArrayList;
@@ -42,6 +46,18 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         holder.textView_price.setText("₱" + post.getPrice());
         holder.textView_title.setText(post.getTitle());
         holder.textView_description.setText(post.getDescription());
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PostActivity.class);
+                context.startActivity(intent);
+                ShowCurrentPost.setImage(post.getImage());
+                ShowCurrentPost.setPrice(Double.parseDouble(post.getPrice()));
+                ShowCurrentPost.setTitle(post.getTitle());
+                ShowCurrentPost.setDescription(post.getDescription());
+                ShowCurrentPost.setStockCount(Integer.parseInt(post.getStockCount()));
+            }
+        });
     }
 
     @Override
