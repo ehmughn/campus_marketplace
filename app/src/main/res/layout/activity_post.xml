@@ -147,29 +147,71 @@
                 android:orientation="horizontal"
                 android:gravity="center">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/post_button_details"
+                <FrameLayout
+                    android:id="@+id/post_layout_button_details"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_marginHorizontal="20dp"
-                    android:background="@drawable/rounded_corner"
-                    android:backgroundTint="@color/main_yellow"
-                    android:text="Details"
-                    android:textAllCaps="false"
-                    android:fontFamily="@font/montserrat_bold"/>
+                    android:layout_height="wrap_content">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/post_button_reviews"
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/post_button_detailsPressed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_marginHorizontal="20dp"
+                        android:background="@drawable/rounded_corner"
+                        android:backgroundTint="@color/main_yellow"
+                        android:text="Details"
+                        android:textAllCaps="false"
+                        android:visibility="visible"
+                        android:fontFamily="@font/montserrat_bold"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/post_button_detailsUnpressed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_marginHorizontal="20dp"
+                        android:background="@drawable/rounded_corner"
+                        android:backgroundTint="#EFD37F"
+                        android:text="Details"
+                        android:textAllCaps="false"
+                        android:visibility="invisible"
+                        android:fontFamily="@font/montserrat_bold"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/post_layout_button_reviews"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_marginHorizontal="20dp"
-                    android:background="@drawable/rounded_corner_hollow"
-                    android:text="Reviews"
-                    android:textColor="@color/main_yellow"
-                    android:textAllCaps="false"
-                    android:fontFamily="@font/montserrat_bold"/>
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/post_button_reviewsPressed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_marginHorizontal="20dp"
+                        android:background="@drawable/rounded_corner"
+                        android:backgroundTint="@color/main_yellow"
+                        android:text="Reviews"
+                        android:textAllCaps="false"
+                        android:visibility="invisible"
+                        android:fontFamily="@font/montserrat_bold"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/post_button_reviewsUnpressed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_marginHorizontal="20dp"
+                        android:background="@drawable/rounded_corner"
+                        android:backgroundTint="#EFD37F"
+                        android:text="Reviews"
+                        android:textAllCaps="false"
+                        android:visibility="visible"
+                        android:fontFamily="@font/montserrat_bold"/>
+
+                </FrameLayout>
 
             </LinearLayout>
 

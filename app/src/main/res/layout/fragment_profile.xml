@@ -210,7 +210,6 @@
 
                     <TextView
                         android:id="@+id/text_uploads"
-                        android:onClick="toUploads"
                         android:clickable="true"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -222,7 +221,6 @@
 
                     <TextView
                         android:id="@+id/text_likes"
-                        android:onClick="toLikes"
                         android:clickable="true"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -237,70 +235,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <GridLayout
-                        android:id="@+id/profle_uploads"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/profile_recyclerView_uploads"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:columnCount="2">
-
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="150dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="8dp"
-                            android:background="@drawable/cookies"/>
-
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="150dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="8dp"
-                            android:background="@drawable/uniform"/>
-
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="150dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="8dp"
-                            android:background="@drawable/notes"/>
-
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="150dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="8dp"
-                            android:background="@drawable/burger"/>
-
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="150dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="8dp"
-                            android:background="@drawable/cookies"/>
-
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="150dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="8dp"
-                            android:background="@drawable/uniform"/>
-
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="150dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="8dp"
-                            android:background="@drawable/notes"/>
-
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="150dp"
-                            android:layout_columnWeight="1"
-                            android:layout_margin="8dp"
-                            android:background="@drawable/burger"/>
-
-                    </GridLayout>
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="30dp"/>
 
                     <TextView
                         android:id="@+id/profle_likes"

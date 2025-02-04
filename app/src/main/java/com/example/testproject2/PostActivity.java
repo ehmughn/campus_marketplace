@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,8 +31,10 @@ public class PostActivity extends AppCompatActivity {
     private TextView textView_title;
     private TextView textView_price;
     private TextView textView_description;
-    private Button button_details;
-    private Button button_reviews;
+    private Button button_detailsPressed;
+    private Button button_detailsUnpressed;
+    private Button button_reviewsPressed;
+    private Button button_reviewsUnpressed;
     private LinearLayout layout_details;
     private LinearLayout layout_reviews;
     private RecyclerView recyclerView_reviews;
@@ -51,15 +54,17 @@ public class PostActivity extends AppCompatActivity {
         textView_title = findViewById(R.id.post_textView_title);
         textView_price = findViewById(R.id.post_textView_price);
         textView_description = findViewById(R.id.post_textView_description);
-        button_details = findViewById(R.id.post_button_details);
-        button_details.setOnClickListener(new View.OnClickListener() {
+        button_detailsUnpressed = findViewById(R.id.post_button_detailsUnpressed);
+        button_detailsPressed = findViewById(R.id.post_button_detailsPressed);
+        button_detailsUnpressed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toDetails();
             }
         });
-        button_reviews = findViewById(R.id.post_button_reviews);
-        button_reviews.setOnClickListener(new View.OnClickListener() {
+        button_reviewsUnpressed = findViewById(R.id.post_button_reviewsUnpressed);
+        button_reviewsPressed = findViewById(R.id.post_button_reviewsPressed);
+        button_reviewsUnpressed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toReviews();
@@ -84,22 +89,18 @@ public class PostActivity extends AppCompatActivity {
     private void toDetails() {
         layout_details.setVisibility(View.VISIBLE);
         layout_reviews.setVisibility(View.INVISIBLE);
-        button_details.setBackground(ContextCompat.getDrawable(this, R.drawable.rounded_corner));
-//        button_details.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.main_yellow));
-        button_details.setTextColor(ContextCompat.getColorStateList(this, R.color.main_blue));
-        button_reviews.setBackground(ContextCompat.getDrawable(this, R.drawable.rounded_corner_hollow));
-//        button_reviews.setBackgroundTintList(ContextCompat.getColorStateList(this, android.R.color.transparent));
-        button_reviews.setTextColor(ContextCompat.getColorStateList(this, R.color.main_yellow));
+        button_detailsPressed.setVisibility(View.VISIBLE);
+        button_detailsUnpressed.setVisibility(View.INVISIBLE);
+        button_reviewsPressed.setVisibility(View.INVISIBLE);
+        button_reviewsUnpressed.setVisibility(View.VISIBLE);
     }
 
     private void toReviews() {
         layout_details.setVisibility(View.INVISIBLE);
         layout_reviews.setVisibility(View.VISIBLE);
-        button_details.setBackground(ContextCompat.getDrawable(this, R.drawable.rounded_corner_hollow));
-//        button_details.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.main_blue));
-        button_details.setTextColor(ContextCompat.getColorStateList(this, R.color.main_yellow));
-        button_reviews.setBackground(ContextCompat.getDrawable(this, R.drawable.rounded_corner));
-//        button_reviews.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.main_yellow));
-        button_reviews.setTextColor(ContextCompat.getColorStateList(this, R.color.main_blue));
+        button_detailsPressed.setVisibility(View.INVISIBLE);
+        button_detailsUnpressed.setVisibility(View.VISIBLE);
+        button_reviewsPressed.setVisibility(View.VISIBLE);
+        button_reviewsUnpressed.setVisibility(View.INVISIBLE);
     }
 }
