@@ -12,6 +12,7 @@ public class ShowCurrentPost {
     private static int category;
     private static String description;
     private static int stockCount;
+    private static int seller_id;
     private static ArrayList<Reviews> reviews;
 
     public static int getImage() {
@@ -68,5 +69,13 @@ public class ShowCurrentPost {
 
     public static void setReviews(ArrayList<Reviews> reviews) {
         ShowCurrentPost.reviews = reviews;
+    }
+
+    public static int getSeller_id() {
+        return seller_id;
+    }
+
+    public static void setSeller_id(int seller_id) {
+        ShowCurrentPost.seller_id = seller_id;
     }
 }

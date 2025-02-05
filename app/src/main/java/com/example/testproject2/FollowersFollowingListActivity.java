@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.adapters.AccountsListAdapter;
 import com.example.objects.Account;
+import com.example.static_classes.CurrentAccount;
 import com.example.temporary_values.TemporaryAccountList;
 
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class FollowersFollowingListActivity extends AppCompatActivity {
         recyclerView_followers.setLayoutManager(new LinearLayoutManager(this));
         accounts_followers = new ArrayList<>();
         for(int i = 0; i < TemporaryAccountList.size(); i++) {
-            if(i != 0) {
+            if(i != CurrentAccount.getAccount().getId()) {
                 accounts_followers.add(TemporaryAccountList.getAccount(i));
             }
         }
@@ -81,7 +82,7 @@ public class FollowersFollowingListActivity extends AppCompatActivity {
         recyclerView_following.setLayoutManager(new LinearLayoutManager(this));
         accounts_following = new ArrayList<>();
         for(int i = 0; i < TemporaryAccountList.size(); i++) {
-            if(TemporaryAccountList.getAccount(i).isFollowed()) {
+            if(TemporaryAccountList.getAccount(i).isFollowed() && i != CurrentAccount.getAccount().getId()) {
                 accounts_following.add(TemporaryAccountList.getAccount(i));
             }
         }

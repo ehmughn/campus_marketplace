@@ -11,7 +11,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.objects.Account;
+import com.example.static_classes.CurrentAccount;
 import com.example.temporary_values.TemporaryAccountList;
+import com.example.temporary_values.TemporaryPostList;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -27,6 +30,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         });
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         TemporaryAccountList.init();
+        CurrentAccount.setAccount(0);
+        TemporaryPostList.init();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

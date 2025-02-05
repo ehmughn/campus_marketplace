@@ -13,9 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.objects.Post;
 import com.example.static_classes.ShowCurrentPost;
+import com.example.temporary_values.TemporaryAccountList;
+import com.example.temporary_values.TemporaryPostList;
 import com.example.testproject2.MainActivity;
 import com.example.testproject2.PostActivity;
 import com.example.testproject2.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -46,6 +50,8 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         holder.textView_price.setText("₱" + post.getPrice());
         holder.textView_title.setText(post.getTitle());
         holder.textView_description.setText(post.getDescription());
+        holder.textView_sellerName.setText(TemporaryAccountList.getAccount(post.getPoster_id()).getName());
+        holder.imageView_profilePicture.setImageResource(TemporaryAccountList.getAccount(post.getPoster_id()).getImage());
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +63,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                 ShowCurrentPost.setDescription(post.getDescription());
                 ShowCurrentPost.setStockCount(Integer.parseInt(post.getStockCount()));
                 ShowCurrentPost.setReviews(post.getReviews());
+                ShowCurrentPost.setSeller_id(post.getPoster_id());
             }
         });
     }
@@ -73,6 +80,8 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         public TextView textView_price;
         public TextView textView_title;
         public TextView textView_description;
+        public ImageView imageView_profilePicture;
+        public TextView textView_sellerName;
 
         public ViewHolder(View postView) {
             super(postView);
@@ -81,6 +90,8 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
             textView_price = postView.findViewById(R.id.homePost_textView_price);
             textView_title = postView.findViewById(R.id.homePost_textView_title);
             textView_description = postView.findViewById(R.id.homePost_textView_description);
+            imageView_profilePicture = postView.findViewById(R.id.homePost_imageView_profile_picture);
+            textView_sellerName = postView.findViewById(R.id.homePost_textView_seller_name);
         }
     }
 }

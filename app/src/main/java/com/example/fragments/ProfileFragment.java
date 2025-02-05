@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.example.adapters.HomePostsAdapter;
 import com.example.objects.Post;
 import com.example.objects.Reviews;
+import com.example.static_classes.CurrentAccount;
+import com.example.temporary_values.TemporaryPostList;
 import com.example.testproject2.FollowersFollowingListActivity;
 import com.example.testproject2.R;
 import com.example.testproject2.UploadActivity;
@@ -63,21 +65,10 @@ public class ProfileFragment extends Fragment {
         recyclerView_uploads.setLayoutManager(new LinearLayoutManager(getContext()));
         profilePosts = new ArrayList<>();
 
-        // a bunch of temporary posts until we get to know how to deal with databases
-        profilePosts.add(new Post(R.drawable.cookies, 25, "Cookies", 0, "Cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! I want cookies! " , 50, example_reviews));
-        profilePosts.add(new Post(R.drawable.notes, 250, "Notes", 1, "We're no strangers to love. You know the rules and so do I. A full commitment's what I'm thinkin' of. You wouldn't get this from any other guy. I just wanna tell you how I'm feeling. Gotta make you understand. Never gonna give you up. Never gonna let you down. Never gonna run around and desert you. Never gonna make you cry. Never gonna say goodbye. Never gonna tell a lie and hurt you.", 5, example_reviews));
-        profilePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10, example_reviews));
-        profilePosts.add(new Post(R.drawable.burger, 70, "Burger", 0, "I hate jollibee, I hate mcdonalds, I hate burger king, I hate zarks, I hate popeyes, I hate angels burger, Ikaw lang ang gusto ko",30,example_reviews));
-        profilePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
-        profilePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
-        profilePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
-        profilePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
-        profilePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
-        profilePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
-        profilePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
-        profilePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
-        profilePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
-        profilePosts.add(new Post(R.drawable.uniform, 400, "Uniform", 2, "Lagi daw kasi out of stock yung bulldogs exchange so ito binebenta ko na yung sakin", 10,example_reviews));
+        for(int i = 0; i < TemporaryPostList.size(); i++) {
+            if(TemporaryPostList.getPost(i).getPoster_id() == CurrentAccount.getAccount().getId())
+                profilePosts.add(TemporaryPostList.getPost(i));
+        }
 
         adapter_posts = new HomePostsAdapter(getContext(), profilePosts);
         recyclerView_uploads.setAdapter(adapter_posts);

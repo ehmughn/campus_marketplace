@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.adapters.PostReviewAdapter;
 import com.example.objects.Reviews;
 import com.example.static_classes.ShowCurrentPost;
+import com.example.temporary_values.TemporaryAccountList;
 
 import java.util.ArrayList;
 
@@ -39,6 +40,9 @@ public class PostActivity extends AppCompatActivity {
     private LinearLayout layout_reviews;
     private RecyclerView recyclerView_reviews;
     private PostReviewAdapter adapter_postReview;
+    private ImageView imageView_profilePicture;
+    private TextView textView_sellerName;
+    private LinearLayout layout_seller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,15 @@ public class PostActivity extends AppCompatActivity {
         layout_details = findViewById(R.id.post_layout_details);
         layout_reviews = findViewById(R.id.post_layout_reviews);
         recyclerView_reviews = findViewById(R.id.post_recyclerView_reviews);
+        imageView_profilePicture = findViewById(R.id.post_imageView_profile_picture);
+        textView_sellerName = findViewById(R.id.post_textView_sellerName);
+        layout_seller = findViewById(R.id.post_layout_seller);
+        layout_seller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //
+            }
+        });
         setValues();
     }
 
@@ -81,6 +94,8 @@ public class PostActivity extends AppCompatActivity {
         textView_title.setText(ShowCurrentPost.getTitle());
         textView_price.setText("₱" + ShowCurrentPost.getPrice());
         textView_description.setText(ShowCurrentPost.getDescription());
+        imageView_profilePicture.setImageResource(TemporaryAccountList.getAccount(ShowCurrentPost.getSeller_id()).getImage());
+        textView_sellerName.setText(TemporaryAccountList.getAccount(ShowCurrentPost.getSeller_id()).getName());
         adapter_postReview = new PostReviewAdapter(this, ShowCurrentPost.getReviews());
         recyclerView_reviews.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_reviews.setAdapter(adapter_postReview);

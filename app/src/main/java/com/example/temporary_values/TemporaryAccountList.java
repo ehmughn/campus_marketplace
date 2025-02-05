@@ -11,6 +11,7 @@ public class TemporaryAccountList {
 
     public static void init() {
         list = new ArrayList<>();
+        addAccount(new Account(R.drawable.display_picture_image, "Ulysses Simpson", "I'm so useless, but not depressed.", true));
         addAccount(new Account(R.drawable.display_picture_image, "Jichael Mackson", "Hee hee",false));
         addAccount(new Account(R.drawable.display_picture_image, "Freddy Fazbear", "was that the bite of '87?",false));
         addAccount(new Account(R.drawable.display_picture_image, "Freddy Mars", "I'm a rocket ship on my way to Mercury on a collision course. I am a satellite, I'm out of control", true));
