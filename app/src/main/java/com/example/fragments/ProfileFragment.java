@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.example.adapters.HomePostsAdapter;
 import com.example.objects.Post;
 import com.example.objects.Reviews;
 import com.example.static_classes.CurrentAccount;
+import com.example.temporary_values.TemporaryAccountList;
 import com.example.temporary_values.TemporaryPostList;
 import com.example.testproject2.FollowersFollowingListActivity;
 import com.example.testproject2.R;
@@ -40,6 +42,12 @@ public class ProfileFragment extends Fragment {
     public HomePostsAdapter adapter_posts;
     public LinearLayout layout_followers;
     public LinearLayout layout_following;
+    public ImageView imageView_profilePicture;
+    public TextView textView_name;
+    public TextView textView_bio;
+    public TextView textView_followersCount;
+    public TextView textView_followingCount;
+    public TextView textView_likesCount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -125,5 +133,22 @@ public class ProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        imageView_profilePicture = view.findViewById(R.id.profile_imageView_profilePicture);
+        imageView_profilePicture.setImageResource(CurrentAccount.getAccount().getImage());
+        textView_name = view.findViewById(R.id.profile_textView_name);
+        textView_name.setText(CurrentAccount.getAccount().getName());
+        textView_bio = view.findViewById(R.id.profile_textView_bio);
+        textView_bio.setText(CurrentAccount.getAccount().getBio());
+        textView_followersCount = view.findViewById(R.id.profile_textView_followers);
+        textView_followersCount.setText(Integer.toString(TemporaryAccountList.size() - 1));
+        textView_followingCount = view.findViewById(R.id.profile_textView_following);
+        int followingCount = 0;
+        for(int i = 0; i < TemporaryAccountList.size(); i++) {
+            if(TemporaryAccountList.getAccount(i).isFollowed() && i != CurrentAccount.getAccount().getId()) {
+                followingCount++;
+            }
+        }
+        textView_followingCount.setText(Integer.toString(followingCount));
+        textView_likesCount = view.findViewById(R.id.profile_textView_likes);
     }
 }

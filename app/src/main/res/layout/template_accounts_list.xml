@@ -6,38 +6,45 @@
     android:layout_marginBottom="10dp"
     android:orientation="horizontal">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_gravity="center"
-        app:cardCornerRadius="250dp"
-        app:cardElevation="0dp">
+    <LinearLayout
+        android:id="@+id/accountsList_layout_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/accountsList_imageView_profilePicture"
+        <androidx.cardview.widget.CardView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="250dp"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:id="@+id/accountsList_imageView_profilePicture"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:src="@drawable/display_picture_image"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:src="@drawable/display_picture_image"/>
+            android:layout_marginStart="10dp"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
 
-    </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/accountsList_textView_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:maxLength="20"
+                android:textSize="16dp"
+                android:text="Unknown Seller Name"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:orientation="vertical"
-        android:gravity="center_vertical">
-
-        <TextView
-            android:id="@+id/accountsList_textView_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_bold"
-            android:maxLength="20"
-            android:textSize="16dp"
-            android:text="Unknown Seller Name"/>
+        </LinearLayout>
 
     </LinearLayout>
 

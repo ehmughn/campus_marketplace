@@ -1,6 +1,7 @@
 package com.example.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.objects.Account;
+import com.example.static_classes.ShowCurrentProfile;
 import com.example.testproject2.R;
+import com.example.testproject2.VisitProfileActivity;
 
 import java.util.ArrayList;
 
@@ -59,6 +62,14 @@ public class AccountsListAdapter extends RecyclerView.Adapter<AccountsListAdapte
                 notifyDataSetChanged();
             }
         });
+        holder.layout_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowCurrentProfile.setAccount(account.getId());
+                Intent intent = new Intent(context, VisitProfileActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -69,6 +80,7 @@ public class AccountsListAdapter extends RecyclerView.Adapter<AccountsListAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public LinearLayout layout;
+        public LinearLayout layout_account;
         public ImageView imageView_profilePicture;
         public TextView textView_name;
         public Button button_follow;
@@ -77,6 +89,7 @@ public class AccountsListAdapter extends RecyclerView.Adapter<AccountsListAdapte
         public ViewHolder(View accountsListView) {
             super(accountsListView);
             layout = accountsListView.findViewById(R.id.accountsList_layout);
+            layout_account = accountsListView.findViewById(R.id.accountsList_layout_account);
             imageView_profilePicture = accountsListView.findViewById(R.id.accountsList_imageView_profilePicture);
             textView_name = accountsListView.findViewById(R.id.accountsList_textView_name);
             button_follow = accountsListView.findViewById(R.id.accountsList_button_follow);
