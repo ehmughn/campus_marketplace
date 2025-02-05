@@ -13,12 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.adapters.HomePostsAdapter;
 import com.example.objects.Post;
 import com.example.objects.Reviews;
+import com.example.testproject2.FollowersFollowingListActivity;
 import com.example.testproject2.R;
 import com.example.testproject2.UploadActivity;
 
@@ -34,6 +36,8 @@ public class ProfileFragment extends Fragment {
     public ArrayList<Reviews> example_reviews;
     public RecyclerView recyclerView_uploads;
     public HomePostsAdapter adapter_posts;
+    public LinearLayout layout_followers;
+    public LinearLayout layout_following;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,6 +116,23 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
-
+        layout_followers = view.findViewById(R.id.profile_layout_followers);
+        layout_followers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), FollowersFollowingListActivity.class);
+                intent.putExtra("inFollowers", true);
+                startActivity(intent);
+            }
+        });
+        layout_following = view.findViewById(R.id.profile_layout_following);
+        layout_following.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), FollowersFollowingListActivity.class);
+                intent.putExtra("inFollowers", false);
+                startActivity(intent);
+            }
+        });
     }
 }

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FollowersFollowingListActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:id="@+id/foreground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:padding="8dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_gravity="center"
+                    app:cardCornerRadius="250dp"
+                    app:cardElevation="0dp">
+
+                    <ImageView
+                        android:id="@+id/followersFollowing_imageView_profilePicture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/display_picture_image"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/followersFollowing_textView_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Unknown user name"
+                    android:textSize="20sp"
+                    android:layout_marginStart="15dp"
+                    android:fontFamily="@font/montserrat_bold"/>
+
+            </LinearLayout>
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:columnCount="2"
+                android:rowCount="1">
+
+                <FrameLayout
+                    android:id="@+id/followersFollowing_layout_textFollowers"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1">
+
+                    <TextView
+                        android:id="@+id/followersFollowing_textView_followers"
+                        android:clickable="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Followers"
+                        android:textColor="?viewColorOpposite"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textAlignment="center"/>
+
+                    <LinearLayout
+                        android:id="@+id/followersFollowing_line_followers"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="25dp"
+                        android:orientation="horizontal"
+                        android:visibility="visible"
+                        android:background="@drawable/underline"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/followersFollowing_layout_textFollowing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1">
+
+                    <TextView
+                        android:id="@+id/followersFollowing_textView_following"
+                        android:clickable="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Following"
+                        android:textColor="?viewColorOpposite"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:textAlignment="center"/>
+
+                    <LinearLayout
+                        android:id="@+id/followersFollowing_line_following"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="25dp"
+                        android:orientation="horizontal"
+                        android:visibility="invisible"
+                        android:background="@drawable/underline"/>
+
+                </FrameLayout>
+
+            </GridLayout>
+
+            <TextView
+                android:id="@+id/followersFollowing_textView_count"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="40dp"
+                android:layout_marginHorizontal="25dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="0 Followers"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/followersFollowing_recyclerView_followersAccountsList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:visibility="visible"
+                    android:layout_marginHorizontal="25dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/followersFollowing_recyclerView_followingAccountsList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:visibility="invisible"
+                    android:layout_marginHorizontal="25dp"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
