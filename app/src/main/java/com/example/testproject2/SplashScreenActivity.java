@@ -11,6 +11,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.temporary_values.TemporaryAccountList;
+
 public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
@@ -24,6 +26,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             return insets;
         });
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        TemporaryAccountList.init();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

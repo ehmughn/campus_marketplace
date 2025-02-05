@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.adapters.AccountsListAdapter;
 import com.example.objects.Account;
+import com.example.temporary_values.TemporaryAccountList;
 
 import java.util.ArrayList;
 
@@ -69,69 +70,21 @@ public class FollowersFollowingListActivity extends AppCompatActivity {
         recyclerView_followers = findViewById(R.id.followersFollowing_recyclerView_followersAccountsList);
         recyclerView_followers.setLayoutManager(new LinearLayoutManager(this));
         accounts_followers = new ArrayList<>();
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Jichael Mackson", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Freddy Fazbear", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Freddy Mars", true));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Bruno Mercury", false));
-        accounts_followers.add(new Account(R.drawable.cookies, "Cookie?", true));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Mama mo", true));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "José Protacio Rizal Mercado y Alonso Realonda", true));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Crush", true));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Paimon", true));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Stalker mo", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
-        accounts_followers.add(new Account(R.drawable.display_picture_image, "Eto hindi mo kilala", false));
+        for(int i = 0; i < TemporaryAccountList.size(); i++) {
+            if(i != 0) {
+                accounts_followers.add(TemporaryAccountList.getAccount(i));
+            }
+        }
         adapter_followers = new AccountsListAdapter(this, accounts_followers);
         recyclerView_followers.setAdapter(adapter_followers);
         recyclerView_following = findViewById(R.id.followersFollowing_recyclerView_followingAccountsList);
         recyclerView_following.setLayoutManager(new LinearLayoutManager(this));
         accounts_following = new ArrayList<>();
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Freddy Mars", true));
-        accounts_following.add(new Account(R.drawable.cookies, "Cookie?", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Mama mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "José Protacio Rizal Mercado y Alonso Realonda", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Crush", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Paimon", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
-        accounts_following.add(new Account(R.drawable.display_picture_image, "Basta kilala mo", true));
+        for(int i = 0; i < TemporaryAccountList.size(); i++) {
+            if(TemporaryAccountList.getAccount(i).isFollowed()) {
+                accounts_following.add(TemporaryAccountList.getAccount(i));
+            }
+        }
         adapter_following = new AccountsListAdapter(this, accounts_following);
         recyclerView_following.setAdapter(adapter_following);
         Bundle extras = getIntent().getExtras();

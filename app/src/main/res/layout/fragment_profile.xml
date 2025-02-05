@@ -78,7 +78,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -87,6 +88,14 @@
                         android:textAlignment="center"
                         android:textSize="20dp"
                         android:fontFamily="@font/montserrat_bold"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="I'm so useless but not depressed."
+                        android:maxLines="3"
+                        android:textAlignment="center"
+                        android:textSize="14dp"/>
 
                 </LinearLayout>
 
@@ -185,8 +194,7 @@
                         android:layout_margin="8dp"
                         android:text="Edit Profile"
                         android:textColor="@color/text_blue"
-                        android:backgroundTint="@color/main_yellow"
-                        android:fontFamily="@font/montserrat_bold"/>
+                        android:backgroundTint="@color/main_yellow"/>
 
                     <Button
                         android:id="@+id/profile_button_uploadItems"
@@ -197,8 +205,7 @@
                         android:layout_margin="8dp"
                         android:text="Upload Items"
                         android:textColor="@color/text_blue"
-                        android:backgroundTint="@color/main_yellow"
-                        android:fontFamily="@font/montserrat_bold"/>
+                        android:backgroundTint="@color/main_yellow"/>
 
                 </GridLayout>
 
