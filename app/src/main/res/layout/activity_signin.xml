@@ -219,7 +219,8 @@
                             android:layout_height="30dp"
                             android:layout_gravity="center"
                             android:layout_margin="10dp"
-                            android:src="@drawable/mail"/>
+                            android:src="@drawable/mail"
+                            app:tint="@color/main_blue"/>
 
                         <EditText
                             android:id="@+id/login_edittext_email"
@@ -257,7 +258,8 @@
                             android:layout_height="30dp"
                             android:layout_margin="10dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/lock"/>
+                            android:src="@drawable/lock"
+                            app:tint="@color/main_blue"/>
 
                         <EditText
                             android:id="@+id/login_edittext_password"
