@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.objects.Post;
+import com.example.static_classes.ShowCurrentPost;
 import com.example.testproject2.PostActivity;
 import com.example.testproject2.R;
 import com.example.testproject2.databinding.TemplateAddtocartItemsBinding;
@@ -45,6 +46,13 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.View
             public void onClick(View v) {
                 Intent intent = new Intent(context, PostActivity.class);
                 context.startActivity(intent);
+                ShowCurrentPost.setImage(item.getImage());
+                ShowCurrentPost.setPrice(Double.parseDouble(item.getPrice()));
+                ShowCurrentPost.setTitle(item.getTitle());
+                ShowCurrentPost.setDescription(item.getDescription());
+                ShowCurrentPost.setStockCount(Integer.parseInt(item.getStockCount()));
+                ShowCurrentPost.setReviews(item.getReviews());
+                ShowCurrentPost.setSeller_id(item.getPoster_id());
             }
         });
     }
