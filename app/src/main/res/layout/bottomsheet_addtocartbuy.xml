@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#3a5a80"
+    android:orientation="vertical">
+    
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/addtocartbuy_textView_productName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:text="Product Name"
+        android:textSize="25dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/montserrat_bold"/>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        
+        <ImageView
+            android:id="@+id/addtocartbuy_imageView_productImage"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_marginHorizontal="20dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/cookies"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/addtocartbuy_textView_productPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="₱00.00"
+                android:textSize="20dp"
+                android:textColor="@color/main_yellow"
+                android:fontFamily="@font/montserrat_bold"/>
+
+            <TextView
+                android:id="@+id/addtocartbuy_textView_productStocksAvailable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Stocks: 0"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/montserrat_bold"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/main_yellow"
+            android:text="Variation 1"
+            android:textAllCaps="false"
+            android:textColor="#021e4d"
+            android:fontFamily="@font/montserrat_bold"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="#EFD37F"
+            android:text="Variation 2"
+            android:textAllCaps="false"
+            android:textColor="#787866"
+            android:fontFamily="@font/montserrat_bold"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="#EFD37F"
+            android:text="Variation 3"
+            android:textAllCaps="false"
+            android:textColor="#787866"
+            android:fontFamily="@font/montserrat_bold"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="#EFD37F"
+            android:text="Variation 4"
+            android:textAllCaps="false"
+            android:textColor="#787866"
+            android:fontFamily="@font/montserrat_bold"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="#EFD37F"
+            android:text="Variation 5"
+            android:textAllCaps="false"
+            android:textColor="#787866"
+            android:fontFamily="@font/montserrat_bold"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="#EFD37F"
+            android:text="Variation 6"
+            android:textAllCaps="false"
+            android:textColor="#787866"
+            android:fontFamily="@font/montserrat_bold"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="20dp"
+        android:background="@color/main_yellow"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/addtocartbuy_cardView_stockDecrement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardCornerRadius="250dp"
+                android:backgroundTint="#4b78c6"
+                app:cardElevation="0dp">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/montserrat_bold"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/addtocartbuy_textView_productStockSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:text="1"
+                android:layout_marginHorizontal="12dp"
+                android:textColor="@color/main_yellow"
+                android:textSize="14dp"
+                android:fontFamily="@font/montserrat_bold"/>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/addtocartbuy_cardView_stockIncrement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardCornerRadius="250dp"
+                android:backgroundTint="#4b78c6"
+                app:cardElevation="0dp">
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/montserrat_bold"/>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/rounded_corner"
+            app:backgroundTint="@color/main_yellow"
+            android:text="Add to Cart"
+            android:textSize="10dp"
+            android:textColor="#021e4d"
+            android:fontFamily="@font/montserrat_bold"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginHorizontal="10dp"
+            android:background="@drawable/rounded_corner"
+            app:backgroundTint="@color/main_yellow"
+            android:text="Buy Now"
+            android:textSize="10dp"
+            android:textColor="#021e4d"
+            android:fontFamily="@font/montserrat_bold"/>
+
+    </LinearLayout>
+
+</LinearLayout>

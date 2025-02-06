@@ -3,6 +3,7 @@ package com.example.testproject2;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -25,6 +27,7 @@ import com.example.objects.Reviews;
 import com.example.static_classes.ShowCurrentPost;
 import com.example.static_classes.ShowCurrentProfile;
 import com.example.temporary_values.TemporaryAccountList;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 
@@ -45,6 +48,14 @@ public class PostActivity extends AppCompatActivity {
     private ImageView imageView_profilePicture;
     private TextView textView_sellerName;
     private LinearLayout layout_seller;
+    private Button button_addToCart;
+    private TextView bottomSheet_textView_productName;
+    private ImageView bottomSheet_imageView_productImage;
+    private TextView bottomSheet_textView_productPrice;
+    private TextView bottomSheet_textView_productStockAvailable;
+    private CardView bottomSheet_cardView_stockIncrement;
+    private TextView bottomSheet_textView_productStockSelected;
+    private CardView bottomSheet_cardView_stockDecrement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +99,42 @@ public class PostActivity extends AppCompatActivity {
                 ShowCurrentProfile.setAccount(ShowCurrentPost.getSeller_id());
                 Intent intent = new Intent(PostActivity.this, VisitProfileActivity.class);
                 startActivity(intent);
+            }
+        });
+        button_addToCart = findViewById(R.id.post_button_addToCart);
+        button_addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(PostActivity.this);
+                View view_addToCartBuy = LayoutInflater.from(PostActivity.this).inflate(R.layout.bottomsheet_addtocartbuy, null);
+                bottomSheetDialog.setContentView(view_addToCartBuy);
+                bottomSheetDialog.show();
+                bottomSheet_textView_productName = view_addToCartBuy.findViewById(R.id.addtocartbuy_textView_productName);
+                bottomSheet_imageView_productImage = view_addToCartBuy.findViewById(R.id.addtocartbuy_imageView_productImage);
+                bottomSheet_textView_productPrice = view_addToCartBuy.findViewById(R.id.addtocartbuy_textView_productPrice);
+                bottomSheet_textView_productStockAvailable = view_addToCartBuy.findViewById(R.id.addtocartbuy_textView_productStocksAvailable);
+                bottomSheet_cardView_stockDecrement = view_addToCartBuy.findViewById(R.id.addtocartbuy_cardView_stockDecrement);
+                bottomSheet_textView_productStockSelected = view_addToCartBuy.findViewById(R.id.addtocartbuy_textView_productStockSelected);
+                bottomSheet_cardView_stockIncrement = view_addToCartBuy.findViewById(R.id.addtocartbuy_cardView_stockIncrement);
+                bottomSheet_textView_productName.setText(ShowCurrentPost.getTitle());
+                bottomSheet_imageView_productImage.setImageResource(ShowCurrentPost.getImage());
+                bottomSheet_textView_productPrice.setText("₱" + ShowCurrentPost.getPrice());
+                bottomSheet_textView_productStockAvailable.setText("Stocks: " + ShowCurrentPost.getStockCount());
+                bottomSheet_cardView_stockDecrement.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(Integer.parseInt(bottomSheet_textView_productStockSelected.getText().toString()) > 1)
+                            bottomSheet_textView_productStockSelected.setText(Integer.toString(Integer.parseInt(bottomSheet_textView_productStockSelected.getText().toString()) - 1));
+                    }
+                });
+                bottomSheet_textView_productStockSelected.setText("1");
+                bottomSheet_cardView_stockIncrement.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(Integer.parseInt(bottomSheet_textView_productStockSelected.getText().toString()) < ShowCurrentPost.getStockCount())
+                            bottomSheet_textView_productStockSelected.setText(Integer.toString(Integer.parseInt(bottomSheet_textView_productStockSelected.getText().toString()) + 1));
+                    }
+                });
             }
         });
         setValues();
