@@ -39,7 +39,7 @@
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/display_picture_image"/>
+                        android:src="@drawable/temp_pfp"/>
 
                 </androidx.cardview.widget.CardView>
 

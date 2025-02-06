@@ -58,7 +58,7 @@
                                     android:id="@+id/visitProfile_imageView_profilePicture"
                                     android:layout_width="125dp"
                                     android:layout_height="125dp"
-                                    android:src="@drawable/display_picture_image"
+                                    android:src="@drawable/temp_pfp"
                                     android:scaleType="centerCrop"/>
 
                             </androidx.cardview.widget.CardView>
