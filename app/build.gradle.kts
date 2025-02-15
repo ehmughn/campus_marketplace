@@ -36,6 +36,7 @@ android {
 
 dependencies {
 
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
     implementation("it.xabaras.android:recyclerview-swipedecorator:1.4")
     implementation(libs.appcompat)
     implementation(libs.material)

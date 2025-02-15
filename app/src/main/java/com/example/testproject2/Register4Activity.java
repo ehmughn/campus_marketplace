@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -22,6 +23,12 @@ import com.example.static_classes.RegisterInfoHolder;
 
 import java.util.Random;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 public class Register4Activity extends AppCompatActivity {
 
     private EditText editText_username;
@@ -33,6 +40,7 @@ public class Register4Activity extends AppCompatActivity {
     private Button dialog_button_editProfile;
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
+    private OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +86,49 @@ public class Register4Activity extends AppCompatActivity {
                     textView_errorMessage.setText("Username already taken.");
                     return;
                 }
-                dialog.show();
+                RegisterInfoHolder.setUsername(check_username);
+                String url = "http://192.168.254.104/numart_db/register.php";
+
+                RequestBody body = new FormBody.Builder()
+                        .add("email", RegisterInfoHolder.getEmail())
+                        .add("password", RegisterInfoHolder.getPassword())
+                        .add("first_name", RegisterInfoHolder.getFirstName())
+                        .add("last_name", RegisterInfoHolder.getLastName())
+                        .add("username", RegisterInfoHolder.getUsername())
+                        .build();
+
+                Request request = new Request.Builder()
+                        .url(url)
+                        .post(body)
+                        .build();
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Response response = client.newCall(request).execute();
+                            final String responseData = response.body().string();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (response.isSuccessful() && responseData.contains("success")) {
+                                        Toast.makeText(Register4Activity.this, "Signup Successful", Toast.LENGTH_SHORT).show();
+                                        dialog.show();
+                                    } else {
+                                        Toast.makeText(Register4Activity.this, "Signup Failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        } catch (Exception e) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(Register4Activity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    }
+                }).start();
 //                Intent intent = new Intent(Register4Activity.this, Register5Activity.class);
 //                RegisterInfoHolder.setUsername(check_username);
 //                startActivity(intent);
