@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,12 +14,28 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.objects.Account;
+import com.example.static_classes.CurrentAccount;
+import com.example.static_classes.DatabaseConnectionData;
+import com.example.static_classes.RegisterInfoHolder;
+
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class SignInActivity extends AppCompatActivity {
 
-    TextView textView_error_message;
-    EditText editText_email;
-    EditText editText_password;
-    Button login_button_signIn;
+    TextView textView_errorMessage;
+    private EditText editText_email;
+    private EditText editText_password;
+    private Button login_button_signIn;
+    private OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +47,13 @@ public class SignInActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        textView_error_message = findViewById(R.id.login_textview_errormessage);
+        textView_errorMessage = findViewById(R.id.login_textview_errormessage);
         editText_email = findViewById(R.id.login_edittext_email);
         editText_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus) {
-                    textView_error_message.setVisibility(View.INVISIBLE);
+                    textView_errorMessage.setText("");
                 }
             }
         });
@@ -45,7 +62,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus) {
-                    textView_error_message.setVisibility(View.INVISIBLE);
+                    textView_errorMessage.setText("");
                 }
             }
         });
@@ -71,18 +88,67 @@ public class SignInActivity extends AppCompatActivity {
     public void button_signIn() {
         editText_email.clearFocus();
         editText_password.clearFocus();
+        findAccount(editText_email.getText().toString(), editText_password.getText().toString());
+    }
 
-        // temporary login information until we get to know how to deal with databases
-        String temporary_email = "admin@gmail.com";
-        String temporary_password = "admin";
+    private void findAccount(String email, String password) {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/login.php?email=" + email + "&password=" + password;
 
-        if(editText_email.getText().toString().equals(temporary_email) && editText_password.getText().toString().equals(temporary_password)) {
+        // Build the OkHttp request
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        // Make asynchronous network request
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> Toast.makeText(SignInActivity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    try {
+                        JSONObject jsonResponse = new JSONObject(responseData);
+                        String status = jsonResponse.getString("status");
+                        if (status.equals("invalid_credentials")) {
+                            errorMessage("Invalid Credentials.");
+                        } else {
+                            loginUser(responseData);
+                        }
+                    } catch (Exception e) {
+                        errorMessage("Unexpected Response.");
+                    }
+                }
+                else {
+                    errorMessage("Network Error.");
+                }
+            }
+        });
+    }
+
+    private void errorMessage(String errorMessage) {
+        textView_errorMessage.setText(errorMessage);
+    }
+
+    private void loginUser(String responseData) {
+        try {
+            JSONObject jsonResponse = new JSONObject(responseData);
+            JSONObject data = jsonResponse.getJSONObject("data");
+            CurrentAccount.setAccount(new Account(
+                    data.getInt("user_id"),
+                    R.drawable.no_profile_image,
+                    data.getString("first_name") + " " + data.getString("last_name"),
+                    "Temporary Bio",
+                    false));
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
-        else {
-            textView_error_message.setVisibility(View.VISIBLE);
+        catch(Exception e) {
+
         }
     }
 }

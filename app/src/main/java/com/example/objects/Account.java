@@ -1,17 +1,14 @@
 package com.example.objects;
 
 public class Account {
-
-    private static int incrementing_id = 0;
     private int id;
     private int image;
     private String name;
     private String bio;
     private boolean followed;
 
-    public Account(int image, String name, String bio, boolean followed) {
-        this.id = incrementing_id;
-        incrementing_id++;
+    public Account(int id, int image, String name, String bio, boolean followed) {
+        this.id = id;
         this.image = image;
         this.name = name;
         this.bio = bio;

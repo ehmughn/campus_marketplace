@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,13 +15,23 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.static_classes.DatabaseConnectionData;
 import com.example.static_classes.RegisterInfoHolder;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class Register1Activity extends AppCompatActivity {
 
     private EditText editText_email;
     private TextView textView_errorMessage;
     private Button button_continue;
+    private OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +69,7 @@ public class Register1Activity extends AppCompatActivity {
                     textView_errorMessage.setText("Invalid email format.");
                     return;
                 }
-                if(check_email.equals("admin@gmail.com")){
-                    textView_errorMessage.setText("Email is already been used.");
-                    return;
-                }
-                Intent intent = new Intent(Register1Activity.this, Register2Activity.class);
-                RegisterInfoHolder.setEmail(check_email);
-                startActivity(intent);
-                overridePendingTransition(R.anim.animate_slide_in_right, R.anim.animate_slide_out_left);
+                isAlreadyUsed(check_email);
             }
         });
     }
@@ -76,6 +80,41 @@ public class Register1Activity extends AppCompatActivity {
         startActivity(intent);
         this.overridePendingTransition(R.anim.animate_slide_in_left, R.anim.animate_slide_out_right);
         finish();
-
     }
+
+    private void isAlreadyUsed(String email) {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/is_already_used/email.php?email=" + email;
+
+        // Build the OkHttp request
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        // Make asynchronous network request
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> Toast.makeText(Register1Activity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    if (responseData.equals("email_used")) {
+                        textView_errorMessage.setText("Email is already been used.");
+                    }
+                    else {
+                        Intent intent = new Intent(Register1Activity.this, Register2Activity.class);
+                        RegisterInfoHolder.setEmail(email);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.animate_slide_in_right, R.anim.animate_slide_out_left);
+                    }
+                } else {
+                    textView_errorMessage.setText("Unexpected Response.");
+                }
+            }
+        });
+    }
+
 }

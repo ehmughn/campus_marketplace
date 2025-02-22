@@ -19,10 +19,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.objects.Account;
+import com.example.static_classes.CurrentAccount;
+import com.example.static_classes.DatabaseConnectionData;
+import com.example.static_classes.EncodeImage;
 import com.example.static_classes.RegisterInfoHolder;
 
+import java.io.IOException;
 import java.util.Random;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -70,69 +77,9 @@ public class Register4Activity extends AppCompatActivity {
                 textView_errorMessage.setText("");
                 editText_username.clearFocus();
                 String check_username = editText_username.getText().toString().trim();
-                if(check_username.isEmpty()) {
-                    textView_errorMessage.setText("Please fill up the fields.");
+                if(!isValidUsername(check_username, true))
                     return;
-                }
-                if(check_username.matches("^[a-z][a-z0-9_]")) {
-                    textView_errorMessage.setText("Username must start with a letter and only contain small letters, numbers, and \"_\".");
-                    return;
-                }
-                if(check_username.length() < 6 || check_username.length() > 19) {
-                    textView_errorMessage.setText("Username length must be 6 to 19");
-                    return;
-                }
-                if(check_username.equals("eman_bawalan1")){
-                    textView_errorMessage.setText("Username already taken.");
-                    return;
-                }
-                RegisterInfoHolder.setUsername(check_username);
-                String url = "http://192.168.254.104/numart_db/register.php";
-
-                RequestBody body = new FormBody.Builder()
-                        .add("email", RegisterInfoHolder.getEmail())
-                        .add("password", RegisterInfoHolder.getPassword())
-                        .add("first_name", RegisterInfoHolder.getFirstName())
-                        .add("last_name", RegisterInfoHolder.getLastName())
-                        .add("username", RegisterInfoHolder.getUsername())
-                        .build();
-
-                Request request = new Request.Builder()
-                        .url(url)
-                        .post(body)
-                        .build();
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Response response = client.newCall(request).execute();
-                            final String responseData = response.body().string();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (response.isSuccessful() && responseData.contains("success")) {
-                                        Toast.makeText(Register4Activity.this, "Signup Successful", Toast.LENGTH_SHORT).show();
-                                        dialog.show();
-                                    } else {
-                                        Toast.makeText(Register4Activity.this, "Signup Failed", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                        } catch (Exception e) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(Register4Activity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    }
-                }).start();
-//                Intent intent = new Intent(Register4Activity.this, Register5Activity.class);
-//                RegisterInfoHolder.setUsername(check_username);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.animate_slide_in_right, R.anim.animate_slide_out_left);
+                isAlreadyUsed(check_username);
             }
         });
         inflater = getLayoutInflater();
@@ -141,6 +88,7 @@ public class Register4Activity extends AppCompatActivity {
         dialog_button_goToHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CurrentAccount.setAccount(new Account(100, R.drawable.profile, RegisterInfoHolder.getFirstName() + " " + RegisterInfoHolder.getLastName(), "test", false));
                 Intent intent = new Intent(Register4Activity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -157,31 +105,178 @@ public class Register4Activity extends AppCompatActivity {
 
     public void randomizeUsername(View v) {
         Random random = new Random();
-        switch(random.nextInt(8)) {
-            case 0:
-                editText_username.setText(RegisterInfoHolder.getFirstName().toLowerCase() + RegisterInfoHolder.getLastName().toLowerCase());
-                break;
-            case 1:
-                editText_username.setText(RegisterInfoHolder.getFirstName().toLowerCase() + RegisterInfoHolder.getLastName().toLowerCase() + random.nextInt(1000));
-                break;
-            case 2:
-                editText_username.setText(RegisterInfoHolder.getFirstName().toLowerCase() + "_" + RegisterInfoHolder.getLastName().toLowerCase());
-                break;
-            case 3:
-                editText_username.setText(RegisterInfoHolder.getFirstName().toLowerCase() + "_" + RegisterInfoHolder.getLastName().toLowerCase() + random.nextInt(1000));
-                break;
-            case 4:
-                editText_username.setText(RegisterInfoHolder.getLastName().toLowerCase() + RegisterInfoHolder.getFirstName().toLowerCase());
-                break;
-            case 5:
-                editText_username.setText(RegisterInfoHolder.getLastName().toLowerCase() + RegisterInfoHolder.getFirstName().toLowerCase() + random.nextInt(1000));
-                break;
-            case 6:
-                editText_username.setText(RegisterInfoHolder.getLastName().toLowerCase() + "_" + RegisterInfoHolder.getFirstName().toLowerCase());
-                break;
-            case 7:
-                editText_username.setText(RegisterInfoHolder.getLastName().toLowerCase() + "_" + RegisterInfoHolder.getFirstName().toLowerCase() + random.nextInt(1000));
-                break;
+        String username = "";
+        do {
+            switch (random.nextInt(8)) {
+                case 0:
+                    username = RegisterInfoHolder.getFirstName().replaceAll("\\s+", "").toLowerCase() + RegisterInfoHolder.getLastName().replaceAll("\\s+", "").toLowerCase();
+                    break;
+                case 1:
+                    username = RegisterInfoHolder.getFirstName().replaceAll("\\s+", "").toLowerCase() + RegisterInfoHolder.getLastName().replaceAll("\\s+", "").toLowerCase() + random.nextInt(1000);
+                    break;
+                case 2:
+                    username = RegisterInfoHolder.getFirstName().replaceAll("\\s+", "").toLowerCase() + "_" + RegisterInfoHolder.getLastName().replaceAll("\\s+", "").toLowerCase();
+                    break;
+                case 3:
+                    username = RegisterInfoHolder.getFirstName().replaceAll("\\s+", "").toLowerCase() + "_" + RegisterInfoHolder.getLastName().replaceAll("\\s+", "").toLowerCase() + random.nextInt(1000);
+                    break;
+                case 4:
+                    username = RegisterInfoHolder.getLastName().replaceAll("\\s+", "").toLowerCase() + RegisterInfoHolder.getFirstName().replaceAll("\\s+", "").toLowerCase();
+                    break;
+                case 5:
+                    username = RegisterInfoHolder.getLastName().replaceAll("\\s+", "").toLowerCase() + RegisterInfoHolder.getFirstName().replaceAll("\\s+", "").toLowerCase() + random.nextInt(1000);
+                    break;
+                case 6:
+                    username = RegisterInfoHolder.getLastName().replaceAll("\\s+", "").toLowerCase() + "_" + RegisterInfoHolder.getFirstName().replaceAll("\\s+", "").toLowerCase();
+                    break;
+                case 7:
+                    username = RegisterInfoHolder.getLastName().replaceAll("\\s+", "").toLowerCase() + "_" + RegisterInfoHolder.getFirstName().replaceAll("\\s+", "").toLowerCase() + random.nextInt(1000);
+                    break;
+            }
+        } while(!isValidUsername(username, false));
+        editText_username.setText(username);
+    }
+
+    private boolean isValidUsername(String username, boolean enableLengthMatching) {
+        if(username.isEmpty()) {
+            textView_errorMessage.setText("Please fill up the fields.");
+            return false;
         }
+        if(username.matches("^[a-z][a-z0-9_]")) {
+            textView_errorMessage.setText("Username must start with a letter and only contain small letters, numbers, and \"_\".");
+            return false;
+        }
+        if((username.length() < 6 || username.length() > 19) && !enableLengthMatching) {
+            textView_errorMessage.setText("Username length must be 6 to 19");
+            return false;
+        }
+        if(username.equals("eman_bawalan1")){
+            textView_errorMessage.setText("Username already taken.");
+            return false;
+        }
+        return true;
+    }
+
+    private void isAlreadyUsed(String username) {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/is_already_used/username.php?username=" + username;
+
+        // Build the OkHttp request
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        // Make asynchronous network request
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    if (responseData.equals("username_used")) {
+                        textView_errorMessage.setText("Username already taken.");
+                    } else {
+                        RegisterInfoHolder.setUsername(username);
+                        attemptToInsertRegisteredAccount();
+                    }
+                }
+                else {
+                    textView_errorMessage.setText("Unexpected Response.");
+                }
+            }
+        });
+    }
+
+    private void attemptToInsertRegisteredAccount() {
+        button_next.setClickable(false);
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/register.php";
+
+        RequestBody body = new FormBody.Builder()
+                .add("email", RegisterInfoHolder.getEmail())
+                .add("password", RegisterInfoHolder.getPassword())
+                .add("first_name", RegisterInfoHolder.getFirstName())
+                .add("last_name", RegisterInfoHolder.getLastName())
+                .add("username", RegisterInfoHolder.getUsername())
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Response response = client.newCall(request).execute();
+                    final String responseData = response.body().string();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (response.isSuccessful() && responseData.contains("success")) {
+                                Toast.makeText(Register4Activity.this, "Signup Successful", Toast.LENGTH_SHORT).show();
+                                insertDefaultUserProfileData();
+                                dialog.show();
+                            } else {
+                                Toast.makeText(Register4Activity.this, "Signup Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(Register4Activity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } finally {
+                    button_next.setClickable(true);
+                }
+            }
+        }).start();
+    }
+
+    private void insertDefaultUserProfileData() {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/modify_user_profile.php";
+
+        RequestBody body = new FormBody.Builder()
+                .add("bio", "")
+                .add("profile_image", EncodeImage.encode(getResources(), R.drawable.no_profile_image))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Response response = client.newCall(request).execute();
+                    final String responseData = response.body().string();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (response.isSuccessful() && responseData.contains("success")) {
+                                //
+                            } else {
+                                //
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(Register4Activity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 }
