@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class ShowCurrentPost {
 
-    private static int image;
+    private static String image;
     private static double price;
     private static String title;
     private static int category;
@@ -15,11 +15,11 @@ public class ShowCurrentPost {
     private static int seller_id;
     private static ArrayList<Reviews> reviews;
 
-    public static int getImage() {
+    public static String getImage() {
         return image;
     }
 
-    public static void setImage(int image) {
+    public static void setImage(String image) {
         ShowCurrentPost.image = image;
     }
 

@@ -3,36 +3,26 @@ package com.example.objects;
 import java.util.ArrayList;
 
 public class Post {
-
-    private static int incrementing_id = 0;
     private int id;
-    private int image;
-    private double price;
     private String title;
-    private int category;
     private String description;
-    private int stockCount;
-    private int poster_id;
+    private Product product;
     private ArrayList<Reviews> reviews;
 
-    public Post(int image, double price, String title, int category, String description, int stockCount, int poster_id, ArrayList<Reviews> reviews) {
-        this.id = incrementing_id;
-        incrementing_id++;
-        this.image = image;
-        this.price = price;
+    public Post(String title, String description, Product product, ArrayList<Reviews> reviews) {
         this.title = title;
         this.description = description;
-        this.stockCount = stockCount;
-        this.poster_id = poster_id;
+        this.product = product;
         this.reviews = reviews;
     }
 
-    public int getImage() {
-        return image;
+    public double getDisplayPrice() {
+        return product.getVariations().get(0).getPrice();
     }
 
-    public String getPrice() {
-        return Double.toString(price);
+    // TEMPORARY
+    public int getDisplayStock() {
+        return product.getVariations().get(0).getStock();
     }
 
     public String getTitle() {
@@ -43,24 +33,12 @@ public class Post {
         return description;
     }
 
-    public String getStockCount() {
-        return Integer.toString(stockCount);
-    }
-
     public ArrayList<Reviews> getReviews() {
         return reviews;
     }
 
     public void setReviews(ArrayList<Reviews> reviews) {
         this.reviews = reviews;
-    }
-
-    public int getCategory() {
-        return category;
-    }
-
-    public void setCategory(int category) {
-        this.category = category;
     }
 
     public int getId() {
@@ -71,11 +49,11 @@ public class Post {
         this.id = id;
     }
 
-    public int getPoster_id() {
-        return poster_id;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setPoster_id(int poster_id) {
-        this.poster_id = poster_id;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

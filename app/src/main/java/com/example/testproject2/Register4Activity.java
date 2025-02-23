@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -244,7 +243,7 @@ public class Register4Activity extends AppCompatActivity {
 
         RequestBody body = new FormBody.Builder()
                 .add("bio", "")
-                .add("profile_image", EncodeImage.encode(getResources(), R.drawable.no_profile_image))
+                .add("profile_image", EncodeImage.encodeFromDrawable(getResources(), R.drawable.no_profile_image))
                 .build();
 
         Request request = new Request.Builder()

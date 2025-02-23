@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.objects.Post;
+import com.example.static_classes.EncodeImage;
 import com.example.static_classes.ShowCurrentPost;
 import com.example.temporary_values.TemporaryAccountList;
 import com.example.temporary_values.TemporaryPostList;
@@ -46,24 +47,24 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
 //            holder.cardView.setBackgroundColor(ContextCompat.getColor(context, R.color.main_yellow));
 //        else
 //            holder.cardView.setBackgroundColor(ContextCompat.getColor(context, R.color.main_blue));
-        holder.imageView_image.setImageResource(post.getImage());
-        holder.textView_price.setText("₱" + post.getPrice());
+        holder.imageView_image.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
+        holder.textView_price.setText("₱" + post.getDisplayPrice());
         holder.textView_title.setText(post.getTitle());
         holder.textView_description.setText(post.getDescription());
-        holder.textView_sellerName.setText(TemporaryAccountList.getAccount(post.getPoster_id()).getName());
-        holder.imageView_profilePicture.setImageResource(TemporaryAccountList.getAccount(post.getPoster_id()).getImage());
+        holder.textView_sellerName.setText(TemporaryAccountList.getAccount(post.getProduct().getSeller_id()).getName());
+        holder.imageView_profilePicture.setImageResource(TemporaryAccountList.getAccount(post.getProduct().getSeller_id()).getImage());
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PostActivity.class);
                 context.startActivity(intent);
-                ShowCurrentPost.setImage(post.getImage());
-                ShowCurrentPost.setPrice(Double.parseDouble(post.getPrice()));
+                ShowCurrentPost.setImage(post.getProduct().getVariations().get(0).getImage());
+                ShowCurrentPost.setPrice(post.getDisplayPrice());
                 ShowCurrentPost.setTitle(post.getTitle());
                 ShowCurrentPost.setDescription(post.getDescription());
-                ShowCurrentPost.setStockCount(Integer.parseInt(post.getStockCount()));
+                ShowCurrentPost.setStockCount(post.getDisplayStock());
                 ShowCurrentPost.setReviews(post.getReviews());
-                ShowCurrentPost.setSeller_id(post.getPoster_id());
+                ShowCurrentPost.setSeller_id(post.getProduct().getSeller_id());
             }
         });
     }

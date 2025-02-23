@@ -2,9 +2,12 @@
 <resources>
 
     <string-array name="category">
-        <item>Food</item>
         <item>Clothes</item>
+        <item>Crafts</item>
+        <item>Foods and Drinks</item>
+        <item>Shoes</item>
         <item>Study Materials</item>
+        <item>Uniform</item>
     </string-array>
 
 </resources>

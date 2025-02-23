@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.adapters.PostReviewAdapter;
 import com.example.objects.Reviews;
+import com.example.static_classes.EncodeImage;
 import com.example.static_classes.ShowCurrentPost;
 import com.example.static_classes.ShowCurrentProfile;
 import com.example.temporary_values.TemporaryAccountList;
@@ -117,7 +118,7 @@ public class PostActivity extends AppCompatActivity {
                 bottomSheet_textView_productStockSelected = view_addToCartBuy.findViewById(R.id.addtocartbuy_textView_productStockSelected);
                 bottomSheet_cardView_stockIncrement = view_addToCartBuy.findViewById(R.id.addtocartbuy_cardView_stockIncrement);
                 bottomSheet_textView_productName.setText(ShowCurrentPost.getTitle());
-                bottomSheet_imageView_productImage.setImageResource(ShowCurrentPost.getImage());
+                bottomSheet_imageView_productImage.setImageBitmap(EncodeImage.decodeFromStringBlob(ShowCurrentPost.getImage()));
                 bottomSheet_textView_productPrice.setText("₱" + ShowCurrentPost.getPrice());
                 bottomSheet_textView_productStockAvailable.setText("Stocks: " + ShowCurrentPost.getStockCount());
                 bottomSheet_cardView_stockDecrement.setOnClickListener(new View.OnClickListener() {
@@ -141,7 +142,7 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void setValues() {
-        imageView_image.setImageResource(ShowCurrentPost.getImage());
+        imageView_image.setImageBitmap(EncodeImage.decodeFromStringBlob(ShowCurrentPost.getImage()));
         textView_title.setText(ShowCurrentPost.getTitle());
         textView_price.setText("₱" + ShowCurrentPost.getPrice());
         textView_description.setText(ShowCurrentPost.getDescription());

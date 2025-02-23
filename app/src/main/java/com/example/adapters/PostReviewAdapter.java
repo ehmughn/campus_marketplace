@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.objects.Post;
 import com.example.objects.Reviews;
+import com.example.static_classes.EncodeImage;
 import com.example.static_classes.ShowCurrentPost;
 import com.example.testproject2.PostActivity;
 import com.example.testproject2.R;
@@ -80,8 +81,8 @@ public class PostReviewAdapter extends RecyclerView.Adapter<PostReviewAdapter.Vi
         }
         holder.textView_variation.setText("Variation: " + review.getVariation());
         holder.textView_comment.setText(review.getComment());
-        holder.imageView_picture1.setImageResource(ShowCurrentPost.getImage());
-        holder.imageView_picture2.setImageResource(ShowCurrentPost.getImage());
+        holder.imageView_picture1.setImageBitmap(EncodeImage.decodeFromStringBlob(ShowCurrentPost.getImage()));
+        holder.imageView_picture2.setImageBitmap(EncodeImage.decodeFromStringBlob(ShowCurrentPost.getImage()));
         holder.textView_helpful.setText("Helpful(" + review.getHelpful_likes() + ")");
     }
 

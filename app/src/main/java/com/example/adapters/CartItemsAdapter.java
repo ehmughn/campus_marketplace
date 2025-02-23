@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.objects.Post;
+import com.example.static_classes.EncodeImage;
 import com.example.static_classes.ShowCurrentPost;
 import com.example.testproject2.PostActivity;
 import com.example.testproject2.R;
@@ -38,21 +39,21 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Post item = items.get(position);
-        holder.binding.cartItemsImageViewProductImage.setImageResource(item.getImage());
+        holder.binding.cartItemsImageViewProductImage.setImageBitmap(EncodeImage.decodeFromStringBlob(item.getProduct().getVariations().get(0).getImage()));
         holder.binding.cartItemsTextViewProductName.setText(item.getTitle());
-        holder.binding.cartItemsTextViewProductPrice.setText("₱" + item.getPrice());
+        holder.binding.cartItemsTextViewProductPrice.setText("₱" + item.getDisplayPrice());
         holder.binding.cartItemsImageViewProductImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PostActivity.class);
                 context.startActivity(intent);
-                ShowCurrentPost.setImage(item.getImage());
-                ShowCurrentPost.setPrice(Double.parseDouble(item.getPrice()));
+                ShowCurrentPost.setImage(item.getProduct().getVariations().get(0).getImage());
+                ShowCurrentPost.setPrice(item.getDisplayPrice());
                 ShowCurrentPost.setTitle(item.getTitle());
                 ShowCurrentPost.setDescription(item.getDescription());
-                ShowCurrentPost.setStockCount(Integer.parseInt(item.getStockCount()));
+                ShowCurrentPost.setStockCount(item.getDisplayStock());
                 ShowCurrentPost.setReviews(item.getReviews());
-                ShowCurrentPost.setSeller_id(item.getPoster_id());
+                ShowCurrentPost.setSeller_id(item.getProduct().getSeller_id());
             }
         });
     }

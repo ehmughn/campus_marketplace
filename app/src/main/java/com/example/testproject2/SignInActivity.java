@@ -141,8 +141,9 @@ public class SignInActivity extends AppCompatActivity {
                     data.getInt("user_id"),
                     R.drawable.no_profile_image,
                     data.getString("first_name") + " " + data.getString("last_name"),
-                    "Temporary Bio",
+                    data.getString("bio"),
                     false));
+            CurrentAccount.getAccount().setBlobImage(data.getString("profile_image"));
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
             finish();

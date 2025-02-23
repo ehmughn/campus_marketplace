@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.objects.Post;
+import com.example.static_classes.EncodeImage;
 import com.example.static_classes.ShowCurrentPost;
 import com.example.temporary_values.TemporaryAccountList;
 import com.example.testproject2.PostActivity;
@@ -38,19 +39,19 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Post post = posts.get(position);
-        holder.imageView_image.setImageResource(post.getImage());
+        holder.imageView_image.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
         holder.imageView_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PostActivity.class);
                 context.startActivity(intent);
-                ShowCurrentPost.setImage(post.getImage());
-                ShowCurrentPost.setPrice(Double.parseDouble(post.getPrice()));
+                ShowCurrentPost.setImage(post.getProduct().getVariations().get(0).getImage());
+                ShowCurrentPost.setPrice(post.getDisplayPrice());
                 ShowCurrentPost.setTitle(post.getTitle());
                 ShowCurrentPost.setDescription(post.getDescription());
-                ShowCurrentPost.setStockCount(Integer.parseInt(post.getStockCount()));
+                ShowCurrentPost.setStockCount(post.getDisplayStock());
                 ShowCurrentPost.setReviews(post.getReviews());
-                ShowCurrentPost.setSeller_id(post.getPoster_id());
+                ShowCurrentPost.setSeller_id(post.getProduct().getSeller_id());
             }
         });
     }

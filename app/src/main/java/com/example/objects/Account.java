@@ -5,6 +5,7 @@ public class Account {
     private int image;
     private String name;
     private String bio;
+    private String blobImage;
     private boolean followed;
 
     public Account(int id, int image, String name, String bio, boolean followed) {
@@ -53,5 +54,13 @@ public class Account {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public String getBlobImage() {
+        return blobImage;
+    }
+
+    public void setBlobImage(String blobImage) {
+        this.blobImage = blobImage;
     }
 }

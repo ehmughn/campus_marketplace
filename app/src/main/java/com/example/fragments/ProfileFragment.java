@@ -74,7 +74,7 @@ public class ProfileFragment extends Fragment {
         profilePosts = new ArrayList<>();
 
         for(int i = 0; i < TemporaryPostList.size(); i++) {
-            if(TemporaryPostList.getPost(i).getPoster_id() == CurrentAccount.getAccount().getId())
+            if(TemporaryPostList.getPost(i).getProduct().getSeller_id() == CurrentAccount.getAccount().getId())
                 profilePosts.add(TemporaryPostList.getPost(i));
         }
 
