@@ -120,6 +120,7 @@ public class SignInActivity extends AppCompatActivity {
                         }
                     } catch (Exception e) {
                         errorMessage("Unexpected Response.");
+                        runOnUiThread(() -> Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show());
                     }
                 }
                 else {

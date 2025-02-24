@@ -45,6 +45,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import okhttp3.Call;
@@ -56,27 +57,36 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class UploadActivity extends AppCompatActivity {
-    private LayoutInflater inflater;
-    private View dialogView;
+    private LayoutInflater inflaterVariation;
+    private View dialogVariationView;
     private Button button_addVariation;
-    private AlertDialog.Builder builder;
-    private AlertDialog dialog;
-    private Button dialog_button_addImage;
-    private ImageView dialog_imageView_variationImage;
+    private AlertDialog.Builder builderDialogVariation;
+    private AlertDialog dialogVariation;
+    private Button dialogVariation_button_addImage;
+    private ImageView dialogVariation_imageView_variationImage;
     private Bitmap bitmap;
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private ArrayList<Variation> variations;
     private UploadProductVariationsAdapter uploadProductVariationsAdapter;
     private RecyclerView recyclerView_variations;
-    private Button dialog_button_cancel;
-    private Button dialog_button_confirm;
-    private EditText dialog_editText_variationName;
-    private EditText dialog_editText_variationPrice;
-    private EditText dialog_editText_variationStock;
+    private Button dialogVariation_button_cancel;
+    private Button dialogVariation_button_confirm;
+    private EditText dialogVariation_editText_variationName;
+    private EditText dialogVariation_editText_variationPrice;
+    private EditText dialogVariation_editText_variationStock;
     private Button button_submit;
     private EditText editText_productName;
     private TextInputLayout editText_category;
     private OkHttpClient client = new OkHttpClient();
+    private LayoutInflater inflaterPleaseWait;
+    private View dialogPleaseWaitView;
+    private AlertDialog.Builder builderDialogPleaseWait;
+    private AlertDialog dialogPleaseWait;
+    private LayoutInflater inflaterFinishedUploadingProducts;
+    private View dialogFinishedUploadingProductsView;
+    private AlertDialog.Builder builderDialogFinishedUploadingProducts;
+    private AlertDialog dialogFinishedUploadingProducts;
+    private Button dialogFinishedUploadingProducts_button_goBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,35 +98,36 @@ public class UploadActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        inflater = getLayoutInflater();
-        dialogView = inflater.inflate(R.layout.dialog_add_variation, null);
-        builder = new AlertDialog.Builder(this);
-        builder.setView(dialogView);
-        dialog = builder.create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        inflaterVariation = getLayoutInflater();
+        dialogVariationView = inflaterVariation.inflate(R.layout.dialog_add_variation, null);
+        builderDialogVariation = new AlertDialog.Builder(this);
+        builderDialogVariation.setView(dialogVariationView);
+        dialogVariation = builderDialogVariation.create();
+        dialogVariation.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         button_addVariation = findViewById(R.id.upload_button_addVariation);
         button_addVariation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog_editText_variationName.setText("");
-                dialog_editText_variationPrice.setText("");
-                dialog_editText_variationStock.setText("");
-                dialog_editText_variationName.clearFocus();
-                dialog_editText_variationPrice.clearFocus();
-                dialog_editText_variationStock.clearFocus();
-                dialog_imageView_variationImage.setImageResource(R.drawable.no_image);
-                dialog.show();
+                dialogVariation_editText_variationName.setText("");
+                dialogVariation_editText_variationPrice.setText("");
+                dialogVariation_editText_variationStock.setText("");
+                dialogVariation_editText_variationName.clearFocus();
+                dialogVariation_editText_variationPrice.clearFocus();
+                dialogVariation_editText_variationStock.clearFocus();
+                dialogVariation_imageView_variationImage.setImageResource(R.drawable.no_image);
+                bitmap = null;
+                dialogVariation.show();
             }
         });
-        dialog_imageView_variationImage = dialogView.findViewById(R.id.dialogVariation_imageView_variationImage);
-        dialog_imageView_variationImage.setOnClickListener(new View.OnClickListener() {
+        dialogVariation_imageView_variationImage = dialogVariationView.findViewById(R.id.dialogVariation_imageView_variationImage);
+        dialogVariation_imageView_variationImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getImageExternally();
             }
         });
-        dialog_button_addImage = dialogView.findViewById(R.id.dialogVariation_button_addImage);
-        dialog_button_addImage.setOnClickListener(new View.OnClickListener() {
+        dialogVariation_button_addImage = dialogVariationView.findViewById(R.id.dialogVariation_button_addImage);
+        dialogVariation_button_addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getImageExternally();
@@ -130,7 +141,7 @@ public class UploadActivity extends AppCompatActivity {
                     Uri uri = data.getData();
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                        dialog_imageView_variationImage.setImageBitmap(bitmap);
+                        dialogVariation_imageView_variationImage.setImageBitmap(bitmap);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -143,23 +154,23 @@ public class UploadActivity extends AppCompatActivity {
         recyclerView_variations.setAdapter(uploadProductVariationsAdapter);
         recyclerView_variations.setLayoutManager(new LinearLayoutManager(this));
         new ItemTouchHelper(cartItems_simpleCallBack).attachToRecyclerView(recyclerView_variations);
-        dialog_button_confirm = dialogView.findViewById(R.id.dialogVariation_button_confirm);
-        dialog_button_confirm.setOnClickListener(new View.OnClickListener() {
+        dialogVariation_button_confirm = dialogVariationView.findViewById(R.id.dialogVariation_button_confirm);
+        dialogVariation_button_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 confirmVariation();
             }
         });
-        dialog_button_cancel = dialogView.findViewById(R.id.dialogVariation_button_cancel);
-        dialog_button_cancel.setOnClickListener(new View.OnClickListener() {
+        dialogVariation_button_cancel = dialogVariationView.findViewById(R.id.dialogVariation_button_cancel);
+        dialogVariation_button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                dialogVariation.dismiss();
             }
         });
-        dialog_editText_variationName = dialogView.findViewById(R.id.dialogVariation_editText_variationName);
-        dialog_editText_variationPrice = dialogView.findViewById(R.id.dialogVariation_editText_variationPrice);
-        dialog_editText_variationStock = dialogView.findViewById(R.id.dialogVariation_editText_variationStock);
+        dialogVariation_editText_variationName = dialogVariationView.findViewById(R.id.dialogVariation_editText_variationName);
+        dialogVariation_editText_variationPrice = dialogVariationView.findViewById(R.id.dialogVariation_editText_variationPrice);
+        dialogVariation_editText_variationStock = dialogVariationView.findViewById(R.id.dialogVariation_editText_variationStock);
         button_submit = findViewById(R.id.upload_button_submit);
         button_submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,6 +180,28 @@ public class UploadActivity extends AppCompatActivity {
         });
         editText_productName = findViewById(R.id.upload_editText_productName);
         editText_category = findViewById(R.id.upload_editText_category);
+
+        inflaterPleaseWait = getLayoutInflater();
+        dialogPleaseWaitView = inflaterPleaseWait.inflate(R.layout.dialog_please_wait, null);
+        builderDialogPleaseWait = new AlertDialog.Builder(this);
+        builderDialogPleaseWait.setView(dialogPleaseWaitView).setCancelable(false);
+        dialogPleaseWait = builderDialogPleaseWait.create();
+        dialogPleaseWait.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        inflaterFinishedUploadingProducts = getLayoutInflater();
+        dialogFinishedUploadingProductsView = inflaterFinishedUploadingProducts.inflate(R.layout.dialog_finished_uploading_products, null);
+        builderDialogFinishedUploadingProducts = new AlertDialog.Builder(this);
+        builderDialogFinishedUploadingProducts.setView(dialogFinishedUploadingProductsView).setCancelable(false);
+        dialogFinishedUploadingProducts = builderDialogFinishedUploadingProducts.create();
+        dialogFinishedUploadingProducts.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogFinishedUploadingProducts_button_goBack = dialogFinishedUploadingProductsView.findViewById(R.id.dialogFinishedUploadingProducts_button_goBack);
+        dialogFinishedUploadingProducts_button_goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogFinishedUploadingProducts.dismiss();
+                finish();
+            }
+        });
     }
 
     private void attemptToUploadProduct() {
@@ -188,6 +221,7 @@ public class UploadActivity extends AppCompatActivity {
     }
 
     private void uploadProduct() {
+        dialogPleaseWait.show();
         String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/upload_product.php";
 
         RequestBody body = new FormBody.Builder()
@@ -211,9 +245,11 @@ public class UploadActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (response.isSuccessful() && responseData.contains("success")) {
+                                Toast.makeText(UploadActivity.this, "Uploaded the product" + responseData, Toast.LENGTH_SHORT).show();
                                 uploadVariants1();
                             } else {
                                 Toast.makeText(UploadActivity.this, "Product Upload Failed" + responseData, Toast.LENGTH_SHORT).show();
+                                dialogPleaseWait.dismiss();
                             }
                         }
                     });
@@ -222,6 +258,7 @@ public class UploadActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             Toast.makeText(UploadActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                            dialogPleaseWait.dismiss();
                         }
                     });
                 }
@@ -240,6 +277,7 @@ public class UploadActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 runOnUiThread(() -> Toast.makeText(UploadActivity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                dialogPleaseWait.dismiss();
             }
 
             @Override
@@ -249,33 +287,43 @@ public class UploadActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonResponse = new JSONObject(responseData);
                         JSONObject data = jsonResponse.getJSONObject("data");
-                        uploadVariants2(data.getInt("product_id"));
+                        runOnUiThread(() -> Toast.makeText(UploadActivity.this, "Obtained the product_id", Toast.LENGTH_SHORT).show());
+                        uploadVariants2(data.getInt("product_id"), 0);
                     } catch (Exception e) {
                         runOnUiThread(() -> Toast.makeText(UploadActivity.this, "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        dialogPleaseWait.dismiss();
                     }
                 }
                 else {
                     runOnUiThread(() -> Toast.makeText(UploadActivity.this, "Network error", Toast.LENGTH_SHORT).show());
+                    dialogPleaseWait.dismiss();
                 }
             }
         });
     }
 
-    private void uploadVariants2(int product_id) {
+    private void uploadVariants2(int product_id, int reccursion) {
         String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/upload_variation.php";
+
+        if(reccursion == variations.size()) {
+            dialogPleaseWait.dismiss();
+            dialogFinishedUploadingProducts.show();
+            return;
+        }
+
+        client = new OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .build();
 
         String query = "INSERT INTO product_variants (product_id, variant_name, variant_cost, variant_stock, variant_image) VALUES ";
 
-        for(int i = 0; i < variations.size(); i++) {
             query += "(" + product_id + ", '" +
-                    variations.get(i).getName() + "', " +
-                    variations.get(i).getPrice() + ", " +
-                    variations.get(i).getStock() + ", '" +
-                    variations.get(i).getImage() + "')";
-            if(i != variations.size() - 1) {
-                query += ", ";
-            }
-        }
+                    variations.get(reccursion).getName() + "', " +
+                    variations.get(reccursion).getPrice() + ", " +
+                    variations.get(reccursion).getStock() + ", '" +
+                    variations.get(reccursion).getImage() + "')";
 
         RequestBody body = new FormBody.Builder()
                 .add("query", query)
@@ -296,10 +344,11 @@ public class UploadActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (response.isSuccessful() && responseData.contains("success")) {
-                                Toast.makeText(UploadActivity.this, "Variation Upload Success", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UploadActivity.this, "Variation Upload Success " + reccursion, Toast.LENGTH_SHORT).show();
+                                uploadVariants2(product_id, reccursion + 1);
                             } else {
-                                Toast.makeText(UploadActivity.this, "Variation Upload Failed" + responseData, Toast.LENGTH_SHORT).show();
-                                editText_productName.setText(responseData);
+                                Toast.makeText(UploadActivity.this, "Variation Upload Failed: " + responseData, Toast.LENGTH_SHORT).show();
+                                dialogPleaseWait.dismiss();
                             }
                         }
                     });
@@ -307,7 +356,8 @@ public class UploadActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(UploadActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UploadActivity.this, "Network Error " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            dialogPleaseWait.dismiss();
                         }
                     });
                 }
@@ -316,28 +366,30 @@ public class UploadActivity extends AppCompatActivity {
     }
 
     private boolean variationIsEmpty() {
-        if(dialog_editText_variationName.getText().toString().trim().isEmpty())
+        if(dialogVariation_editText_variationName.getText().toString().trim().isEmpty())
             return true;
-        if(dialog_editText_variationPrice.getText().toString().trim().isEmpty())
+        if(dialogVariation_editText_variationPrice.getText().toString().trim().isEmpty())
             return true;
-        if(dialog_editText_variationStock.getText().toString().trim().isEmpty())
+        if(dialogVariation_editText_variationStock.getText().toString().trim().isEmpty())
+            return true;
+        if(bitmap == null)
             return true;
         return false;
     }
 
     private void confirmVariation() {
         if(variationIsEmpty()) {
-            Toast.makeText(UploadActivity.this, "Please fill up all the text.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UploadActivity.this, "Please fill up all the forms.", Toast.LENGTH_SHORT).show();
             return;
         }
-        String name = dialog_editText_variationName.getText().toString().trim();
-        double price = Double.parseDouble(dialog_editText_variationPrice.getText().toString().trim());
-        int stock = Integer.parseInt(dialog_editText_variationStock.getText().toString().trim());
+        String name = dialogVariation_editText_variationName.getText().toString().trim();
+        double price = Double.parseDouble(dialogVariation_editText_variationPrice.getText().toString().trim());
+        int stock = Integer.parseInt(dialogVariation_editText_variationStock.getText().toString().trim());
         String image = EncodeImage.encodeFromBitmap(bitmap);
         Variation variation = new Variation(name, price, stock, image);
         variations.add(variation);
         uploadProductVariationsAdapter.notifyDataSetChanged();
-        dialog.dismiss();
+        dialogVariation.dismiss();
     }
 
     private void getImageExternally() {
