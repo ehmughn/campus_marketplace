@@ -6,17 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".UploadActivity">
+    tools:context=".PublishPostActivity">
 
     <LinearLayout
         android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="32dp"
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -25,7 +25,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="UPLOAD "
+                android:text="PUBLISH "
                 android:fontFamily="@font/montserrat_bold"
                 android:textSize="30sp"
                 android:textAlignment="center"
@@ -35,7 +35,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="PRODUCT"
+                android:text="A POST"
                 android:fontFamily="@font/montserrat_bold"
                 android:textSize="30sp"
                 android:textAlignment="center"
@@ -48,52 +48,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:text="Product Name"
+            android:text="Title"
             android:textColor="@color/main_yellow"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:textStyle="bold"/>
 
         <EditText
-            android:id="@+id/upload_editText_productName"
+            android:id="@+id/publish_editText_title"
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="10dp"
-            android:hint="Enter Product Name"
-            android:textColorHint="@color/main_blue"
             android:textSize="16sp"
             android:textColor="@color/main_blue"
             android:background="@drawable/semi_rounded_corner"
             android:backgroundTint="#D6DBE2"/>
 
         <TextView
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start"
-            android:text="Category"
+            android:text="Description"
             android:textColor="@color/main_yellow"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:textStyle="bold"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/upload_editText_category"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        <EditText
+            android:id="@+id/publish_editText_description"
+            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/input_category_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"
-                android:textSize="16sp"
-                android:textColor="@color/text_blue"
-                android:background="@drawable/semi_rounded_corner"
-                android:backgroundTint="#D6DBE2"
-                app:simpleItems="@array/category"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="200dp"
+            android:orientation="horizontal"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:textColor="@color/main_blue"
+            android:scrollbars="vertical"
+            android:background="@drawable/semi_rounded_corner"
+            android:backgroundTint="#D6DBE2"/>
 
         <Button
             android:id="@+id/upload_button_addVariation"
@@ -105,34 +101,43 @@
             android:layout_gravity="center"
             android:background="@drawable/rounded_corner"
             android:backgroundTint="@color/main_blue"
-            android:text="Add Variation"
+            android:text="Attach Product"
             android:textSize="15dp"
-            android:textColor="@color/main_yellow"
+            android:textColor="@color/white"
             android:fontFamily="@font/montserrat_bold"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/upload_recyclerView_variations"
+        <GridLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="100dp"
+            android:columnCount="2">
 
-        <Button
-            android:id="@+id/upload_button_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_marginVertical="20dp"
-            android:layout_marginHorizontal="10dp"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_corner"
-            android:backgroundTint="@color/main_blue"
-            android:text="Submit"
-            android:textSize="15dp"
-            android:textColor="@color/main_yellow"
-            android:fontFamily="@font/montserrat_bold"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/publish_button_cancel"
+                android:layout_margin="20dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="@color/main_yellow"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/main_blue"
+                android:fontFamily="@font/montserrat_bold"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="300dp"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/publish_button_post"
+                android:layout_margin="20dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="@color/main_yellow"
+                android:text="Post"
+                android:textAllCaps="false"
+                android:textColor="@color/main_blue"
+                android:fontFamily="@font/montserrat_bold"/>
+
+        </GridLayout>
 
     </LinearLayout>
 

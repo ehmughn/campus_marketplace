@@ -209,7 +209,7 @@
                         android:layout_columnWeight="1"
                         android:onClick="toUpload"
                         android:layout_margin="8dp"
-                        android:text="Upload Items"
+                        android:text="Upload"
                         android:textColor="@color/text_blue"
                         android:backgroundTint="@color/main_yellow"/>
 

@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,8 +24,11 @@ import com.example.static_classes.CurrentAccount;
 import com.example.temporary_values.TemporaryAccountList;
 import com.example.temporary_values.TemporaryPostList;
 import com.example.testproject2.FollowersFollowingListActivity;
+import com.example.testproject2.MainActivity;
+import com.example.testproject2.PublishPostActivity;
 import com.example.testproject2.R;
-import com.example.testproject2.UploadActivity;
+import com.example.testproject2.UploadProductActivity;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
 
@@ -48,6 +50,8 @@ public class ProfileFragment extends Fragment {
     public TextView textView_followersCount;
     public TextView textView_followingCount;
     public TextView textView_likesCount;
+    private LinearLayout layout_uploadProduct;
+    private LinearLayout layout_publishPost;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,8 +112,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 try {
-                    Intent intent = new Intent(getActivity(), UploadActivity.class);
-                    startActivity(intent);
+                    openUploadOptions();
                 } catch(Exception e) {
                     Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -150,5 +153,30 @@ public class ProfileFragment extends Fragment {
         }
         textView_followingCount.setText(Integer.toString(followingCount));
         textView_likesCount = view.findViewById(R.id.profile_textView_likes);
+    }
+
+    public void openUploadOptions() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity());
+        View view_uploadProductOrPublishPost = LayoutInflater.from(getActivity()).inflate(R.layout.bottomsheet_upload_product_or_publish_post, null);
+        bottomSheetDialog.setContentView(view_uploadProductOrPublishPost);
+        bottomSheetDialog.show();
+        layout_uploadProduct = view_uploadProductOrPublishPost.findViewById(R.id.uploadproductorpublishpost_layout_uploadproduct);
+        layout_uploadProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UploadProductActivity.class);
+                startActivity(intent);
+                bottomSheetDialog.dismiss();
+            }
+        });
+        layout_publishPost = view_uploadProductOrPublishPost.findViewById(R.id.uploadproductorpublishpost_layout_publishpost);
+        layout_publishPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PublishPostActivity.class);
+                startActivity(intent);
+                bottomSheetDialog.dismiss();
+            }
+        });
     }
 }

@@ -2,38 +2,30 @@ package com.example.testproject2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.GridLayout;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.adapters.HomeCategoryAdapter;
-import com.example.adapters.HomePostsAdapter;
 import com.example.fragments.ExploreFragment;
 import com.example.fragments.HomeFragment;
 import com.example.fragments.InboxFragment;
 import com.example.fragments.ProfileFragment;
 import com.example.fragments.UploadFragment;
-import com.example.objects.Categories;
-import com.example.objects.Post;
 import com.example.testproject2.databinding.ActivityMainBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private UploadFragment uploadFragment;
     private InboxFragment inboxFragment;
     private ProfileFragment profileFragment;
+
+    private LinearLayout layout_uploadProduct;
+    private LinearLayout layout_publishPost;
 
 
     @Override
@@ -79,7 +74,39 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        binding.mainButtonUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openUploadOptions();
+            }
+        });
     }
+
+    public void openUploadOptions() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(MainActivity.this);
+        View view_uploadProductOrPublishPost = LayoutInflater.from(MainActivity.this).inflate(R.layout.bottomsheet_upload_product_or_publish_post, null);
+        bottomSheetDialog.setContentView(view_uploadProductOrPublishPost);
+        bottomSheetDialog.show();
+        layout_uploadProduct = view_uploadProductOrPublishPost.findViewById(R.id.uploadproductorpublishpost_layout_uploadproduct);
+        layout_uploadProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, UploadProductActivity.class);
+                startActivity(intent);
+                bottomSheetDialog.dismiss();
+            }
+        });
+        layout_publishPost = view_uploadProductOrPublishPost.findViewById(R.id.uploadproductorpublishpost_layout_publishpost);
+        layout_publishPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, PublishPostActivity.class);
+                startActivity(intent);
+                bottomSheetDialog.dismiss();
+            }
+        });
+    }
+
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

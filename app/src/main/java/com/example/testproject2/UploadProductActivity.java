@@ -37,7 +37,6 @@ import com.example.static_classes.CategoryEncoder;
 import com.example.static_classes.CurrentAccount;
 import com.example.static_classes.DatabaseConnectionData;
 import com.example.static_classes.EncodeImage;
-import com.example.static_classes.RegisterInfoHolder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -56,7 +55,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class UploadActivity extends AppCompatActivity {
+public class UploadProductActivity extends AppCompatActivity {
     private LayoutInflater inflaterVariation;
     private View dialogVariationView;
     private Button button_addVariation;
@@ -92,7 +91,7 @@ public class UploadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_upload);
+        setContentView(R.layout.activity_upload_product);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -206,15 +205,15 @@ public class UploadActivity extends AppCompatActivity {
 
     private void attemptToUploadProduct() {
         if(editText_productName.getText().toString().trim().isEmpty()) {
-            Toast.makeText(UploadActivity.this, "Please fill up the product name.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UploadProductActivity.this, "Please fill up the product name.", Toast.LENGTH_SHORT).show();
             return;
         }
         if(editText_category.getEditText().getText().toString().trim().isEmpty()) {
-            Toast.makeText(UploadActivity.this, "Please choose a category.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UploadProductActivity.this, "Please choose a category.", Toast.LENGTH_SHORT).show();
             return;
         }
         if(variations.isEmpty()) {
-            Toast.makeText(UploadActivity.this, "Please add at least 1 variation.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UploadProductActivity.this, "Please add at least 1 variation.", Toast.LENGTH_SHORT).show();
             return;
         }
         uploadProduct();
@@ -245,10 +244,10 @@ public class UploadActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (response.isSuccessful() && responseData.contains("success")) {
-                                Toast.makeText(UploadActivity.this, "Uploaded the product" + responseData, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UploadProductActivity.this, "Uploaded the product" + responseData, Toast.LENGTH_SHORT).show();
                                 uploadVariants1();
                             } else {
-                                Toast.makeText(UploadActivity.this, "Product Upload Failed" + responseData, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UploadProductActivity.this, "Product Upload Failed" + responseData, Toast.LENGTH_SHORT).show();
                                 dialogPleaseWait.dismiss();
                             }
                         }
@@ -257,7 +256,7 @@ public class UploadActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(UploadActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UploadProductActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
                             dialogPleaseWait.dismiss();
                         }
                     });
@@ -276,7 +275,7 @@ public class UploadActivity extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                runOnUiThread(() -> Toast.makeText(UploadActivity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> Toast.makeText(UploadProductActivity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                 dialogPleaseWait.dismiss();
             }
 
@@ -287,15 +286,15 @@ public class UploadActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonResponse = new JSONObject(responseData);
                         JSONObject data = jsonResponse.getJSONObject("data");
-                        runOnUiThread(() -> Toast.makeText(UploadActivity.this, "Obtained the product_id", Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> Toast.makeText(UploadProductActivity.this, "Obtained the product_id", Toast.LENGTH_SHORT).show());
                         uploadVariants2(data.getInt("product_id"), 0);
                     } catch (Exception e) {
-                        runOnUiThread(() -> Toast.makeText(UploadActivity.this, "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        runOnUiThread(() -> Toast.makeText(UploadProductActivity.this, "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                         dialogPleaseWait.dismiss();
                     }
                 }
                 else {
-                    runOnUiThread(() -> Toast.makeText(UploadActivity.this, "Network error", Toast.LENGTH_SHORT).show());
+                    runOnUiThread(() -> Toast.makeText(UploadProductActivity.this, "Network error", Toast.LENGTH_SHORT).show());
                     dialogPleaseWait.dismiss();
                 }
             }
@@ -344,10 +343,10 @@ public class UploadActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (response.isSuccessful() && responseData.contains("success")) {
-                                Toast.makeText(UploadActivity.this, "Variation Upload Success " + reccursion, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UploadProductActivity.this, "Variation Upload Success " + reccursion, Toast.LENGTH_SHORT).show();
                                 uploadVariants2(product_id, reccursion + 1);
                             } else {
-                                Toast.makeText(UploadActivity.this, "Variation Upload Failed: " + responseData, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UploadProductActivity.this, "Variation Upload Failed: " + responseData, Toast.LENGTH_SHORT).show();
                                 dialogPleaseWait.dismiss();
                             }
                         }
@@ -356,7 +355,7 @@ public class UploadActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(UploadActivity.this, "Network Error " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UploadProductActivity.this, "Network Error " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             dialogPleaseWait.dismiss();
                         }
                     });
@@ -379,7 +378,7 @@ public class UploadActivity extends AppCompatActivity {
 
     private void confirmVariation() {
         if(variationIsEmpty()) {
-            Toast.makeText(UploadActivity.this, "Please fill up all the forms.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UploadProductActivity.this, "Please fill up all the forms.", Toast.LENGTH_SHORT).show();
             return;
         }
         String name = dialogVariation_editText_variationName.getText().toString().trim();
@@ -425,7 +424,7 @@ public class UploadActivity extends AppCompatActivity {
         @Override
         public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
             new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(UploadActivity.this, R.color.main_yellow))
+                    .addSwipeLeftBackgroundColor(ContextCompat.getColor(UploadProductActivity.this, R.color.main_yellow))
                     .addSwipeLeftActionIcon(R.drawable.delete)
                     .create()
                     .decorate();
