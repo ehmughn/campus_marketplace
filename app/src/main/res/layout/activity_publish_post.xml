@@ -92,7 +92,7 @@
             android:backgroundTint="#D6DBE2"/>
 
         <Button
-            android:id="@+id/upload_button_addVariation"
+            android:id="@+id/publish_button_attachProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
