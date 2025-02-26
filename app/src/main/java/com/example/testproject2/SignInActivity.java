@@ -141,7 +141,7 @@ public class SignInActivity extends AppCompatActivity {
             JSONObject data = jsonResponse.getJSONObject("data");
             CurrentAccount.setAccount(new Account(
                     data.getInt("user_id"),
-                    EncodeImage.encodeFromDrawable(getResources(), R.drawable.no_profile_image),
+                    data.getString("profile_image"),
                     data.getString("first_name") + " " + data.getString("last_name"),
                     data.getString("bio")));
             CurrentAccount.getAccount().setBlobImage(data.getString("profile_image"));

@@ -78,10 +78,10 @@ public class ProfileFragment extends Fragment {
         recyclerView_uploads.setLayoutManager(new LinearLayoutManager(getContext()));
         profilePosts = new ArrayList<>();
 
-        for(int i = 0; i < TemporaryPostList.size(); i++) {
-            if(TemporaryPostList.getPost(i).getProduct().getAccount().getId() == CurrentAccount.getAccount().getId())
-                profilePosts.add(TemporaryPostList.getPost(i));
-        }
+//        for(int i = 0; i < TemporaryPostList.size(); i++) {
+//            if(TemporaryPostList.getPost(i).getProduct().getAccount().getId() == CurrentAccount.getAccount().getId())
+//                profilePosts.add(TemporaryPostList.getPost(i));
+//        }
 
         adapter_posts = new HomePostsAdapter(getContext(), profilePosts);
         recyclerView_uploads.setAdapter(adapter_posts);

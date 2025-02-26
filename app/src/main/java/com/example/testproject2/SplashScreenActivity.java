@@ -29,9 +29,6 @@ public class SplashScreenActivity extends AppCompatActivity {
             return insets;
         });
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        TemporaryAccountList.init();
-        CurrentAccount.setAccount(0);
-        TemporaryPostList.init();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -51,7 +51,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         holder.textView_price.setText("₱" + post.getDisplayPrice());
         holder.textView_title.setText(post.getTitle());
         holder.textView_description.setText(post.getDescription());
-        holder.textView_sellerName.setText(TemporaryAccountList.getAccount(post.getProduct().getAccount().getId()).getName());
+        holder.textView_sellerName.setText(post.getProduct().getAccount().getName());
         holder.imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getAccount().getImage()));
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override

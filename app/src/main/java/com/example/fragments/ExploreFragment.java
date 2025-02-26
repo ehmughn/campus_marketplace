@@ -43,9 +43,9 @@ public class ExploreFragment extends Fragment {
         recyclerView_posts.setLayoutManager(new GridLayoutManager(getContext(), 3));
         explorePosts = new ArrayList<>();
 
-        for(int i = 0; i < TemporaryPostList.size(); i++) {
-            explorePosts.add(TemporaryPostList.getPost(i));
-        }
+//        for(int i = 0; i < TemporaryPostList.size(); i++) {
+//            explorePosts.add(TemporaryPostList.getPost(i));
+//        }
         adapter_explore = new ExploreAdapter(getContext(), explorePosts);
         recyclerView_posts.setAdapter(adapter_explore);
 
