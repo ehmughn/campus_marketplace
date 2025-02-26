@@ -92,12 +92,23 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"/>
 
+            <TextView
+                android:id="@+id/homePost_textView_likeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="5dp"
+                android:textSize="15sp"
+                android:text="00"
+                android:textColor="@color/main_yellow"
+                android:textStyle="bold"/>
+
             <ImageView
                 android:id="@+id/homePost_imageView_message"
                 android:layout_width="40dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="7dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="10dp"
                 android:src="@drawable/message"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"/>

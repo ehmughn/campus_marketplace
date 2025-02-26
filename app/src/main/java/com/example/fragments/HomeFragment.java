@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,7 +127,6 @@ public class HomeFragment extends Fragment {
                     try {
                         JSONObject jsonResponse = new JSONObject(responseData);
                         int total_post = jsonResponse.getInt("total_post");
-                        getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Total Post: " + total_post, Toast.LENGTH_SHORT).show());
                         loadPosts(0, total_post);
 
                     } catch (Exception e) {
@@ -142,7 +142,7 @@ public class HomeFragment extends Fragment {
 
     private void loadPosts(int reccursion, int end) {
         if(reccursion == end) {
-            // finish
+            //finish
             return;
         }
         String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/select_post_home.php?post_number=" + reccursion;
@@ -187,12 +187,14 @@ public class HomeFragment extends Fragment {
                                         ),
                                         singleVariation
                                 ),
+                                jsonObject.getInt("like_count"),
                                 example_reviews
                         );
-                        homePosts.add(post);
-//                        requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Post obtained " + (reccursion + 1), Toast.LENGTH_SHORT).show());
-                        requireActivity().runOnUiThread(() -> adapter_categories.notifyDataSetChanged());
-//                        loadPosts(reccursion + 1, end);
+                        requireActivity().runOnUiThread(() -> {
+                            homePosts.add(post);
+                            adapter_posts.notifyDataSetChanged();
+                        });
+                        loadPosts(reccursion + 1, end);
 
                     } catch (Exception e) {
                         requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());

@@ -7,13 +7,15 @@ public class Post {
     private String title;
     private String description;
     private Product product;
+    private int likeCount;
     private ArrayList<Reviews> reviews;
 
-    public Post(int id, String title, String description, Product product, ArrayList<Reviews> reviews) {
+    public Post(int id, String title, String description, Product product, int likeCount, ArrayList<Reviews> reviews) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.product = product;
+        this.likeCount = likeCount;
         this.reviews = reviews;
     }
 
@@ -56,5 +58,13 @@ public class Post {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
     }
 }

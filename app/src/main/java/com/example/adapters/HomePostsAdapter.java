@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,14 +44,12 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Post post = posts.get(position);
-//        if(position % 4 == 1 || position % 4 == 2)
-//            holder.cardView.setBackgroundColor(ContextCompat.getColor(context, R.color.main_yellow));
-//        else
-//            holder.cardView.setBackgroundColor(ContextCompat.getColor(context, R.color.main_blue));
         holder.imageView_image.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
         holder.textView_price.setText("₱" + post.getDisplayPrice());
         holder.textView_title.setText(post.getTitle());
         holder.textView_description.setText(post.getDescription());
+        holder.textView_likeCount.setText(Integer.toString(post.getLikeCount()));
+        holder.textView_variantName.setText("Variant: " + post.getProduct().getVariations().get(0).getName());
         holder.textView_sellerName.setText(post.getProduct().getAccount().getName());
         holder.imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getAccount().getImage()));
         holder.layout.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +80,8 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         public TextView textView_price;
         public TextView textView_title;
         public TextView textView_description;
+        public TextView textView_likeCount;
+        public TextView textView_variantName;
         public ImageView imageView_profilePicture;
         public TextView textView_sellerName;
 
@@ -91,6 +92,8 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
             textView_price = postView.findViewById(R.id.homePost_textView_price);
             textView_title = postView.findViewById(R.id.homePost_textView_title);
             textView_description = postView.findViewById(R.id.homePost_textView_description);
+            textView_likeCount = postView.findViewById(R.id.homePost_textView_likeCount);
+            textView_variantName = postView.findViewById(R.id.homePost_textView_variant);
             imageView_profilePicture = postView.findViewById(R.id.homePost_imageView_profile_picture);
             textView_sellerName = postView.findViewById(R.id.homePost_textView_seller_name);
         }
