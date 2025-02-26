@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,10 +21,16 @@ public class ChooseProductsProductAdapter extends RecyclerView.Adapter<ChoosePro
     private Context context;
 
     private ArrayList<Product> products;
+    private OnProductSelectedListener listener;
 
-    public ChooseProductsProductAdapter(Context context, ArrayList<Product> products) {
+    public interface OnProductSelectedListener {
+        void onProductSelected(Product product);
+    }
+
+    public ChooseProductsProductAdapter(Context context, ArrayList<Product> products, OnProductSelectedListener listener) {
         this.context = context;
         this.products = products;
+        this.listener = listener;
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,9 +42,17 @@ public class ChooseProductsProductAdapter extends RecyclerView.Adapter<ChoosePro
     public void onBindViewHolder(ViewHolder holder, int position) {
         Product product = products.get(position);
         holder.textView_productName.setText(product.getName());
-        holder.chooseProductsVariationAdapter = new ChooseProductsVariationAdapter(context, product.getVariations());
+        holder.chooseProductsVariationAdapter = new ChooseProductsVariationAdapter(context, product, product.getVariations(), productListener -> {
+            listener.onProductSelected(product);
+        });
         holder.recyclerView_chooseProductVariation.setAdapter(holder.chooseProductsVariationAdapter);
         holder.recyclerView_chooseProductVariation.setLayoutManager(new LinearLayoutManager(context));
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onProductSelected(product);
+            }
+        });
     }
 
     @Override

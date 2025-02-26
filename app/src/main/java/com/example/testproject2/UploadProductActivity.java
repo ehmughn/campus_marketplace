@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -81,6 +82,7 @@ public class UploadProductActivity extends AppCompatActivity {
     private View dialogPleaseWaitView;
     private AlertDialog.Builder builderDialogPleaseWait;
     private AlertDialog dialogPleaseWait;
+    private TextView dialogPleaseWait_textView_progress;
     private LayoutInflater inflaterFinishedUploadingProducts;
     private View dialogFinishedUploadingProductsView;
     private AlertDialog.Builder builderDialogFinishedUploadingProducts;
@@ -186,6 +188,7 @@ public class UploadProductActivity extends AppCompatActivity {
         builderDialogPleaseWait.setView(dialogPleaseWaitView).setCancelable(false);
         dialogPleaseWait = builderDialogPleaseWait.create();
         dialogPleaseWait.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogPleaseWait_textView_progress = dialogPleaseWaitView.findViewById(R.id.dialogPleaseWait_textView_progress);
 
         inflaterFinishedUploadingProducts = getLayoutInflater();
         dialogFinishedUploadingProductsView = inflaterFinishedUploadingProducts.inflate(R.layout.dialog_finished_uploading_products, null);
@@ -221,6 +224,7 @@ public class UploadProductActivity extends AppCompatActivity {
 
     private void uploadProduct() {
         dialogPleaseWait.show();
+        dialogPleaseWait_textView_progress.setText("Uploading base product.");
         String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/upload_product.php";
 
         RequestBody body = new FormBody.Builder()
@@ -244,8 +248,7 @@ public class UploadProductActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (response.isSuccessful() && responseData.contains("success")) {
-                                Toast.makeText(UploadProductActivity.this, "Uploaded the product" + responseData, Toast.LENGTH_SHORT).show();
-                                uploadVariants1();
+                                prepareUploadVariants();
                             } else {
                                 Toast.makeText(UploadProductActivity.this, "Product Upload Failed" + responseData, Toast.LENGTH_SHORT).show();
                                 dialogPleaseWait.dismiss();
@@ -265,7 +268,8 @@ public class UploadProductActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void uploadVariants1() {
+    private void prepareUploadVariants() {
+        runOnUiThread(() -> dialogPleaseWait_textView_progress.setText("Getting ready to upload the variants."));
         String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/get_latest_product.php";
 
         Request request = new Request.Builder()
@@ -286,8 +290,7 @@ public class UploadProductActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonResponse = new JSONObject(responseData);
                         JSONObject data = jsonResponse.getJSONObject("data");
-                        runOnUiThread(() -> Toast.makeText(UploadProductActivity.this, "Obtained the product_id", Toast.LENGTH_SHORT).show());
-                        uploadVariants2(data.getInt("product_id"), 0);
+                        uploadVariants(data.getInt("product_id"), 0);
                     } catch (Exception e) {
                         runOnUiThread(() -> Toast.makeText(UploadProductActivity.this, "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                         dialogPleaseWait.dismiss();
@@ -301,7 +304,8 @@ public class UploadProductActivity extends AppCompatActivity {
         });
     }
 
-    private void uploadVariants2(int product_id, int reccursion) {
+    private void uploadVariants(int product_id, int reccursion) {
+        runOnUiThread(() -> dialogPleaseWait_textView_progress.setText("Uploading variant " + (reccursion + 1) + " / " + variations.size()  + "."));
         String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/upload_variation.php";
 
         if(reccursion == variations.size()) {
@@ -343,8 +347,7 @@ public class UploadProductActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (response.isSuccessful() && responseData.contains("success")) {
-                                Toast.makeText(UploadProductActivity.this, "Variation Upload Success " + reccursion, Toast.LENGTH_SHORT).show();
-                                uploadVariants2(product_id, reccursion + 1);
+                                uploadVariants(product_id, reccursion + 1);
                             } else {
                                 Toast.makeText(UploadProductActivity.this, "Variation Upload Failed: " + responseData, Toast.LENGTH_SHORT).show();
                                 dialogPleaseWait.dismiss();
