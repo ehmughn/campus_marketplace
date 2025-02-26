@@ -51,8 +51,8 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         holder.textView_price.setText("₱" + post.getDisplayPrice());
         holder.textView_title.setText(post.getTitle());
         holder.textView_description.setText(post.getDescription());
-        holder.textView_sellerName.setText(TemporaryAccountList.getAccount(post.getProduct().getSeller_id()).getName());
-        holder.imageView_profilePicture.setImageResource(TemporaryAccountList.getAccount(post.getProduct().getSeller_id()).getImage());
+        holder.textView_sellerName.setText(TemporaryAccountList.getAccount(post.getProduct().getAccount().getId()).getName());
+        holder.imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getAccount().getImage()));
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +64,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                 ShowCurrentPost.setDescription(post.getDescription());
                 ShowCurrentPost.setStockCount(post.getDisplayStock());
                 ShowCurrentPost.setReviews(post.getReviews());
-                ShowCurrentPost.setSeller_id(post.getProduct().getSeller_id());
+                ShowCurrentPost.setSeller_id(post.getProduct().getAccount().getId());
             }
         });
     }

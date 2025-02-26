@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.adapters.ChooseProductsProductAdapter;
+import com.example.objects.Account;
 import com.example.objects.Product;
 import com.example.objects.Variation;
 import com.example.static_classes.CategoryEncoder;
@@ -55,7 +56,7 @@ public class PublishPostActivity extends AppCompatActivity {
             .connectTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
-            .build();;
+            .build();
     private ChooseProductsProductAdapter chooseProductsAdapter;
     private RecyclerView recyclerView_chooseProduct;
     private Button button_cancel;
@@ -229,7 +230,7 @@ public class PublishPostActivity extends AppCompatActivity {
                                         lastProductId,
                                         lastProductName,
                                         lastCategory,
-                                        CurrentAccount.getAccount().getId(),
+                                        CurrentAccount.getAccount(),
                                         variations));
                                 variations = new ArrayList<>();
                             }
@@ -248,7 +249,7 @@ public class PublishPostActivity extends AppCompatActivity {
                                     lastProductId,
                                     lastProductName,
                                     lastCategory,
-                                    CurrentAccount.getAccount().getId(),
+                                    CurrentAccount.getAccount(),
                                     variations
                             ));
                         }

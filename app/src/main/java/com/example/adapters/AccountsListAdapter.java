@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.objects.Account;
+import com.example.static_classes.EncodeImage;
 import com.example.static_classes.ShowCurrentProfile;
 import com.example.testproject2.R;
 import com.example.testproject2.VisitProfileActivity;
@@ -38,38 +39,38 @@ public class AccountsListAdapter extends RecyclerView.Adapter<AccountsListAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Account account = accounts.get(position);
-        holder.imageView_profilePicture.setImageResource(account.getImage());
-        holder.textView_name.setText(account.getName());
-        if(account.isFollowed()) {
-            holder.button_follow.setVisibility(View.INVISIBLE);
-            holder.button_unfollow.setVisibility(View.VISIBLE);
-        }
-        else {
-            holder.button_follow.setVisibility(View.VISIBLE);
-            holder.button_unfollow.setVisibility(View.INVISIBLE);
-        }
-        holder.button_follow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                account.setFollowed(true);
-                notifyDataSetChanged();
-            }
-        });
-        holder.button_unfollow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                account.setFollowed(false);
-                notifyDataSetChanged();
-            }
-        });
-        holder.layout_account.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShowCurrentProfile.setAccount(account.getId());
-                Intent intent = new Intent(context, VisitProfileActivity.class);
-                context.startActivity(intent);
-            }
-        });
+//        holder.imageView_profilePicture.setImageResource(EncodeImageaccount.getImage());
+//        holder.textView_name.setText(account.getName());
+//        if(account.isFollowed()) {
+//            holder.button_follow.setVisibility(View.INVISIBLE);
+//            holder.button_unfollow.setVisibility(View.VISIBLE);
+//        }
+//        else {
+//            holder.button_follow.setVisibility(View.VISIBLE);
+//            holder.button_unfollow.setVisibility(View.INVISIBLE);
+//        }
+//        holder.button_follow.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                account.setFollowed(true);
+//                notifyDataSetChanged();
+//            }
+//        });
+//        holder.button_unfollow.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                account.setFollowed(false);
+//                notifyDataSetChanged();
+//            }
+//        });
+//        holder.layout_account.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ShowCurrentProfile.setAccount(account.getId());
+//                Intent intent = new Intent(context, VisitProfileActivity.class);
+//                context.startActivity(intent);
+//            }
+//        });
     }
 
     @Override

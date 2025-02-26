@@ -146,7 +146,7 @@ public class PostActivity extends AppCompatActivity {
         textView_title.setText(ShowCurrentPost.getTitle());
         textView_price.setText("₱" + ShowCurrentPost.getPrice());
         textView_description.setText(ShowCurrentPost.getDescription());
-        imageView_profilePicture.setImageResource(TemporaryAccountList.getAccount(ShowCurrentPost.getSeller_id()).getImage());
+        imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(TemporaryAccountList.getAccount(ShowCurrentPost.getSeller_id()).getImage()));
         textView_sellerName.setText(TemporaryAccountList.getAccount(ShowCurrentPost.getSeller_id()).getName());
         adapter_postReview = new PostReviewAdapter(this, ShowCurrentPost.getReviews());
         recyclerView_reviews.setLayoutManager(new LinearLayoutManager(this));

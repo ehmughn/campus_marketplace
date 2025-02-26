@@ -51,7 +51,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
                 ShowCurrentPost.setDescription(post.getDescription());
                 ShowCurrentPost.setStockCount(post.getDisplayStock());
                 ShowCurrentPost.setReviews(post.getReviews());
-                ShowCurrentPost.setSeller_id(post.getProduct().getSeller_id());
+                ShowCurrentPost.setSeller_id(post.getProduct().getAccount().getId());
             }
         });
     }

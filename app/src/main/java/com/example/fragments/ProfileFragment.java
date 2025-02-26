@@ -21,6 +21,7 @@ import com.example.adapters.HomePostsAdapter;
 import com.example.objects.Post;
 import com.example.objects.Reviews;
 import com.example.static_classes.CurrentAccount;
+import com.example.static_classes.EncodeImage;
 import com.example.temporary_values.TemporaryAccountList;
 import com.example.temporary_values.TemporaryPostList;
 import com.example.testproject2.FollowersFollowingListActivity;
@@ -78,7 +79,7 @@ public class ProfileFragment extends Fragment {
         profilePosts = new ArrayList<>();
 
         for(int i = 0; i < TemporaryPostList.size(); i++) {
-            if(TemporaryPostList.getPost(i).getProduct().getSeller_id() == CurrentAccount.getAccount().getId())
+            if(TemporaryPostList.getPost(i).getProduct().getAccount().getId() == CurrentAccount.getAccount().getId())
                 profilePosts.add(TemporaryPostList.getPost(i));
         }
 
@@ -137,7 +138,7 @@ public class ProfileFragment extends Fragment {
             }
         });
         imageView_profilePicture = view.findViewById(R.id.profile_imageView_profilePicture);
-        imageView_profilePicture.setImageResource(CurrentAccount.getAccount().getImage());
+        imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(CurrentAccount.getAccount().getImage()));
         textView_name = view.findViewById(R.id.profile_textView_name);
         textView_name.setText(CurrentAccount.getAccount().getName());
         textView_bio = view.findViewById(R.id.profile_textView_bio);
@@ -146,11 +147,12 @@ public class ProfileFragment extends Fragment {
         textView_followersCount.setText(Integer.toString(TemporaryAccountList.size() - 1));
         textView_followingCount = view.findViewById(R.id.profile_textView_following);
         int followingCount = 0;
-        for(int i = 0; i < TemporaryAccountList.size(); i++) {
-            if(TemporaryAccountList.getAccount(i).isFollowed() && i != CurrentAccount.getAccount().getId()) {
-                followingCount++;
-            }
-        }
+//        for(int i = 0; i < TemporaryAccountList.size(); i++) {
+//            if(TemporaryAccountList.getAccount(i).isFollowed() && i != CurrentAccount.getAccount().getId()) {
+//                followingCount++;
+//            }
+//        }
+
         textView_followingCount.setText(Integer.toString(followingCount));
         textView_likesCount = view.findViewById(R.id.profile_textView_likes);
     }

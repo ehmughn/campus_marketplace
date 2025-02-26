@@ -81,11 +81,11 @@ public class FollowersFollowingListActivity extends AppCompatActivity {
         recyclerView_following = findViewById(R.id.followersFollowing_recyclerView_followingAccountsList);
         recyclerView_following.setLayoutManager(new LinearLayoutManager(this));
         accounts_following = new ArrayList<>();
-        for(int i = 0; i < TemporaryAccountList.size(); i++) {
-            if(TemporaryAccountList.getAccount(i).isFollowed() && i != CurrentAccount.getAccount().getId()) {
-                accounts_following.add(TemporaryAccountList.getAccount(i));
-            }
-        }
+//        for(int i = 0; i < TemporaryAccountList.size(); i++) {
+//            if(TemporaryAccountList.getAccount(i).isFollowed() && i != CurrentAccount.getAccount().getId()) {
+//                accounts_following.add(TemporaryAccountList.getAccount(i));
+//            }
+//        }
         adapter_following = new AccountsListAdapter(this, accounts_following);
         recyclerView_following.setAdapter(adapter_following);
         Bundle extras = getIntent().getExtras();

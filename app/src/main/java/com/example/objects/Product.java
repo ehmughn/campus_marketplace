@@ -7,14 +7,14 @@ public class Product {
     private int id;
     private String name;
     private String category;
-    private int seller_id;
+    private Account account;
     private ArrayList<Variation> variations;
 
-    public Product (int id, String name, String category, int seller_id, ArrayList<Variation> variations) {
+    public Product (int id, String name, String category, Account account, ArrayList<Variation> variations) {
         this.id = id;
         this.name = name;
         this.category = category;
-        this.seller_id = seller_id;
+        this.account = account;
         this.variations = variations;
     }
 
@@ -42,12 +42,12 @@ public class Product {
         this.id = id;
     }
 
-    public int getSeller_id() {
-        return seller_id;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setSeller_id(int seller_id) {
-        this.seller_id = seller_id;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public ArrayList<Variation> getVariations() {

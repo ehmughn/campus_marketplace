@@ -2,25 +2,23 @@ package com.example.objects;
 
 public class Account {
     private int id;
-    private int image;
+    private String image;
     private String name;
     private String bio;
     private String blobImage;
-    private boolean followed;
 
-    public Account(int id, int image, String name, String bio, boolean followed) {
+    public Account(int id, String image, String name, String bio) {
         this.id = id;
         this.image = image;
         this.name = name;
         this.bio = bio;
-        this.followed = followed;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -30,14 +28,6 @@ public class Account {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public boolean isFollowed() {
-        return followed;
-    }
-
-    public void setFollowed(boolean followed) {
-        this.followed = followed;
     }
 
     public int getId() {

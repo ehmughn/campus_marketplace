@@ -53,7 +53,7 @@ public class CartItemsAdapter extends RecyclerView.Adapter<CartItemsAdapter.View
                 ShowCurrentPost.setDescription(item.getDescription());
                 ShowCurrentPost.setStockCount(item.getDisplayStock());
                 ShowCurrentPost.setReviews(item.getReviews());
-                ShowCurrentPost.setSeller_id(item.getProduct().getSeller_id());
+                ShowCurrentPost.setSeller_id(item.getProduct().getAccount().getId());
             }
         });
     }

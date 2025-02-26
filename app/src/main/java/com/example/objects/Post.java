@@ -9,7 +9,8 @@ public class Post {
     private Product product;
     private ArrayList<Reviews> reviews;
 
-    public Post(String title, String description, Product product, ArrayList<Reviews> reviews) {
+    public Post(int id, String title, String description, Product product, ArrayList<Reviews> reviews) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.product = product;

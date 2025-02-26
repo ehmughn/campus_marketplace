@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.objects.Account;
 import com.example.static_classes.CurrentAccount;
 import com.example.static_classes.DatabaseConnectionData;
+import com.example.static_classes.EncodeImage;
 import com.example.static_classes.RegisterInfoHolder;
 
 import org.json.JSONObject;
@@ -140,10 +141,9 @@ public class SignInActivity extends AppCompatActivity {
             JSONObject data = jsonResponse.getJSONObject("data");
             CurrentAccount.setAccount(new Account(
                     data.getInt("user_id"),
-                    R.drawable.no_profile_image,
+                    EncodeImage.encodeFromDrawable(getResources(), R.drawable.no_profile_image),
                     data.getString("first_name") + " " + data.getString("last_name"),
-                    data.getString("bio"),
-                    false));
+                    data.getString("bio")));
             CurrentAccount.getAccount().setBlobImage(data.getString("profile_image"));
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
