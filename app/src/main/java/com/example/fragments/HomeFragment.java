@@ -69,14 +69,16 @@ public class HomeFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
 
+        LinearLayoutManager postsLayoutManager = new LinearLayoutManager(getContext());
+        postsLayoutManager.setStackFromEnd(false);
         recyclerView_posts = view.findViewById(R.id.recyclerView_home_posts);
-        recyclerView_posts.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView_posts.setLayoutManager(postsLayoutManager);
         homePosts = new ArrayList<>();
 
 //        for(int i = 0; i < TemporaryPostList.size(); i++) {
 //            homePosts.add(TemporaryPostList.getPost(i));
 //        }
-        adapter_posts = new HomePostsAdapter(getContext(), homePosts);
+        adapter_posts = new HomePostsAdapter(getContext(), getActivity(), homePosts);
         recyclerView_posts.setAdapter(adapter_posts);
 
         recyclerView_categories = view.findViewById(R.id.recyclerView_home_categories);
@@ -145,7 +147,7 @@ public class HomeFragment extends Fragment {
             //finish
             return;
         }
-        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/select_post_home.php?post_number=" + reccursion;
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/select_post_home.php?post_number=" + reccursion + "&current_user=" + CurrentAccount.getAccount().getId();
 
         Request request = new Request.Builder()
                 .url(url)
@@ -188,8 +190,10 @@ public class HomeFragment extends Fragment {
                                         singleVariation
                                 ),
                                 jsonObject.getInt("like_count"),
+                                (jsonObject.getInt("liked_by_current_user") == 1),
                                 example_reviews
                         );
+
                         requireActivity().runOnUiThread(() -> {
                             homePosts.add(post);
                             adapter_posts.notifyDataSetChanged();

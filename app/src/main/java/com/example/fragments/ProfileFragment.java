@@ -83,7 +83,7 @@ public class ProfileFragment extends Fragment {
 //                profilePosts.add(TemporaryPostList.getPost(i));
 //        }
 
-        adapter_posts = new HomePostsAdapter(getContext(), profilePosts);
+        adapter_posts = new HomePostsAdapter(getContext(), getActivity(), profilePosts);
         recyclerView_uploads.setAdapter(adapter_posts);
 
 

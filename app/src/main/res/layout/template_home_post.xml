@@ -37,10 +37,10 @@
             <TextView
                 android:id="@+id/homePost_textView_seller_name"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_bold"
-                android:textSize="20sp"
-                android:text="Unknown Seller Name"/>
+                android:text="Unknown Seller Name"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/homePost_textView_seller"
@@ -78,6 +78,18 @@
 
         </androidx.cardview.widget.CardView>
 
+        <TextView
+            android:id="@+id/homePost_textView_likeCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="4dp"
+            android:textSize="12sp"
+            android:text="0 liked this post."
+            android:textColor="@color/main_blue"
+            android:textStyle="bold"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,17 +103,6 @@
                 android:src="@drawable/heart_hollow"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"/>
-
-            <TextView
-                android:id="@+id/homePost_textView_likeCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="5dp"
-                android:textSize="15sp"
-                android:text="00"
-                android:textColor="@color/main_yellow"
-                android:textStyle="bold"/>
 
             <ImageView
                 android:id="@+id/homePost_imageView_message"

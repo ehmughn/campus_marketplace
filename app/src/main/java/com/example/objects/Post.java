@@ -8,14 +8,16 @@ public class Post {
     private String description;
     private Product product;
     private int likeCount;
+    private boolean likedByCurrentUser;
     private ArrayList<Reviews> reviews;
 
-    public Post(int id, String title, String description, Product product, int likeCount, ArrayList<Reviews> reviews) {
+    public Post(int id, String title, String description, Product product, int likeCount, boolean likedByCurrentUser, ArrayList<Reviews> reviews) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.product = product;
         this.likeCount = likeCount;
+        this.likedByCurrentUser = likedByCurrentUser;
         this.reviews = reviews;
     }
 
@@ -66,5 +68,13 @@ public class Post {
 
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public boolean isLikedByCurrentUser() {
+        return likedByCurrentUser;
+    }
+
+    public void setLikedByCurrentUser(boolean likedByCurrentUser) {
+        this.likedByCurrentUser = likedByCurrentUser;
     }
 }
