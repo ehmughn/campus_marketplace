@@ -80,7 +80,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout_post for this fragment
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
@@ -104,7 +104,6 @@ public class ProfileFragment extends Fragment {
         adapter_likes = new HomePostsAdapter(getContext(), getActivity(), likedPosts);
         recyclerView_uploads.setAdapter(adapter_posts);
         recyclerView_likes.setAdapter(adapter_likes);
-
 
         textView_uploads = view.findViewById(R.id.text_uploads);
         textView_uploads.setOnClickListener(new View.OnClickListener() {

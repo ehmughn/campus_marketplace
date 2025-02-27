@@ -20,6 +20,7 @@ import com.example.static_classes.Decimals;
 import com.example.static_classes.EncodeImage;
 import com.example.testproject2.PostActivity;
 import com.example.testproject2.R;
+import com.example.testproject2.VisitProfileActivity;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -63,11 +64,19 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         holder.textView_variantName.setText("Variant: " + post.getProduct().getVariations().get(0).getName());
         holder.textView_sellerName.setText(post.getProduct().getAccount().getName());
         holder.imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getAccount().getImage()));
-        holder.layout.setOnClickListener(new View.OnClickListener() {
+        holder.layout_post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PostActivity.class);
                 intent.putExtra("postId", post.getId());
+                context.startActivity(intent);
+            }
+        });
+        holder.layout_seller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, VisitProfileActivity.class);
+                intent.putExtra("userId", post.getProduct().getAccount().getId());
                 context.startActivity(intent);
             }
         });
@@ -185,7 +194,8 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public LinearLayout layout;
+        public LinearLayout layout_seller;
+        public LinearLayout layout_post;
         public ImageView imageView_image;
         public TextView textView_price;
         public TextView textView_title;
@@ -198,7 +208,8 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
 
         public ViewHolder(View postView) {
             super(postView);
-            layout = postView.findViewById(R.id.homePost_layout);
+            layout_seller = postView.findViewById(R.id.homePost_layout_seller);
+            layout_post = postView.findViewById(R.id.homePost_layout_post);
             imageView_image = postView.findViewById(R.id.homePost_imageView_product_image);
             textView_price = postView.findViewById(R.id.homePost_textView_price);
             textView_title = postView.findViewById(R.id.homePost_textView_title);
