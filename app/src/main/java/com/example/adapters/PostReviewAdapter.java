@@ -25,11 +25,13 @@ import java.util.ArrayList;
 public class PostReviewAdapter extends RecyclerView.Adapter<PostReviewAdapter.ViewHolder> {
 
     private Context context;
+    private Post post;
 
     private ArrayList<Reviews> reviews;
 
-    public PostReviewAdapter(Context context, ArrayList<Reviews> reviews) {
+    public PostReviewAdapter(Context context, Post post, ArrayList<Reviews> reviews) {
         this.context = context;
+        this.post = post;
         this.reviews = reviews;
     }
     @Override
@@ -81,8 +83,8 @@ public class PostReviewAdapter extends RecyclerView.Adapter<PostReviewAdapter.Vi
         }
         holder.textView_variation.setText("Variation: " + review.getVariation());
         holder.textView_comment.setText(review.getComment());
-        holder.imageView_picture1.setImageBitmap(EncodeImage.decodeFromStringBlob(ShowCurrentPost.getImage()));
-        holder.imageView_picture2.setImageBitmap(EncodeImage.decodeFromStringBlob(ShowCurrentPost.getImage()));
+        holder.imageView_picture1.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
+        holder.imageView_picture2.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
         holder.textView_helpful.setText("Helpful(" + review.getHelpful_likes() + ")");
     }
 

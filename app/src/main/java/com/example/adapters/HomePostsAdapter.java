@@ -68,14 +68,8 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PostActivity.class);
+                intent.putExtra("postId", post.getId());
                 context.startActivity(intent);
-                ShowCurrentPost.setImage(post.getProduct().getVariations().get(0).getImage());
-                ShowCurrentPost.setPrice(post.getDisplayPrice());
-                ShowCurrentPost.setTitle(post.getTitle());
-                ShowCurrentPost.setDescription(post.getDescription());
-                ShowCurrentPost.setStockCount(post.getDisplayStock());
-                ShowCurrentPost.setReviews(post.getReviews());
-                ShowCurrentPost.setSeller_id(post.getProduct().getAccount().getId());
             }
         });
         if(post.isLikedByCurrentUser())

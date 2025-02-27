@@ -74,10 +74,6 @@ public class HomeFragment extends Fragment {
         recyclerView_posts = view.findViewById(R.id.recyclerView_home_posts);
         recyclerView_posts.setLayoutManager(postsLayoutManager);
         homePosts = new ArrayList<>();
-
-//        for(int i = 0; i < TemporaryPostList.size(); i++) {
-//            homePosts.add(TemporaryPostList.getPost(i));
-//        }
         adapter_posts = new HomePostsAdapter(getContext(), getActivity(), homePosts);
         recyclerView_posts.setAdapter(adapter_posts);
 

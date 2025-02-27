@@ -1,12 +1,10 @@
 package com.example.testproject2;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,7 +13,6 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -23,14 +20,31 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.adapters.PostReviewAdapter;
+import com.example.objects.Account;
+import com.example.objects.Post;
+import com.example.objects.Product;
 import com.example.objects.Reviews;
+import com.example.objects.Variation;
+import com.example.static_classes.CurrentAccount;
+import com.example.static_classes.DatabaseConnectionData;
+import com.example.static_classes.Decimals;
 import com.example.static_classes.EncodeImage;
 import com.example.static_classes.ShowCurrentPost;
 import com.example.static_classes.ShowCurrentProfile;
-import com.example.temporary_values.TemporaryAccountList;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -57,6 +71,13 @@ public class PostActivity extends AppCompatActivity {
     private CardView bottomSheet_cardView_stockIncrement;
     private TextView bottomSheet_textView_productStockSelected;
     private CardView bottomSheet_cardView_stockDecrement;
+    private OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .build();
+    private ArrayList<Reviews> example_reviews;
+    private Post post;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,10 +138,10 @@ public class PostActivity extends AppCompatActivity {
                 bottomSheet_cardView_stockDecrement = view_addToCartBuy.findViewById(R.id.addtocartbuy_cardView_stockDecrement);
                 bottomSheet_textView_productStockSelected = view_addToCartBuy.findViewById(R.id.addtocartbuy_textView_productStockSelected);
                 bottomSheet_cardView_stockIncrement = view_addToCartBuy.findViewById(R.id.addtocartbuy_cardView_stockIncrement);
-                bottomSheet_textView_productName.setText(ShowCurrentPost.getTitle());
-                bottomSheet_imageView_productImage.setImageBitmap(EncodeImage.decodeFromStringBlob(ShowCurrentPost.getImage()));
-                bottomSheet_textView_productPrice.setText("₱" + ShowCurrentPost.getPrice());
-                bottomSheet_textView_productStockAvailable.setText("Stocks: " + ShowCurrentPost.getStockCount());
+                bottomSheet_textView_productName.setText(post.getProduct().getName());
+                bottomSheet_imageView_productImage.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
+                bottomSheet_textView_productPrice.setText("₱" + Decimals.FORMAT_PRICE.format(post.getProduct().getVariations().get(0).getPrice()));
+                bottomSheet_textView_productStockAvailable.setText("Stocks: " + post.getProduct().getVariations().get(0).getStock());
                 bottomSheet_cardView_stockDecrement.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -138,19 +159,160 @@ public class PostActivity extends AppCompatActivity {
                 });
             }
         });
-        setValues();
+        example_reviews = new ArrayList<>();
+        example_reviews.add(new Reviews());
+        example_reviews.add(new Reviews());
+        example_reviews.add(new Reviews());
+        example_reviews.add(new Reviews());
+        int postId = getIntent().getIntExtra("postId", 0);
+        getProductData(postId);
+    }
+
+    private void getProductData(int postId) {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/post_select_product.php?post_id=" + postId + "&current_user=" + CurrentAccount.getAccount().getId();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> Toast.makeText(PostActivity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    try {
+                        JSONArray responseArray = new JSONArray(responseData);
+                        JSONObject jsonObject = responseArray.getJSONObject(0);
+                        ArrayList<Variation> variations = new ArrayList<>();
+                        post = new Post(
+                                jsonObject.getInt("post_id"),
+                                jsonObject.getString("title"),
+                                jsonObject.getString("description"),
+                                new Product(
+                                        jsonObject.getInt("product_id"),
+                                        jsonObject.getString("product_name"),
+                                        jsonObject.getString("category"),
+                                        new Account(
+                                                jsonObject.getInt("seller_id"),
+                                                jsonObject.getString("seller_image"),
+                                                jsonObject.getString("seller_name"),
+                                                "not needed"
+                                        ),
+                                        variations
+                                ),
+                                jsonObject.getInt("like_count"),
+                                (jsonObject.getInt("liked_by_current_user") == 1),
+                                example_reviews
+                        );
+                        // get the variations
+                        getVariationsCount();
+                    } catch (Exception e) {
+                        runOnUiThread(() -> Toast.makeText(PostActivity.this, "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                }
+                else {
+                    runOnUiThread(() -> Toast.makeText(PostActivity.this, "Network error", Toast.LENGTH_SHORT).show());
+                }
+            }
+        });
+    }
+
+    private void getVariationsCount() {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/get_variant_count.php?product_id=" + post.getProduct().getId();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> Toast.makeText(PostActivity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    try {
+                        JSONObject jsonResponse = new JSONObject(responseData);
+                        int totalVariants = jsonResponse.getInt("total_variants");
+                        getVariations(0, totalVariants);
+
+                    } catch (Exception e) {
+                        runOnUiThread(() -> Toast.makeText(PostActivity.this, "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                }
+                else {
+                    runOnUiThread(() -> Toast.makeText(PostActivity.this, "Network error", Toast.LENGTH_SHORT).show());
+                }
+            }
+        });
+    }
+
+    private void getVariations(int recursion, int end) {
+        if(recursion == end) {
+            setValues();
+            return;
+        }
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/post_select_variant.php?product_id=" + post.getProduct().getId() + "&variant_number=" + recursion;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> Toast.makeText(PostActivity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    try {
+                        JSONArray responseArray = new JSONArray(responseData);
+                        JSONObject jsonObject = responseArray.getJSONObject(0);
+                        post.getProduct().getVariations().add(new Variation(
+                                jsonObject.getString("variant_name"),
+                                jsonObject.getDouble("variant_cost"),
+                                jsonObject.getInt("variant_stock"),
+                                jsonObject.getString("variant_image")
+                        ));
+                        getVariations(recursion + 1, end);
+
+                    } catch (Exception e) {
+                        runOnUiThread(() -> Toast.makeText(PostActivity.this, "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                }
+                else {
+                    runOnUiThread(() -> Toast.makeText(PostActivity.this, "Network error", Toast.LENGTH_SHORT).show());
+                }
+            }
+        });
     }
 
     private void setValues() {
-        imageView_image.setImageBitmap(EncodeImage.decodeFromStringBlob(ShowCurrentPost.getImage()));
-        textView_title.setText(ShowCurrentPost.getTitle());
-        textView_price.setText("₱" + ShowCurrentPost.getPrice());
-        textView_description.setText(ShowCurrentPost.getDescription());
-        imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(TemporaryAccountList.getAccount(ShowCurrentPost.getSeller_id()).getImage()));
-        textView_sellerName.setText(TemporaryAccountList.getAccount(ShowCurrentPost.getSeller_id()).getName());
-        adapter_postReview = new PostReviewAdapter(this, ShowCurrentPost.getReviews());
-        recyclerView_reviews.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView_reviews.setAdapter(adapter_postReview);
+        runOnUiThread(() -> {
+            Toast.makeText(PostActivity.this, "Retrieved all the data", Toast.LENGTH_SHORT).show();
+            imageView_image.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
+            textView_title.setText(post.getProduct().getVariations().get(0).getName());
+            textView_price.setText("₱" + Decimals.FORMAT_PRICE.format(post.getProduct().getVariations().get(0).getPrice()));
+            textView_description.setText(post.getDescription());
+            imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getAccount().getImage()));
+            textView_sellerName.setText(post.getProduct().getAccount().getName());
+            adapter_postReview = new PostReviewAdapter(this, post, example_reviews);
+            recyclerView_reviews.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView_reviews.setAdapter(adapter_postReview);
+        });
+//        imageView_image.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
+//        textView_title.setText(post.getProduct().getVariations().get(0).getName());
     }
 
     private void toDetails() {
