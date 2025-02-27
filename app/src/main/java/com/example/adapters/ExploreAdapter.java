@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.objects.Post;
+import com.example.objects.Variation;
+import com.example.objects.VariationForExploreFragment;
 import com.example.static_classes.EncodeImage;
 import com.example.temporary_values.TemporaryAccountList;
 import com.example.testproject2.PostActivity;
@@ -23,11 +25,11 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
 
     private Context context;
 
-    private ArrayList<Post> posts;
+    private ArrayList<VariationForExploreFragment> variations;
 
-    public ExploreAdapter(Context context, ArrayList<Post> posts) {
+    public ExploreAdapter(Context context, ArrayList<VariationForExploreFragment> variations) {
         this.context = context;
-        this.posts = posts;
+        this.variations = variations;
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -37,12 +39,13 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Post post = posts.get(position);
-        holder.imageView_image.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
+        VariationForExploreFragment variation = variations.get(position);
+        holder.imageView_image.setImageBitmap(EncodeImage.decodeFromStringBlob(variation.getImage()));
         holder.imageView_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PostActivity.class);
+                intent.putExtra("postId", variation.getId());
                 context.startActivity(intent);
             }
         });
@@ -50,7 +53,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return posts.size();
+        return variations.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
