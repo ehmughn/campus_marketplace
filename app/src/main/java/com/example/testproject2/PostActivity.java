@@ -32,8 +32,6 @@ import com.example.static_classes.CurrentAccount;
 import com.example.static_classes.DatabaseConnectionData;
 import com.example.static_classes.Decimals;
 import com.example.static_classes.EncodeImage;
-import com.example.static_classes.ShowCurrentPost;
-import com.example.static_classes.ShowCurrentProfile;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -156,7 +154,7 @@ public class PostActivity extends AppCompatActivity {
                 bottomSheet_cardView_stockIncrement.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(Integer.parseInt(bottomSheet_textView_productStockSelected.getText().toString()) < ShowCurrentPost.getStockCount())
+                        if(Integer.parseInt(bottomSheet_textView_productStockSelected.getText().toString()) < post.getProduct().getVariations().get(0).getStock())
                             bottomSheet_textView_productStockSelected.setText(Integer.toString(Integer.parseInt(bottomSheet_textView_productStockSelected.getText().toString()) + 1));
                     }
                 });

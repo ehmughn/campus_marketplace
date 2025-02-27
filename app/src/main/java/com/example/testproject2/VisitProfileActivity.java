@@ -11,7 +11,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.static_classes.EncodeImage;
-import com.example.static_classes.ShowCurrentProfile;
 
 public class VisitProfileActivity extends AppCompatActivity {
 
@@ -33,9 +32,9 @@ public class VisitProfileActivity extends AppCompatActivity {
         textView_name = findViewById(R.id.visitProfile_textView_name);
         textView_bio = findViewById(R.id.visitProfile_textView_bio);
 
-        imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(ShowCurrentProfile.getAccount().getImage()));
-        textView_name.setText(ShowCurrentProfile.getAccount().getName());
-        textView_bio.setText(ShowCurrentProfile.getAccount().getBio());
+//        imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(ShowCurrentProfile.getAccount().getImage()));
+//        textView_name.setText(ShowCurrentProfile.getAccount().getName());
+//        textView_bio.setText(ShowCurrentProfile.getAccount().getBio());
 
     }
 }

@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -207,7 +207,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
-                        android:onClick="toUpload"
                         android:layout_margin="8dp"
                         android:text="Upload"
                         android:textColor="@color/text_blue"
@@ -248,7 +247,8 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="300dp">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/profile_recyclerView_uploads"

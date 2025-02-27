@@ -57,11 +57,19 @@ public class HomeFragment extends Fragment {
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .build();
+    private boolean isFragmentActive = true;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        isFragmentActive = false;
     }
 
     @Override
@@ -139,7 +147,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void loadPosts(int reccursion, int end) {
-        if(reccursion == end) {
+        if(!isFragmentActive || reccursion == end) {
             //finish
             return;
         }
@@ -152,11 +160,15 @@ public class HomeFragment extends Fragment {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                if (!isFragmentActive)
+                    return;
                 requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                if (!isFragmentActive)
+                    return;
                 if (response.isSuccessful()) {
                     String responseData = response.body().string();
                     try {
@@ -191,16 +203,22 @@ public class HomeFragment extends Fragment {
                         );
 
                         requireActivity().runOnUiThread(() -> {
+                            if (!isFragmentActive)
+                                return;
                             homePosts.add(post);
                             adapter_posts.notifyDataSetChanged();
                         });
                         loadPosts(reccursion + 1, end);
 
                     } catch (Exception e) {
+                        if (!isFragmentActive)
+                            return;
                         requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                     }
                 }
                 else {
+                    if (!isFragmentActive)
+                        return;
                     requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show());
                 }
             }

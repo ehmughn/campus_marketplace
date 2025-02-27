@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.objects.Post;
 import com.example.static_classes.EncodeImage;
-import com.example.static_classes.ShowCurrentPost;
 import com.example.temporary_values.TemporaryAccountList;
 import com.example.testproject2.PostActivity;
 import com.example.testproject2.R;
@@ -45,13 +44,6 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
             public void onClick(View v) {
                 Intent intent = new Intent(context, PostActivity.class);
                 context.startActivity(intent);
-                ShowCurrentPost.setImage(post.getProduct().getVariations().get(0).getImage());
-                ShowCurrentPost.setPrice(post.getDisplayPrice());
-                ShowCurrentPost.setTitle(post.getTitle());
-                ShowCurrentPost.setDescription(post.getDescription());
-                ShowCurrentPost.setStockCount(post.getDisplayStock());
-                ShowCurrentPost.setReviews(post.getReviews());
-                ShowCurrentPost.setSeller_id(post.getProduct().getAccount().getId());
             }
         });
     }

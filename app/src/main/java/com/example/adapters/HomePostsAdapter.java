@@ -18,7 +18,6 @@ import com.example.static_classes.CurrentAccount;
 import com.example.static_classes.DatabaseConnectionData;
 import com.example.static_classes.Decimals;
 import com.example.static_classes.EncodeImage;
-import com.example.static_classes.ShowCurrentPost;
 import com.example.testproject2.PostActivity;
 import com.example.testproject2.R;
 

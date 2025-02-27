@@ -32,12 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private FloatingActionButton button_upload;
-    private HomeFragment homeFragment;
-    private ExploreFragment exploreFragment;
-    private UploadFragment uploadFragment;
-    private InboxFragment inboxFragment;
-    private ProfileFragment profileFragment;
-
     private LinearLayout layout_uploadProduct;
     private LinearLayout layout_publishPost;
 
@@ -53,24 +47,19 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        homeFragment = new HomeFragment();
-        exploreFragment = new ExploreFragment();
-        uploadFragment = new UploadFragment();
-        inboxFragment = new InboxFragment();
-        profileFragment = new ProfileFragment();
-        replaceFragment(homeFragment);
+        replaceFragment(new HomeFragment());
         binding.bottomNavigationView.setBackground(null);
         binding.bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(item.getItemId() == R.id.home)
-                    replaceFragment(homeFragment);
+                    replaceFragment(new HomeFragment());
                 else if (item.getItemId() == R.id.explore)
-                    replaceFragment(exploreFragment);
+                    replaceFragment(new ExploreFragment());
                 else if (item.getItemId() == R.id.inbox)
-                    replaceFragment(inboxFragment);
+                    replaceFragment(new InboxFragment());
                 else if (item.getItemId() == R.id.profile)
-                    replaceFragment(profileFragment);
+                    replaceFragment(new ProfileFragment());
                 return true;
             }
         });

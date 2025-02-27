@@ -18,9 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.adapters.HomePostsAdapter;
+import com.example.objects.Account;
 import com.example.objects.Post;
+import com.example.objects.Product;
 import com.example.objects.Reviews;
+import com.example.objects.Variation;
 import com.example.static_classes.CurrentAccount;
+import com.example.static_classes.DatabaseConnectionData;
 import com.example.static_classes.EncodeImage;
 import com.example.temporary_values.TemporaryAccountList;
 import com.example.temporary_values.TemporaryPostList;
@@ -31,7 +35,18 @@ import com.example.testproject2.R;
 import com.example.testproject2.UploadProductActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class ProfileFragment extends Fragment {
 
@@ -53,6 +68,12 @@ public class ProfileFragment extends Fragment {
     public TextView textView_likesCount;
     private LinearLayout layout_uploadProduct;
     private LinearLayout layout_publishPost;
+    private OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .build();
+    private boolean isFragmentActive = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,26 +83,18 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        isFragmentActive = false;
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        example_reviews = new ArrayList<>();
-        example_reviews.add(new Reviews());
-        example_reviews.add(new Reviews());
-        example_reviews.add(new Reviews());
-        example_reviews.add(new Reviews());
-        example_reviews.add(new Reviews());
-        example_reviews.add(new Reviews());
-        example_reviews.add(new Reviews());
 
         recyclerView_uploads = view.findViewById(R.id.profile_recyclerView_uploads);
         recyclerView_uploads.setLayoutManager(new LinearLayoutManager(getContext()));
         profilePosts = new ArrayList<>();
-
-//        for(int i = 0; i < TemporaryPostList.size(); i++) {
-//            if(TemporaryPostList.getPost(i).getProduct().getAccount().getId() == CurrentAccount.getAccount().getId())
-//                profilePosts.add(TemporaryPostList.getPost(i));
-//        }
 
         adapter_posts = new HomePostsAdapter(getContext(), getActivity(), profilePosts);
         recyclerView_uploads.setAdapter(adapter_posts);
@@ -144,17 +157,11 @@ public class ProfileFragment extends Fragment {
         textView_bio = view.findViewById(R.id.profile_textView_bio);
         textView_bio.setText(CurrentAccount.getAccount().getBio());
         textView_followersCount = view.findViewById(R.id.profile_textView_followers);
-        textView_followersCount.setText(Integer.toString(TemporaryAccountList.size() - 1));
+        textView_followersCount.setText(Integer.toString(10));
         textView_followingCount = view.findViewById(R.id.profile_textView_following);
-        int followingCount = 0;
-//        for(int i = 0; i < TemporaryAccountList.size(); i++) {
-//            if(TemporaryAccountList.getAccount(i).isFollowed() && i != CurrentAccount.getAccount().getId()) {
-//                followingCount++;
-//            }
-//        }
-
-        textView_followingCount.setText(Integer.toString(followingCount));
+        textView_followingCount.setText(Integer.toString(20));
         textView_likesCount = view.findViewById(R.id.profile_textView_likes);
+        getPostCount();
     }
 
     public void openUploadOptions() {
@@ -178,6 +185,118 @@ public class ProfileFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), PublishPostActivity.class);
                 startActivity(intent);
                 bottomSheetDialog.dismiss();
+            }
+        });
+    }
+
+    private void getPostCount() {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/get_post_count_by_user.php?current_user=" + CurrentAccount.getAccount().getId();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    try {
+                        JSONObject jsonResponse = new JSONObject(responseData);
+                        int total_post = jsonResponse.getInt("total_post");
+                        loadPosts(0, total_post);
+
+                    } catch (Exception e) {
+                        getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                }
+                else {
+                    getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show());
+                }
+            }
+        });
+    }
+
+    private void loadPosts(int reccursion, int end) {
+        if(!isFragmentActive || reccursion == end) {
+            //finish
+            return;
+        }
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/select_post_profile.php?post_number=" + reccursion + "&current_user=" + CurrentAccount.getAccount().getId();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (!isFragmentActive)
+                    return;
+                requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!isFragmentActive)
+                    return;
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    try {
+                        JSONArray responseArray = new JSONArray(responseData);
+                        JSONObject jsonObject = responseArray.getJSONObject(0);
+                        ArrayList<Variation> singleVariation = new ArrayList<>();
+                        singleVariation.add(new Variation(
+                                jsonObject.getString("variant_name"),
+                                jsonObject.getDouble("variant_cost"),
+                                jsonObject.getInt("variant_stock"),
+                                jsonObject.getString("variant_image")
+                        ));
+                        Post post = new Post(
+                                jsonObject.getInt("post_id"),
+                                jsonObject.getString("title"),
+                                jsonObject.getString("description"),
+                                new Product(
+                                        jsonObject.getInt("product_id"),
+                                        jsonObject.getString("product_name"),
+                                        jsonObject.getString("category"),
+                                        new Account(
+                                                jsonObject.getInt("seller_id"),
+                                                jsonObject.getString("seller_image"),
+                                                jsonObject.getString("seller_name"),
+                                                "not needed"
+                                        ),
+                                        singleVariation
+                                ),
+                                jsonObject.getInt("like_count"),
+                                (jsonObject.getInt("liked_by_current_user") == 1),
+                                example_reviews
+                        );
+
+                        requireActivity().runOnUiThread(() -> {
+                            if (!isFragmentActive)
+                                return;
+                            profilePosts.add(post);
+                            adapter_posts.notifyDataSetChanged();
+                        });
+                        loadPosts(reccursion + 1, end);
+
+                    } catch (Exception e) {
+                        if (!isFragmentActive)
+                            return;
+                        requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                }
+                else {
+                    if (!isFragmentActive)
+                        return;
+                    requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show());
+                }
             }
         });
     }
