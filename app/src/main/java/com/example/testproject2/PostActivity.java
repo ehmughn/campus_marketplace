@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +35,7 @@ import com.example.static_classes.EncodeImage;
 import com.example.static_classes.ShowCurrentPost;
 import com.example.static_classes.ShowCurrentProfile;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,9 +52,11 @@ import okhttp3.Response;
 
 public class PostActivity extends AppCompatActivity {
 
-    private ImageView imageView_image;
+    private ImageView imageView_variantImage;
+    private TextView textView_variantName;
+    private TextView textView_variantPrice;
+    private TextView textView_variantStock;
     private TextView textView_title;
-    private TextView textView_price;
     private TextView textView_description;
     private Button button_detailsPressed;
     private Button button_detailsUnpressed;
@@ -78,6 +84,10 @@ public class PostActivity extends AppCompatActivity {
             .build();
     private ArrayList<Reviews> example_reviews;
     private Post post;
+    private TextInputLayout textField_variantName;
+    private AutoCompleteTextView autoComplete_variantName;
+    private ArrayList<String> variationList;
+    private ArrayAdapter<String> adapterVariationList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +99,11 @@ public class PostActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        imageView_image = findViewById(R.id.post_imageView_image);
+        imageView_variantImage = findViewById(R.id.post_imageView_variantImage);
+        textView_variantName = findViewById(R.id.post_textView_variantName);
+        textView_variantPrice = findViewById(R.id.post_textView_variantPrice);
+        textView_variantStock = findViewById(R.id.post_textView_variantStock);
         textView_title = findViewById(R.id.post_textView_title);
-        textView_price = findViewById(R.id.post_textView_price);
         textView_description = findViewById(R.id.post_textView_description);
         button_detailsUnpressed = findViewById(R.id.post_button_detailsUnpressed);
         button_detailsPressed = findViewById(R.id.post_button_detailsPressed);
@@ -112,17 +124,8 @@ public class PostActivity extends AppCompatActivity {
         layout_details = findViewById(R.id.post_layout_details);
         layout_reviews = findViewById(R.id.post_layout_reviews);
         recyclerView_reviews = findViewById(R.id.post_recyclerView_reviews);
-        imageView_profilePicture = findViewById(R.id.post_imageView_profile_picture);
+        imageView_profilePicture = findViewById(R.id.post_imageView_profilePicture);
         textView_sellerName = findViewById(R.id.post_textView_sellerName);
-        layout_seller = findViewById(R.id.post_layout_seller);
-        layout_seller.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShowCurrentProfile.setAccount(ShowCurrentPost.getSeller_id());
-                Intent intent = new Intent(PostActivity.this, VisitProfileActivity.class);
-                startActivity(intent);
-            }
-        });
         button_addToCart = findViewById(R.id.post_button_addToCart);
         button_addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,6 +169,8 @@ public class PostActivity extends AppCompatActivity {
         example_reviews.add(new Reviews());
         int postId = getIntent().getIntExtra("postId", 0);
         getProductData(postId);
+        textField_variantName = findViewById(R.id.post_textField_variantName);
+        autoComplete_variantName = findViewById(R.id.post_autoComplete_variantName);
     }
 
     private void getProductData(int postId) {
@@ -301,18 +306,34 @@ public class PostActivity extends AppCompatActivity {
     private void setValues() {
         runOnUiThread(() -> {
             Toast.makeText(PostActivity.this, "Retrieved all the data", Toast.LENGTH_SHORT).show();
-            imageView_image.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
-            textView_title.setText(post.getProduct().getVariations().get(0).getName());
-            textView_price.setText("₱" + Decimals.FORMAT_PRICE.format(post.getProduct().getVariations().get(0).getPrice()));
+            imageView_variantImage.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
+            textView_variantName.setText(post.getProduct().getVariations().get(0).getName());
+            textView_variantPrice.setText("₱" + Decimals.FORMAT_PRICE.format(post.getProduct().getVariations().get(0).getPrice()));
+            textView_variantStock.setText("Stock: " + post.getProduct().getVariations().get(0).getStock());
+            textView_title.setText(post.getTitle());
             textView_description.setText(post.getDescription());
             imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getAccount().getImage()));
             textView_sellerName.setText(post.getProduct().getAccount().getName());
             adapter_postReview = new PostReviewAdapter(this, post, example_reviews);
             recyclerView_reviews.setLayoutManager(new LinearLayoutManager(this));
             recyclerView_reviews.setAdapter(adapter_postReview);
+            variationList = new ArrayList<>();
+            for(Variation variation: post.getProduct().getVariations()) {
+                variationList.add(variation.getName());
+            }
+            adapterVariationList = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, variationList);
+            autoComplete_variantName.setAdapter(adapterVariationList);
+            autoComplete_variantName.setText(variationList.get(0), false);
+            autoComplete_variantName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    imageView_variantImage.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(position).getImage()));
+                    textView_variantName.setText(post.getProduct().getVariations().get(position).getName());
+                    textView_variantPrice.setText("₱" + Decimals.FORMAT_PRICE.format(post.getProduct().getVariations().get(position).getPrice()));
+                    textView_variantStock.setText("Stock: " + post.getProduct().getVariations().get(position).getStock());
+                }
+            });
         });
-//        imageView_image.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
-//        textView_title.setText(post.getProduct().getVariations().get(0).getName());
     }
 
     private void toDetails() {

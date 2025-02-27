@@ -201,6 +201,9 @@ public class UploadProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialogFinishedUploadingProducts.dismiss();
+                Intent intent = new Intent(UploadProductActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 finish();
             }
         });
