@@ -19,13 +19,18 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.objects.Account;
+import com.example.objects.Variation;
 import com.example.static_classes.CurrentAccount;
 import com.example.static_classes.DatabaseConnectionData;
 import com.example.static_classes.EncodeImage;
 import com.example.static_classes.RegisterInfoHolder;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -46,7 +51,17 @@ public class Register4Activity extends AppCompatActivity {
     private Button dialog_button_editProfile;
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
-    private OkHttpClient client = new OkHttpClient();
+    private OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .build();
+
+    private LayoutInflater inflaterPleaseWait;
+    private View dialogPleaseWaitView;
+    private AlertDialog.Builder builderDialogPleaseWait;
+    private AlertDialog dialogPleaseWait;
+    private TextView dialogPleaseWait_textView_progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +114,14 @@ public class Register4Activity extends AppCompatActivity {
         builder.setView(dialogView).setCancelable(false);
         dialog = builder.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        inflaterPleaseWait = getLayoutInflater();
+        dialogPleaseWaitView = inflaterPleaseWait.inflate(R.layout.dialog_please_wait, null);
+        builderDialogPleaseWait = new AlertDialog.Builder(this);
+        builderDialogPleaseWait.setView(dialogPleaseWaitView).setCancelable(false);
+        dialogPleaseWait = builderDialogPleaseWait.create();
+        dialogPleaseWait.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogPleaseWait_textView_progress = dialogPleaseWaitView.findViewById(R.id.dialogPleaseWait_textView_progress);
 
     }
 
@@ -157,6 +180,8 @@ public class Register4Activity extends AppCompatActivity {
     }
 
     private void isAlreadyUsed(String username) {
+        dialogPleaseWait.show();
+        dialogPleaseWait_textView_progress.setText("Attempting to register account");
         String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/is_already_used/username.php?username=" + username;
 
         // Build the OkHttp request
@@ -168,6 +193,7 @@ public class Register4Activity extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                dialogPleaseWait.dismiss();
                 runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
 
@@ -176,6 +202,7 @@ public class Register4Activity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     String responseData = response.body().string();
                     if (responseData.equals("username_used")) {
+                        dialogPleaseWait.dismiss();
                         textView_errorMessage.setText("Username already taken.");
                     } else {
                         RegisterInfoHolder.setUsername(username);
@@ -183,6 +210,7 @@ public class Register4Activity extends AppCompatActivity {
                     }
                 }
                 else {
+                    dialogPleaseWait.dismiss();
                     textView_errorMessage.setText("Unexpected Response.");
                 }
             }
@@ -190,6 +218,7 @@ public class Register4Activity extends AppCompatActivity {
     }
 
     private void attemptToInsertRegisteredAccount() {
+        runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Inserting account", Toast.LENGTH_SHORT).show());
         button_next.setClickable(false);
         String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/register.php";
 
@@ -217,9 +246,9 @@ public class Register4Activity extends AppCompatActivity {
                         public void run() {
                             if (response.isSuccessful() && responseData.contains("success")) {
                                 Toast.makeText(Register4Activity.this, "Signup Successful", Toast.LENGTH_SHORT).show();
-                                insertDefaultUserProfileData();
-                                dialog.show();
+                                getRegisteredId();
                             } else {
+                                dialogPleaseWait.dismiss();
                                 Toast.makeText(Register4Activity.this, "Signup Failed", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -228,6 +257,7 @@ public class Register4Activity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            dialogPleaseWait.dismiss();
                             Toast.makeText(Register4Activity.this, "Network Error", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -238,10 +268,48 @@ public class Register4Activity extends AppCompatActivity {
         }).start();
     }
 
-    private void insertDefaultUserProfileData() {
+    private void getRegisteredId() {
+        runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Getting registered id", Toast.LENGTH_SHORT).show());
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/get_registered_id.php?username=" + RegisterInfoHolder.getUsername();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                dialogPleaseWait.dismiss();
+                runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    try {
+                        JSONObject jsonObject = new JSONObject(responseData);
+                        insertDefaultUserProfileData(jsonObject.getInt("user_id"));
+
+                    } catch (Exception e) {
+                        dialogPleaseWait.dismiss();
+                        runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                }
+                else {
+                    dialogPleaseWait.dismiss();
+                    runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Network error", Toast.LENGTH_SHORT).show());
+                }
+            }
+        });
+    }
+
+    private void insertDefaultUserProfileData(int userId) {
+        runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Inserting default user profile data", Toast.LENGTH_SHORT).show());
         String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/modify_user_profile.php";
 
         RequestBody body = new FormBody.Builder()
+                .add("user_id", Integer.toString(userId))
                 .add("bio", "")
                 .add("profile_image", EncodeImage.encodeFromDrawable(getResources(), R.drawable.no_profile_image))
                 .build();
@@ -261,9 +329,9 @@ public class Register4Activity extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (response.isSuccessful() && responseData.contains("success")) {
-                                //
+                                setCurrentAccount();
                             } else {
-                                //
+                                dialogPleaseWait.dismiss();
                             }
                         }
                     });
@@ -271,11 +339,55 @@ public class Register4Activity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            dialogPleaseWait.dismiss();
                             Toast.makeText(Register4Activity.this, "Network Error", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             }
         }).start();
+    }
+
+    private void setCurrentAccount() {
+        runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Setting current account", Toast.LENGTH_SHORT).show());
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/login_after_register.php?username=" + RegisterInfoHolder.getUsername();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                dialogPleaseWait.dismiss();
+                runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    try {
+                        JSONArray responseArray = new JSONArray(responseData);
+                        JSONObject jsonObject = responseArray.getJSONObject(0);
+                        CurrentAccount.setAccount(new Account(
+                                jsonObject.getInt("user_id"),
+                                jsonObject.getString("profile_image"),
+                                jsonObject.getString("first_name") + " " + jsonObject.getString("last_name"),
+                                jsonObject.getString("bio")
+                        ));
+                        runOnUiThread(() -> dialogPleaseWait.dismiss());
+                        runOnUiThread(() -> dialog.show());
+                    } catch (Exception e) {
+                        dialogPleaseWait.dismiss();
+                        runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                }
+                else {
+                    dialogPleaseWait.dismiss();
+                    runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Network error", Toast.LENGTH_SHORT).show());
+                }
+            }
+        });
     }
 }

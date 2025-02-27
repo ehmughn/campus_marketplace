@@ -1,6 +1,8 @@
 package com.example.testproject2;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
@@ -86,6 +89,12 @@ public class PostActivity extends AppCompatActivity {
     private AutoCompleteTextView autoComplete_variantName;
     private ArrayList<String> variationList;
     private ArrayAdapter<String> adapterVariationList;
+
+    private LayoutInflater inflaterPleaseWait;
+    private View dialogPleaseWaitView;
+    private AlertDialog.Builder builderDialogPleaseWait;
+    private AlertDialog dialogPleaseWait;
+    private TextView dialogPleaseWait_textView_progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +169,15 @@ public class PostActivity extends AppCompatActivity {
                 });
             }
         });
+
+        inflaterPleaseWait = getLayoutInflater();
+        dialogPleaseWaitView = inflaterPleaseWait.inflate(R.layout.dialog_please_wait, null);
+        builderDialogPleaseWait = new AlertDialog.Builder(this);
+        builderDialogPleaseWait.setView(dialogPleaseWaitView).setCancelable(false);
+        dialogPleaseWait = builderDialogPleaseWait.create();
+        dialogPleaseWait.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogPleaseWait_textView_progress = dialogPleaseWaitView.findViewById(R.id.dialogPleaseWait_textView_progress);
+
         example_reviews = new ArrayList<>();
         example_reviews.add(new Reviews());
         example_reviews.add(new Reviews());
@@ -172,6 +190,8 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void getProductData(int postId) {
+        dialogPleaseWait.show();
+        dialogPleaseWait_textView_progress.setText("Please wait while we set up all the details for you.");
         String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/post_select_product.php?post_id=" + postId + "&current_user=" + CurrentAccount.getAccount().getId();
 
         Request request = new Request.Builder()
@@ -303,7 +323,6 @@ public class PostActivity extends AppCompatActivity {
 
     private void setValues() {
         runOnUiThread(() -> {
-            Toast.makeText(PostActivity.this, "Retrieved all the data", Toast.LENGTH_SHORT).show();
             imageView_variantImage.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
             textView_variantName.setText(post.getProduct().getVariations().get(0).getName());
             textView_variantPrice.setText("₱" + Decimals.FORMAT_PRICE.format(post.getProduct().getVariations().get(0).getPrice()));
@@ -331,6 +350,7 @@ public class PostActivity extends AppCompatActivity {
                     textView_variantStock.setText("Stock: " + post.getProduct().getVariations().get(position).getStock());
                 }
             });
+            dialogPleaseWait.dismiss();
         });
     }
 
