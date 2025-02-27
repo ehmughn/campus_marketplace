@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.objects.Account;
 import com.example.static_classes.EncodeImage;
-import com.example.static_classes.ShowCurrentProfile;
 import com.example.testproject2.R;
 import com.example.testproject2.VisitProfileActivity;
 

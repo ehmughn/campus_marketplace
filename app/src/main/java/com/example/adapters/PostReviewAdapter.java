@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.objects.Post;
 import com.example.objects.Reviews;
 import com.example.static_classes.EncodeImage;
-import com.example.static_classes.ShowCurrentPost;
 import com.example.testproject2.PostActivity;
 import com.example.testproject2.R;
 

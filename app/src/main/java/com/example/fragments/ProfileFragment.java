@@ -52,12 +52,14 @@ public class ProfileFragment extends Fragment {
 
     public TextView textView_uploads;
     public TextView textView_likes;
-    public TextView textView_noLikes;
     public Button profile_button_uploadItems;
     public ArrayList<Post> profilePosts;
+    public ArrayList<Post> likedPosts;
     public ArrayList<Reviews> example_reviews;
     public RecyclerView recyclerView_uploads;
+    public RecyclerView recyclerView_likes;
     public HomePostsAdapter adapter_posts;
+    public HomePostsAdapter adapter_likes;
     public LinearLayout layout_followers;
     public LinearLayout layout_following;
     public ImageView imageView_profilePicture;
@@ -93,11 +95,15 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView_uploads = view.findViewById(R.id.profile_recyclerView_uploads);
+        recyclerView_likes = view.findViewById(R.id.profile_recyclerView_likes);
         recyclerView_uploads.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView_likes.setLayoutManager(new LinearLayoutManager(getContext()));
         profilePosts = new ArrayList<>();
-
+        likedPosts = new ArrayList<>();
         adapter_posts = new HomePostsAdapter(getContext(), getActivity(), profilePosts);
+        adapter_likes = new HomePostsAdapter(getContext(), getActivity(), likedPosts);
         recyclerView_uploads.setAdapter(adapter_posts);
+        recyclerView_likes.setAdapter(adapter_likes);
 
 
         textView_uploads = view.findViewById(R.id.text_uploads);
@@ -107,7 +113,7 @@ public class ProfileFragment extends Fragment {
                 textView_uploads.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.montserrat_bold));
                 textView_likes.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.montserrat_regular));
                 recyclerView_uploads.setVisibility(View.VISIBLE);
-                textView_noLikes.setVisibility(View.INVISIBLE);
+                recyclerView_likes.setVisibility(View.INVISIBLE);
             }
         });
         textView_likes = view.findViewById(R.id.text_likes);
@@ -117,10 +123,9 @@ public class ProfileFragment extends Fragment {
                 textView_uploads.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.montserrat_regular));
                 textView_likes.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.montserrat_bold));
                 recyclerView_uploads.setVisibility(View.INVISIBLE);
-                textView_noLikes.setVisibility(View.VISIBLE);
+                recyclerView_likes.setVisibility(View.VISIBLE);
             }
         });
-        textView_noLikes = view.findViewById(R.id.profle_likes);
         profile_button_uploadItems = view.findViewById(R.id.profile_button_uploadItems);
         profile_button_uploadItems.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,7 +229,7 @@ public class ProfileFragment extends Fragment {
 
     private void loadPosts(int reccursion, int end) {
         if(!isFragmentActive || reccursion == end) {
-            //finish
+            getPostLikedCount();
             return;
         }
         String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/select_post_profile.php?post_number=" + reccursion + "&current_user=" + CurrentAccount.getAccount().getId();
@@ -285,6 +290,118 @@ public class ProfileFragment extends Fragment {
                             adapter_posts.notifyDataSetChanged();
                         });
                         loadPosts(reccursion + 1, end);
+
+                    } catch (Exception e) {
+                        if (!isFragmentActive)
+                            return;
+                        requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                }
+                else {
+                    if (!isFragmentActive)
+                        return;
+                    requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show());
+                }
+            }
+        });
+    }
+
+    private void getPostLikedCount() {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/get_post_liked_count_by_user.php?current_user=" + CurrentAccount.getAccount().getId();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    try {
+                        JSONObject jsonResponse = new JSONObject(responseData);
+                        int total_post_liked = jsonResponse.getInt("total_post_liked");
+                        loadLikedPosts(0, total_post_liked);
+
+                    } catch (Exception e) {
+                        getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                }
+                else {
+                    getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show());
+                }
+            }
+        });
+    }
+
+    private void loadLikedPosts(int reccursion, int end) {
+        if(!isFragmentActive || reccursion == end) {
+            //finish
+            return;
+        }
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/select_post_liked_profile.php?post_number=" + reccursion + "&current_user=" + CurrentAccount.getAccount().getId();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                if (!isFragmentActive)
+                    return;
+                requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!isFragmentActive)
+                    return;
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    try {
+                        JSONArray responseArray = new JSONArray(responseData);
+                        JSONObject jsonObject = responseArray.getJSONObject(0);
+                        ArrayList<Variation> singleVariation = new ArrayList<>();
+                        singleVariation.add(new Variation(
+                                jsonObject.getString("variant_name"),
+                                jsonObject.getDouble("variant_cost"),
+                                jsonObject.getInt("variant_stock"),
+                                jsonObject.getString("variant_image")
+                        ));
+                        Post post = new Post(
+                                jsonObject.getInt("post_id"),
+                                jsonObject.getString("title"),
+                                jsonObject.getString("description"),
+                                new Product(
+                                        jsonObject.getInt("product_id"),
+                                        jsonObject.getString("product_name"),
+                                        jsonObject.getString("category"),
+                                        new Account(
+                                                jsonObject.getInt("seller_id"),
+                                                jsonObject.getString("seller_image"),
+                                                jsonObject.getString("seller_name"),
+                                                "not needed"
+                                        ),
+                                        singleVariation
+                                ),
+                                jsonObject.getInt("like_count"),
+                                (jsonObject.getInt("liked_by_current_user") == 1),
+                                example_reviews
+                        );
+
+                        requireActivity().runOnUiThread(() -> {
+                            if (!isFragmentActive)
+                                return;
+                            likedPosts.add(post);
+                            adapter_likes.notifyDataSetChanged();
+                        });
+                        loadLikedPosts(reccursion + 1, end);
 
                     } catch (Exception e) {
                         if (!isFragmentActive)
