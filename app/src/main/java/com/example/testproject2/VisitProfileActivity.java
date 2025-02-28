@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -38,12 +39,15 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class VisitProfileActivity extends AppCompatActivity {
 
+    private int userId;
     private Account account;
     private TextView textView_uploads;
     private TextView textView_likes;
@@ -70,6 +74,8 @@ public class VisitProfileActivity extends AppCompatActivity {
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .build();
+    private boolean isFollowedByCurrentUser = false;
+    private Button button_follow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +87,7 @@ public class VisitProfileActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        int userId = getIntent().getIntExtra("userId", 0);
+        userId = getIntent().getIntExtra("userId", 0);
 
         recyclerView_uploads = findViewById(R.id.visitProfile_recyclerView_uploads);
         recyclerView_likes = findViewById(R.id.visitProfile_recyclerView_likes);
@@ -132,21 +138,34 @@ public class VisitProfileActivity extends AppCompatActivity {
             }
         });
         imageView_profilePicture = findViewById(R.id.visitProfile_imageView_profilePicture);
-        imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(CurrentAccount.getAccount().getImage()));
         textView_name = findViewById(R.id.visitProfile_textView_name);
-        textView_name.setText(CurrentAccount.getAccount().getName());
         textView_bio = findViewById(R.id.visitProfile_textView_bio);
-        textView_bio.setText(CurrentAccount.getAccount().getBio());
         textView_followersCount = findViewById(R.id.visitProfile_textView_followersCount);
-        textView_followersCount.setText(Integer.toString(10));
         textView_followingCount = findViewById(R.id.visitProfile_textView_followingCount);
-        textView_followingCount.setText(Integer.toString(20));
         textView_likesCount = findViewById(R.id.visitProfile_textView_likesCount);
+        button_follow = findViewById(R.id.visitProfile_button_follow);
+        button_follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isFollowedByCurrentUser) {
+                    button_follow.setText("Follow");
+                    button_follow.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.main_yellow));
+                    isFollowedByCurrentUser = false;
+                    unfollowUser();
+                }
+                else {
+                    button_follow.setText("Unfollow");
+                    button_follow.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.yellow_not_selected));
+                    isFollowedByCurrentUser = true;
+                    followUser();
+                }
+            }
+        });
         getAccount(userId);
     }
 
     private void getAccount(int userId) {
-        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/get_account_by_id.php?user_id=" + userId;
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/get_account_by_id.php?user_id=" + userId + "&current_user=" + CurrentAccount.getAccount().getId();
 
         Request request = new Request.Builder()
                 .url(url)
@@ -175,7 +194,8 @@ public class VisitProfileActivity extends AppCompatActivity {
                                 "not needed",
                                 "not needed"
                         );
-                        setUserValues();
+                        isFollowedByCurrentUser = (jsonObject.getInt("is_followed_by_current_user") != 0);
+                        setUserValues(jsonObject.getInt("following_count"), jsonObject.getInt("follower_count"), jsonObject.getInt("like_count"));
                     } catch (Exception e) {
                         runOnUiThread(() -> Toast.makeText(VisitProfileActivity.this, "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                     }
@@ -187,13 +207,22 @@ public class VisitProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void setUserValues() {
+    private void setUserValues(int followingCount, int followerCount, int likeCount) {
         runOnUiThread(() -> {
             imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(account.getImage()));
             textView_name.setText(account.getName());
             textView_bio.setText(account.getBio());
-            textView_followersCount.setText(Integer.toString(10));
-            textView_followingCount.setText(Integer.toString(20));
+            if(isFollowedByCurrentUser) {
+                button_follow.setText("Unfollow");
+                button_follow.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.yellow_not_selected));
+            }
+            else {
+                button_follow.setText("Follow");
+                button_follow.setBackgroundTintList(ContextCompat.getColorStateList(getApplicationContext(), R.color.main_yellow));
+            }
+            textView_followersCount.setText(Integer.toString(followerCount));
+            textView_followingCount.setText(Integer.toString(followingCount));
+            textView_likesCount.setText(Integer.toString(likeCount));
             getPostCount();
         });
     }
@@ -408,5 +437,87 @@ public class VisitProfileActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void unfollowUser() {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/unfollow_user.php";
+
+        RequestBody body = new FormBody.Builder()
+                .add("follower_id", Integer.toString(CurrentAccount.getAccount().getId()))
+                .add("following_id", Integer.toString(userId))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Response response = client.newCall(request).execute();
+                    final String responseData = response.body().string();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (response.isSuccessful() && responseData.contains("success")) {
+                                runOnUiThread(() -> textView_followersCount.setText(Integer.toString(Integer.parseInt(textView_followersCount.getText().toString()) - 1)));
+                            } else {
+                                Toast.makeText(VisitProfileActivity.this, "Unfollow Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(VisitProfileActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
+
+    private void followUser() {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/follow_user.php";
+
+        RequestBody body = new FormBody.Builder()
+                .add("follower_id", Integer.toString(CurrentAccount.getAccount().getId()))
+                .add("following_id", Integer.toString(userId))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Response response = client.newCall(request).execute();
+                    final String responseData = response.body().string();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (response.isSuccessful() && responseData.contains("success")) {
+                                runOnUiThread(() -> textView_followersCount.setText(Integer.toString(Integer.parseInt(textView_followersCount.getText().toString()) + 1)));
+                            } else {
+                                Toast.makeText(VisitProfileActivity.this, "Follow Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(VisitProfileActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 }

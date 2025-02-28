@@ -75,6 +75,8 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         holder.layout_seller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(post.getProduct().getAccount().getId() == CurrentAccount.getAccount().getId())
+                    return;
                 Intent intent = new Intent(context, VisitProfileActivity.class);
                 intent.putExtra("userId", post.getProduct().getAccount().getId());
                 context.startActivity(intent);

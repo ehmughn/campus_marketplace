@@ -5,4 +5,5 @@
     <color name="main_blue">#3a5a80</color>
     <color name="text_blue">#3a5a80</color>
     <color name="main_yellow">#ec9d0d</color>
+    <color name="yellow_not_selected">#EFD37F</color>
 </resources>

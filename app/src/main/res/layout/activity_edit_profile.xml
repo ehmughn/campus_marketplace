@@ -90,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginHorizontal="20dp"
             android:orientation="horizontal">
 
             <TextView
@@ -104,11 +104,11 @@
                 android:id="@+id/editProfile_editText_firstName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:background="@drawable/semi_rounded_corner"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:padding="4dp"
-                android:textAlignment="textEnd"
                 android:textColor="@color/main_blue"/>
 
         </LinearLayout>
@@ -117,7 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginHorizontal="20dp"
             android:orientation="horizontal">
 
             <TextView
@@ -131,11 +131,11 @@
                 android:id="@+id/editProfile_editText_lastName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:background="@drawable/semi_rounded_corner"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:padding="4dp"
-                android:textAlignment="textEnd"
                 android:textColor="@color/main_blue"/>
 
         </LinearLayout>
@@ -144,7 +144,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginHorizontal="20dp"
             android:orientation="horizontal">
 
             <TextView
@@ -158,12 +158,12 @@
                 android:id="@+id/editProfile_editText_bio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:background="@drawable/semi_rounded_corner"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:inputType="textMultiLine"
                 android:padding="4dp"
-                android:textAlignment="textEnd"
                 android:textColor="@color/main_blue"/>
 
         </LinearLayout>
@@ -171,8 +171,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginHorizontal="20dp"
             android:orientation="horizontal">
 
             <TextView
@@ -186,11 +186,11 @@
                 android:id="@+id/editProfile_editText_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:background="@drawable/semi_rounded_corner"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:padding="4dp"
-                android:textAlignment="textEnd"
                 android:textColor="@color/main_blue"/>
 
         </LinearLayout>
@@ -199,7 +199,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="8dp"
+            android:layout_marginHorizontal="20dp"
             android:orientation="horizontal">
 
             <TextView
@@ -213,11 +213,11 @@
                 android:id="@+id/editProfile_editText_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:background="@drawable/semi_rounded_corner"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:padding="4dp"
-                android:textAlignment="textEnd"
                 android:textColor="@color/main_blue"/>
 
         </LinearLayout>

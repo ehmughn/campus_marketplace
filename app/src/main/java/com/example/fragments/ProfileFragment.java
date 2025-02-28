@@ -34,6 +34,7 @@ import com.example.testproject2.MainActivity;
 import com.example.testproject2.PublishPostActivity;
 import com.example.testproject2.R;
 import com.example.testproject2.UploadProductActivity;
+import com.example.testproject2.VisitProfileActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import org.json.JSONArray;
@@ -175,7 +176,7 @@ public class ProfileFragment extends Fragment {
         textView_followingCount = view.findViewById(R.id.profile_textView_following);
         textView_followingCount.setText(Integer.toString(20));
         textView_likesCount = view.findViewById(R.id.profile_textView_likes);
-        getPostCount();
+        getNumbers();
     }
 
     public void openUploadOptions() {
@@ -199,6 +200,47 @@ public class ProfileFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), PublishPostActivity.class);
                 startActivity(intent);
                 bottomSheetDialog.dismiss();
+            }
+        });
+    }
+
+    private void getNumbers() {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/get_account_by_id.php?user_id=" + CurrentAccount.getAccount().getId() + "&current_user=" + CurrentAccount.getAccount().getId();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                requireActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    try {
+                        JSONArray responseArray = new JSONArray(responseData);
+                        JSONObject jsonObject = responseArray.getJSONObject(0);
+                        requireActivity().runOnUiThread(() -> {
+                            try{
+                                textView_followingCount.setText(Integer.toString(jsonObject.getInt("following_count")));
+                                textView_followersCount.setText(Integer.toString(jsonObject.getInt("follower_count")));
+                                textView_likesCount.setText(Integer.toString(jsonObject.getInt("like_count")));
+                            }
+                            catch (Exception e) {
+                            }
+                        });
+                        getPostCount();
+                    } catch (Exception e) {
+                        requireActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                }
+                else {
+                    requireActivity().runOnUiThread(() -> Toast.makeText(getActivity(), "Network error", Toast.LENGTH_SHORT).show());
+                }
             }
         });
     }

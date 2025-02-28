@@ -194,7 +194,7 @@
                     android:columnCount="2"
                     android:rowCount="1">
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/visitProfile_button_follow"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -202,9 +202,11 @@
                         android:layout_margin="8dp"
                         android:text="Follow"
                         android:textColor="@color/text_blue"
+                        android:background="@drawable/semi_rounded_corner"
+                        android:fontFamily="@font/montserrat_bold"
                         android:backgroundTint="@color/main_yellow"/>
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/visitProfile_button_message"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -212,6 +214,8 @@
                         android:layout_margin="8dp"
                         android:text="Message"
                         android:textColor="@color/text_blue"
+                        android:background="@drawable/semi_rounded_corner"
+                        android:fontFamily="@font/montserrat_bold"
                         android:backgroundTint="@color/main_yellow"/>
 
                 </GridLayout>
