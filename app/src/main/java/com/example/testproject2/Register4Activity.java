@@ -102,7 +102,6 @@ public class Register4Activity extends AppCompatActivity {
         dialog_button_goToHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CurrentAccount.setAccount(new Account(100, EncodeImage.encodeFromDrawable(getResources(), R.drawable.no_profile_image), RegisterInfoHolder.getFirstName() + " " + RegisterInfoHolder.getLastName(), "test"));
                 Intent intent = new Intent(Register4Activity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -373,8 +372,12 @@ public class Register4Activity extends AppCompatActivity {
                         CurrentAccount.setAccount(new Account(
                                 jsonObject.getInt("user_id"),
                                 jsonObject.getString("profile_image"),
-                                jsonObject.getString("first_name") + " " + jsonObject.getString("last_name"),
-                                jsonObject.getString("bio")
+                                jsonObject.getString("first_name"),
+                                jsonObject.getString("last_name"),
+                                jsonObject.getString("bio"),
+                                jsonObject.getString("username"),
+                                jsonObject.getString("email"),
+                                jsonObject.getString("password")
                         ));
                         runOnUiThread(() -> dialogPleaseWait.dismiss());
                         runOnUiThread(() -> dialog.show());

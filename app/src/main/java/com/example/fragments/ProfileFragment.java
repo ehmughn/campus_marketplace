@@ -28,6 +28,7 @@ import com.example.static_classes.DatabaseConnectionData;
 import com.example.static_classes.EncodeImage;
 import com.example.temporary_values.TemporaryAccountList;
 import com.example.temporary_values.TemporaryPostList;
+import com.example.testproject2.EditProfileActivity;
 import com.example.testproject2.FollowersFollowingListActivity;
 import com.example.testproject2.MainActivity;
 import com.example.testproject2.PublishPostActivity;
@@ -53,6 +54,7 @@ public class ProfileFragment extends Fragment {
     public TextView textView_uploads;
     public TextView textView_likes;
     public Button profile_button_uploadItems;
+    public Button profile_button_editProfile;
     public ArrayList<Post> profilePosts;
     public ArrayList<Post> likedPosts;
     public ArrayList<Reviews> example_reviews;
@@ -134,6 +136,14 @@ public class ProfileFragment extends Fragment {
                 } catch(Exception e) {
                     Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        profile_button_editProfile = view.findViewById(R.id.profile_button_editProfile);
+        profile_button_editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                startActivity(intent);
             }
         });
         layout_followers = view.findViewById(R.id.profile_layout_followers);
@@ -272,7 +282,11 @@ public class ProfileFragment extends Fragment {
                                         new Account(
                                                 jsonObject.getInt("seller_id"),
                                                 jsonObject.getString("seller_image"),
-                                                jsonObject.getString("seller_name"),
+                                                jsonObject.getString("first_name"),
+                                                jsonObject.getString("last_name"),
+                                                "not needed",
+                                                "not needed",
+                                                "not needed",
                                                 "not needed"
                                         ),
                                         singleVariation
@@ -384,7 +398,11 @@ public class ProfileFragment extends Fragment {
                                         new Account(
                                                 jsonObject.getInt("seller_id"),
                                                 jsonObject.getString("seller_image"),
-                                                jsonObject.getString("seller_name"),
+                                                jsonObject.getString("first_name"),
+                                                jsonObject.getString("last_name"),
+                                                "not needed",
+                                                "not needed",
+                                                "not needed",
                                                 "not needed"
                                         ),
                                         singleVariation

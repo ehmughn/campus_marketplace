@@ -142,8 +142,13 @@ public class SignInActivity extends AppCompatActivity {
             CurrentAccount.setAccount(new Account(
                     data.getInt("user_id"),
                     data.getString("profile_image"),
-                    data.getString("first_name") + " " + data.getString("last_name"),
-                    data.getString("bio")));
+                    data.getString("first_name"),
+                    data.getString("last_name"),
+                    data.getString("bio"),
+                    data.getString("username"),
+                    data.getString("email"),
+                    editText_password.getText().toString().trim()
+            ));
             CurrentAccount.getAccount().setBlobImage(data.getString("profile_image"));
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);

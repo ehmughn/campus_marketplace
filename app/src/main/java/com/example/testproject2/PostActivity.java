@@ -223,7 +223,11 @@ public class PostActivity extends AppCompatActivity {
                                         new Account(
                                                 jsonObject.getInt("seller_id"),
                                                 jsonObject.getString("seller_image"),
-                                                jsonObject.getString("seller_name"),
+                                                jsonObject.getString("first_name"),
+                                                jsonObject.getString("last_name"),
+                                                "not needed",
+                                                "not needed",
+                                                "not needed",
                                                 "not needed"
                                         ),
                                         variations

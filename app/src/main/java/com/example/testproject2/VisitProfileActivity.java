@@ -168,8 +168,12 @@ public class VisitProfileActivity extends AppCompatActivity {
                         account = new Account(
                                 jsonObject.getInt("user_id"),
                                 jsonObject.getString("profile_image"),
-                                jsonObject.getString("first_name") + " " + jsonObject.getString("last_name"),
-                                jsonObject.getString("bio")
+                                jsonObject.getString("first_name"),
+                                jsonObject.getString("last_name"),
+                                jsonObject.getString("bio"),
+                                "not needed",
+                                "not needed",
+                                "not needed"
                         );
                         setUserValues();
                     } catch (Exception e) {
@@ -269,7 +273,11 @@ public class VisitProfileActivity extends AppCompatActivity {
                                         new Account(
                                                 jsonObject.getInt("seller_id"),
                                                 jsonObject.getString("seller_image"),
-                                                jsonObject.getString("seller_name"),
+                                                jsonObject.getString("first_name"),
+                                                jsonObject.getString("last_name"),
+                                                "not needed",
+                                                "not needed",
+                                                "not needed",
                                                 "not needed"
                                         ),
                                         singleVariation
@@ -371,7 +379,11 @@ public class VisitProfileActivity extends AppCompatActivity {
                                         new Account(
                                                 jsonObject.getInt("seller_id"),
                                                 jsonObject.getString("seller_image"),
-                                                jsonObject.getString("seller_name"),
+                                                jsonObject.getString("first_name"),
+                                                jsonObject.getString("last_name"),
+                                                "not needed",
+                                                "not needed",
+                                                "not needed",
                                                 "not needed"
                                         ),
                                         singleVariation
