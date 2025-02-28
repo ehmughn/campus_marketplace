@@ -506,8 +506,53 @@ public class VisitProfileActivity extends AppCompatActivity {
                         public void run() {
                             if (response.isSuccessful() && responseData.contains("success")) {
                                 runOnUiThread(() -> textView_followersCount.setText(Integer.toString(Integer.parseInt(textView_followersCount.getText().toString()) + 1)));
+                                notifyUser();
                             } else {
                                 Toast.makeText(VisitProfileActivity.this, "Follow Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(VisitProfileActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
+
+    private void notifyUser() {
+        String url = "http://" + DatabaseConnectionData.getHost() + "/numart_db/notify_user.php";
+
+        RequestBody body = new FormBody.Builder()
+                .add("for_user_id", Integer.toString(userId))
+                .add("from_user_id", Integer.toString(CurrentAccount.getAccount().getId()))
+                .add("message", CurrentAccount.getAccount().getName() + " followed you.")
+                .add("type", "FOLLOW")
+                .add("reference", Integer.toString(CurrentAccount.getAccount().getId()))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Response response = client.newCall(request).execute();
+                    final String responseData = response.body().string();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (response.isSuccessful() && responseData.contains("success")) {
+                                //
+                            } else {
+                                Toast.makeText(VisitProfileActivity.this, "Failed to notify", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

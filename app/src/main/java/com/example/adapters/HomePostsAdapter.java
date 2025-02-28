@@ -172,8 +172,53 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                                 holder.textView_likeCount.setText(post.getLikeCount() + " liked this post.");
                                 holder.setIsRecyclable(true);
                                 post.setLikedByCurrentUser(true);
+                                notifyUser(post);
                             } else {
                                 Toast.makeText(context, "Liked Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "Network Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
+
+    private void notifyUser(Post post) {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/notify_user.php";
+
+        RequestBody body = new FormBody.Builder()
+                .add("for_user_id", Integer.toString(post.getProduct().getAccount().getId()))
+                .add("from_user_id", Integer.toString(CurrentAccount.getAccount().getId()))
+                .add("message", CurrentAccount.getAccount().getName() + " liked your post.")
+                .add("type", "LIKE")
+                .add("reference", Integer.toString(post.getId()))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Response response = client.newCall(request).execute();
+                    final String responseData = response.body().string();
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (response.isSuccessful() && responseData.contains("success")) {
+                                //
+                            } else {
+                                Toast.makeText(context, "Failed to notify", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

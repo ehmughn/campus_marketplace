@@ -186,7 +186,7 @@ public class AccountsListAdapter extends RecyclerView.Adapter<AccountsListAdapte
                         @Override
                         public void run() {
                             if (response.isSuccessful() && responseData.contains("success")) {
-
+                                notifyUser(account);
                             } else {
                                 Toast.makeText(activity, "Follow Failed", Toast.LENGTH_SHORT).show();
                             }
@@ -197,6 +197,50 @@ public class AccountsListAdapter extends RecyclerView.Adapter<AccountsListAdapte
                         @Override
                         public void run() {
                             Toast.makeText(activity, "Network Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
+
+    private void notifyUser(Account account) {
+        String url = "http://" + DatabaseConnectionData.getHost() + "/numart_db/notify_user.php";
+
+        RequestBody body = new FormBody.Builder()
+                .add("for_user_id", Integer.toString(account.getId()))
+                .add("from_user_id", Integer.toString(CurrentAccount.getAccount().getId()))
+                .add("message", CurrentAccount.getAccount().getName() + " followed you.")
+                .add("type", "FOLLOW")
+                .add("reference", Integer.toString(CurrentAccount.getAccount().getId()))
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Response response = client.newCall(request).execute();
+                    final String responseData = response.body().string();
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (response.isSuccessful() && responseData.contains("success")) {
+                                //
+                            } else {
+                                Toast.makeText(context, "Failed to notify", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "Network Error", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
