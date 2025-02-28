@@ -153,6 +153,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FollowersFollowingListActivity.class);
                 intent.putExtra("inFollowers", true);
+                intent.putExtra("userId", CurrentAccount.getAccount().getId());
                 startActivity(intent);
             }
         });
@@ -162,6 +163,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FollowersFollowingListActivity.class);
                 intent.putExtra("inFollowers", false);
+                intent.putExtra("userId", CurrentAccount.getAccount().getId());
                 startActivity(intent);
             }
         });

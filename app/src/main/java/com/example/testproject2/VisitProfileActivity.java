@@ -125,6 +125,7 @@ public class VisitProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(VisitProfileActivity.this, FollowersFollowingListActivity.class);
                 intent.putExtra("inFollowers", true);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
             }
         });
@@ -134,6 +135,7 @@ public class VisitProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(VisitProfileActivity.this, FollowersFollowingListActivity.class);
                 intent.putExtra("inFollowers", false);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
             }
         });

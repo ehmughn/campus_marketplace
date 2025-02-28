@@ -10,6 +10,7 @@ public class Account {
     private String username;
     private String email;
     private String password;
+    private boolean followed;
 
     public Account(int id, String image, String firstName, String lastName, String bio, String username, String email, String password) {
         this.id = id;
@@ -101,5 +102,13 @@ public class Account {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(boolean followed) {
+        this.followed = followed;
     }
 }
