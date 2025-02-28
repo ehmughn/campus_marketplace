@@ -2,6 +2,7 @@ package com.example.testproject2;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -87,6 +88,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private AlertDialog.Builder builderDialogFinishedUpdatingProfile;
     private AlertDialog dialogFinishedUpdatingProfile;
     private Button dialogFinishedUpdatingProfile_button_goBack;
+    private TextView textView_logOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +100,21 @@ public class EditProfileActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        textView_logOut = findViewById(R.id.editProfile_textView_logOut);
+        textView_logOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("logged_account", 0);
+                editor.putString("password", "");
+                editor.apply();
+                Intent intent = new Intent(EditProfileActivity.this, SignInActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+        });
+
         imageView_profilePicture = findViewById(R.id.editProfile_imageView_profilePicture);
         textView_changePhoto = findViewById(R.id.editProfile_textView_changePhoto);
         editText_firstName = findViewById(R.id.editProfile_editText_firstName);

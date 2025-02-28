@@ -1,6 +1,7 @@
 package com.example.testproject2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,6 +23,7 @@ import com.example.fragments.HomeFragment;
 import com.example.fragments.InboxFragment;
 import com.example.fragments.ProfileFragment;
 import com.example.fragments.UploadFragment;
+import com.example.static_classes.CurrentAccount;
 import com.example.testproject2.databinding.ActivityMainBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -52,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
             startActivity(intent);
         }
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("logged_account", CurrentAccount.getAccount().getId());
+        editor.putString("password", CurrentAccount.getAccount().getPassword());
+        editor.apply();
         replaceFragment(new HomeFragment());
         binding.bottomNavigationView.setBackground(null);
         binding.bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
