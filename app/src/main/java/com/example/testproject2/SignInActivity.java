@@ -147,7 +147,7 @@ public class SignInActivity extends AppCompatActivity {
                     data.getString("bio"),
                     data.getString("username"),
                     data.getString("email"),
-                    editText_password.getText().toString().trim()
+                    editText_password.getText().toString()
             ));
             CurrentAccount.getAccount().setBlobImage(data.getString("profile_image"));
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);

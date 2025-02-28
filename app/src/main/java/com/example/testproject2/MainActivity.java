@@ -47,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        boolean toEditProfile = getIntent().getBooleanExtra("toEditProfile", false);
+        if(toEditProfile) {
+            Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+            startActivity(intent);
+        }
         replaceFragment(new HomeFragment());
         binding.bottomNavigationView.setBackground(null);
         binding.bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

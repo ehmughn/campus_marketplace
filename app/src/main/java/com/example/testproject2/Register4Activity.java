@@ -104,11 +104,22 @@ public class Register4Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Register4Activity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("toEditProfile", false);
                 startActivity(intent);
                 finish();
             }
         });
         dialog_button_editProfile = dialogView.findViewById(R.id.dialog_button_editProfile);
+        dialog_button_editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Register4Activity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("toEditProfile", true);
+                startActivity(intent);
+                finish();
+            }
+        });
         builder = new AlertDialog.Builder(this);
         builder.setView(dialogView).setCancelable(false);
         dialog = builder.create();
@@ -377,7 +388,7 @@ public class Register4Activity extends AppCompatActivity {
                                 jsonObject.getString("bio"),
                                 jsonObject.getString("username"),
                                 jsonObject.getString("email"),
-                                jsonObject.getString("password")
+                                RegisterInfoHolder.getPassword()
                         ));
                         runOnUiThread(() -> dialogPleaseWait.dismiss());
                         runOnUiThread(() -> dialog.show());
