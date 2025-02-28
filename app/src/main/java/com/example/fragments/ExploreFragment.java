@@ -26,7 +26,6 @@ import com.example.objects.VariationForExploreFragment;
 import com.example.static_classes.CurrentAccount;
 import com.example.static_classes.DatabaseConnectionData;
 import com.example.temporary_values.TemporaryPostList;
-import com.example.testproject2.CartActivity;
 import com.example.testproject2.R;
 
 import org.json.JSONArray;

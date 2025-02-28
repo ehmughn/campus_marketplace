@@ -4,13 +4,13 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginStart="10dp">
+    android:layout_marginStart="16dp">
 
     <LinearLayout
         android:id="@+id/homeCategory_linearLayout_selected_true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner"
+        android:background="@drawable/semi_rounded_corner"
         android:backgroundTint="#e0a800">
 
         <TextView
@@ -20,7 +20,8 @@
             android:text="Category"
             android:textSize="15dp"
             android:textColor="#021e4d"
-            android:layout_margin="16dp"
+            android:layout_marginVertical="8dp"
+            android:layout_marginHorizontal="16dp"
             android:fontFamily="@font/montserrat_bold"/>
 
     </LinearLayout>
@@ -29,17 +30,19 @@
         android:id="@+id/homeCategory_linearLayout_selected_false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_corner"
+        android:background="@drawable/semi_rounded_corner"
         android:backgroundTint="#EFD37F">
 
         <TextView
             android:id="@+id/categories_selected_false_textview_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Category"
             android:textSize="15dp"
             android:textColor="#787866"
-            android:layout_margin="16dp"
+            android:layout_marginVertical="8dp"
+            android:layout_marginHorizontal="16dp"
             android:fontFamily="@font/montserrat_bold"/>
 
     </LinearLayout>

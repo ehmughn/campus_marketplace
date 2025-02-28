@@ -7,10 +7,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -24,9 +24,7 @@ import com.example.objects.Reviews;
 import com.example.objects.Variation;
 import com.example.static_classes.CurrentAccount;
 import com.example.static_classes.DatabaseConnectionData;
-import com.example.temporary_values.TemporaryPostList;
-import com.example.testproject2.CartActivity;
-import com.example.testproject2.PublishPostActivity;
+import com.example.testproject2.NotificationActivity;
 import com.example.testproject2.R;
 
 import org.json.JSONArray;
@@ -51,7 +49,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView_posts;
     private HomeCategoryAdapter adapter_categories;
     private HomePostsAdapter adapter_posts;
-    private LinearLayout layout_cart;
+    private ImageView imageView_notification;
     private OkHttpClient client = new OkHttpClient.Builder()
             .connectTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
@@ -101,11 +99,11 @@ public class HomeFragment extends Fragment {
         adapter_categories = new HomeCategoryAdapter(getContext(), homeCategories);
         recyclerView_categories.setAdapter(adapter_categories);
 
-        layout_cart = view.findViewById(R.id.home_layout_cart);
-        layout_cart.setOnClickListener(new View.OnClickListener() {
+        imageView_notification = view.findViewById(R.id.home_imageView_notification);
+        imageView_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CartActivity.class);
+                Intent intent = new Intent(getActivity(), NotificationActivity.class);
                 startActivity(intent);
             }
         });
