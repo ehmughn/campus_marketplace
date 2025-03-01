@@ -8,7 +8,7 @@
     android:animateLayoutChanges="true"
     android:background="#021e4d"
     tools:context=".ChatRoomActivity">
-    
+
     <View
         android:id="@+id/chatRoom_view_background"
         android:layout_width="match_parent"
@@ -16,8 +16,18 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/chat_background_top"
         app:layout_constraintBottom_toTopOf="@id/chatRoom_layout_send"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <View
+        android:id="@+id/chatRoom_headerBackground"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#021e4d"
+        app:layout_constraintBottom_toTopOf="@id/chatRoom_viewSupporter"
         app:layout_constraintTop_toTopOf="parent"/>
-    
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/chatRoom_imageView_back"
         android:layout_width="30dp"
@@ -28,7 +38,8 @@
         android:padding="5dp"
         android:src="@drawable/back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:tint="@color/white"/>
 
     <TextView
         android:id="@+id/chatRoom_textView_name"
@@ -41,10 +52,19 @@
         android:maxLines="1"
         android:textSize="14dp"
         android:textStyle="bold"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/chatRoom_imageView_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/chatRoom_imageView_back"
         app:layout_constraintTop_toTopOf="@id/chatRoom_imageView_back"/>
+
+    <View
+        android:id="@+id/chatRoom_viewSupporter"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#021e4d"
+        android:layout_marginTop="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@id/chatRoom_imageView_back"/>
     
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRoom_recyclerView"
@@ -54,9 +74,10 @@
         android:orientation="vertical"
         android:overScrollMode="never"
         android:padding="20dp"
+        app:stackFromEnd="true"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="@id/chatRoom_view_background"
-        app:layout_constraintTop_toBottomOf="@id/chatRoom_imageView_back"/>
+        app:layout_constraintTop_toBottomOf="@id/chatRoom_viewSupporter"/>
     
     <FrameLayout
         android:id="@+id/chatRoom_layout_send"

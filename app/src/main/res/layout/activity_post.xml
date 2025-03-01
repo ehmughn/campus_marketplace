@@ -83,24 +83,6 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical|end">
-
-                    <ImageView
-                        android:id="@+id/post_imageView_message"
-                        android:layout_width="45sp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:src="@drawable/message"
-                        app:tint="@color/main_blue"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"/>
-
-                </LinearLayout>
-
             </LinearLayout>
 
             <TextView
@@ -296,28 +278,16 @@
                             app:tint="@color/main_yellow"/>
 
                         <Button
-                            android:id="@+id/post_button_addToCart"
+                            android:id="@+id/post_button_message"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"
                             android:layout_marginHorizontal="10dp"
-                            android:background="@drawable/rounded_corner"
+                            android:background="@drawable/semi_rounded_corner"
                             android:backgroundTint="@color/main_blue"
-                            android:text="Add to cart"
+                            android:text="Message seller"
                             android:textSize="12dp"
                             android:textColor="@color/main_yellow"
-                            android:fontFamily="@font/montserrat_bold"/>
-
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_columnWeight="1"
-                            android:layout_marginHorizontal="10dp"
-                            android:background="@drawable/rounded_corner"
-                            app:backgroundTint="@color/main_yellow"
-                            android:text="Buy Now"
-                            android:textSize="12dp"
-                            android:textColor="@color/main_blue"
                             android:fontFamily="@font/montserrat_bold"/>
 
                     </LinearLayout>

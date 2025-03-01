@@ -70,7 +70,7 @@ public class PostActivity extends AppCompatActivity {
     private ImageView imageView_profilePicture;
     private TextView textView_sellerName;
     private LinearLayout layout_seller;
-    private Button button_addToCart;
+    private Button button_message;
     private TextView bottomSheet_textView_productName;
     private ImageView bottomSheet_imageView_productImage;
     private TextView bottomSheet_textView_productPrice;
@@ -95,6 +95,7 @@ public class PostActivity extends AppCompatActivity {
     private AlertDialog.Builder builderDialogPleaseWait;
     private AlertDialog dialogPleaseWait;
     private TextView dialogPleaseWait_textView_progress;
+    private int productId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,40 +134,13 @@ public class PostActivity extends AppCompatActivity {
         recyclerView_reviews = findViewById(R.id.post_recyclerView_reviews);
         imageView_profilePicture = findViewById(R.id.post_imageView_profilePicture);
         textView_sellerName = findViewById(R.id.post_textView_sellerName);
-        button_addToCart = findViewById(R.id.post_button_addToCart);
-        button_addToCart.setOnClickListener(new View.OnClickListener() {
+        button_message = findViewById(R.id.post_button_message);
+        button_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(PostActivity.this);
-                View view_addToCartBuy = LayoutInflater.from(PostActivity.this).inflate(R.layout.bottomsheet_addtocartbuy, null);
-                bottomSheetDialog.setContentView(view_addToCartBuy);
-                bottomSheetDialog.show();
-                bottomSheet_textView_productName = view_addToCartBuy.findViewById(R.id.addtocartbuy_textView_productName);
-                bottomSheet_imageView_productImage = view_addToCartBuy.findViewById(R.id.addtocartbuy_imageView_productImage);
-                bottomSheet_textView_productPrice = view_addToCartBuy.findViewById(R.id.addtocartbuy_textView_productPrice);
-                bottomSheet_textView_productStockAvailable = view_addToCartBuy.findViewById(R.id.addtocartbuy_textView_productStocksAvailable);
-                bottomSheet_cardView_stockDecrement = view_addToCartBuy.findViewById(R.id.addtocartbuy_cardView_stockDecrement);
-                bottomSheet_textView_productStockSelected = view_addToCartBuy.findViewById(R.id.addtocartbuy_textView_productStockSelected);
-                bottomSheet_cardView_stockIncrement = view_addToCartBuy.findViewById(R.id.addtocartbuy_cardView_stockIncrement);
-                bottomSheet_textView_productName.setText(post.getProduct().getName());
-                bottomSheet_imageView_productImage.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
-                bottomSheet_textView_productPrice.setText("₱" + Decimals.FORMAT_PRICE.format(post.getProduct().getVariations().get(0).getPrice()));
-                bottomSheet_textView_productStockAvailable.setText("Stocks: " + post.getProduct().getVariations().get(0).getStock());
-                bottomSheet_cardView_stockDecrement.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(Integer.parseInt(bottomSheet_textView_productStockSelected.getText().toString()) > 1)
-                            bottomSheet_textView_productStockSelected.setText(Integer.toString(Integer.parseInt(bottomSheet_textView_productStockSelected.getText().toString()) - 1));
-                    }
-                });
-                bottomSheet_textView_productStockSelected.setText("1");
-                bottomSheet_cardView_stockIncrement.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(Integer.parseInt(bottomSheet_textView_productStockSelected.getText().toString()) < post.getProduct().getVariations().get(0).getStock())
-                            bottomSheet_textView_productStockSelected.setText(Integer.toString(Integer.parseInt(bottomSheet_textView_productStockSelected.getText().toString()) + 1));
-                    }
-                });
+                Intent intent = new Intent(PostActivity.this, ChatRoomActivity.class);
+                intent.putExtra("productId", productId);
+                startActivity(intent);
             }
         });
 
@@ -236,6 +210,7 @@ public class PostActivity extends AppCompatActivity {
                                 (jsonObject.getInt("liked_by_current_user") == 1),
                                 example_reviews
                         );
+                        productId = jsonObject.getInt("product_id");
                         // get the variations
                         getVariationsCount();
                     } catch (Exception e) {
@@ -339,6 +314,9 @@ public class PostActivity extends AppCompatActivity {
             recyclerView_reviews.setLayoutManager(new LinearLayoutManager(this));
             recyclerView_reviews.setAdapter(adapter_postReview);
             variationList = new ArrayList<>();
+            if(post.getProduct().getAccount().getId() == CurrentAccount.getAccount().getId()) {
+                button_message.setClickable(false);
+            }
             for(Variation variation: post.getProduct().getVariations()) {
                 variationList.add(variation.getName());
             }
