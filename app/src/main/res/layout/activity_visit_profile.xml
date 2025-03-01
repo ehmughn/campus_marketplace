@@ -206,18 +206,6 @@
                         android:fontFamily="@font/montserrat_bold"
                         android:backgroundTint="@color/main_yellow"/>
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/visitProfile_button_message"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_margin="8dp"
-                        android:text="Message"
-                        android:textColor="@color/text_blue"
-                        android:background="@drawable/semi_rounded_corner"
-                        android:fontFamily="@font/montserrat_bold"
-                        android:backgroundTint="@color/main_yellow"/>
-
                 </GridLayout>
 
                 <GridLayout

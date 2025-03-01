@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
@@ -8,7 +8,7 @@
         android:id="@+id/homePost_layout_seller"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="26dp"
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
@@ -63,7 +63,7 @@
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="8dp"
             app:cardCornerRadius="8dp">
@@ -153,7 +153,11 @@
             android:maxLines="2"
             android:ellipsize="end"/>
 
-
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/yellow_not_selected"/>
 
 </LinearLayout>
