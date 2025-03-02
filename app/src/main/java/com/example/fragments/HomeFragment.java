@@ -11,17 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.adapters.HomeCategoryAdapter;
 import com.example.adapters.HomePostsAdapter;
 import com.example.objects.Account;
-import com.example.objects.Categories;
+import com.example.objects.Category;
 import com.example.objects.Post;
 import com.example.objects.Product;
 import com.example.objects.Reviews;
 import com.example.objects.Variation;
+import com.example.static_classes.Categories;
 import com.example.static_classes.CurrentAccount;
 import com.example.static_classes.DatabaseConnectionData;
 import com.example.testproject2.NotificationActivity;
@@ -32,6 +32,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -42,7 +44,7 @@ import okhttp3.Response;
 
 public class HomeFragment extends Fragment {
 
-    private ArrayList<Categories> homeCategories;
+    private ArrayList<Category> homeCategories;
     private ArrayList<Post> homePosts;
     private ArrayList<Reviews> example_reviews;
     private RecyclerView recyclerView_categories;
@@ -85,18 +87,11 @@ public class HomeFragment extends Fragment {
 
         recyclerView_categories = view.findViewById(R.id.recyclerView_home_categories);
         recyclerView_categories.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        homeCategories = new ArrayList<>();
 
-        homeCategories.add(new Categories("Popular"));
-        homeCategories.add(new Categories("Uniform"));
-        homeCategories.add(new Categories("Crafts"));
-        homeCategories.add(new Categories("Foods"));
-        homeCategories.add(new Categories("Droga"));
-        homeCategories.add(new Categories("Alak"));
-        homeCategories.add(new Categories("Pagmamahal"));
-        homeCategories.add(new Categories("DNFJSDIHFSDI"));
 
-        adapter_categories = new HomeCategoryAdapter(getContext(), homeCategories);
+        adapter_categories = new HomeCategoryAdapter(getContext(), Categories.getCategories(), category -> {
+            filterPosts(category.getName());
+        });
         recyclerView_categories.setAdapter(adapter_categories);
 
         imageView_notification = view.findViewById(R.id.home_imageView_notification);
@@ -109,6 +104,32 @@ public class HomeFragment extends Fragment {
         });
 
         getPostCount();
+    }
+
+    private void filterPosts(String categoryName) {
+        ArrayList<Post> filteredPosts = new ArrayList<>();
+        if(categoryName.equals("Popular")) {
+            filteredPosts = homePosts;
+            Collections.sort(filteredPosts, Comparator.comparingInt(Post::getLikeCount).reversed());
+        }
+        else if(categoryName.equals("Following")) {
+            for(Post post: homePosts) {
+                if(post.isFollowedByCurrentUser()) {
+                    filteredPosts.add(post);
+                }
+            }
+        }
+        else {
+            for(Post post: homePosts) {
+                if(post.getProduct().getCategory().equals(categoryName)) {
+                    filteredPosts.add(post);
+                }
+            }
+        }
+
+        adapter_posts = new HomePostsAdapter(getContext(), getActivity(), filteredPosts);
+        recyclerView_posts.setAdapter(adapter_posts);
+        adapter_posts.notifyDataSetChanged();
     }
 
     private void getPostCount() {
@@ -202,6 +223,7 @@ public class HomeFragment extends Fragment {
                                 ),
                                 jsonObject.getInt("like_count"),
                                 (jsonObject.getInt("liked_by_current_user") == 1),
+                                (jsonObject.getInt("followed_by_current_user") == 1),
                                 example_reviews
                         );
 

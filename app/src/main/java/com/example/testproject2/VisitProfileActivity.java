@@ -316,6 +316,7 @@ public class VisitProfileActivity extends AppCompatActivity {
                                 ),
                                 jsonObject.getInt("like_count"),
                                 (jsonObject.getInt("liked_by_current_user") == 1),
+                                false,
                                 example_reviews
                         );
 
@@ -423,6 +424,7 @@ public class VisitProfileActivity extends AppCompatActivity {
                                 ),
                                 jsonObject.getInt("like_count"),
                                 (jsonObject.getInt("liked_by_current_user") == 1),
+                                false,
                                 example_reviews
                         );
 

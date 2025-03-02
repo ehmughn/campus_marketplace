@@ -5,15 +5,13 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="12dp"
     android:layout_marginBottom="10dp"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/notificationList_layout_notification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:background="@drawable/semi_rounded_corner"
-        android:backgroundTint="@color/main_yellow">
+        android:padding="5dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="60dp"
@@ -58,5 +56,11 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/main_blue"/>
 
 </LinearLayout>

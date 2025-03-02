@@ -10,8 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.objects.Categories;
-import com.example.objects.Post;
+import com.example.objects.Category;
 import com.example.testproject2.R;
 
 import java.util.ArrayList;
@@ -19,13 +18,18 @@ import java.util.ArrayList;
 public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapter.ViewHolder> {
 
     private Context context;
-
-    private ArrayList<Categories> categories;
+    private ArrayList<Category> categories;
     private int selected_position = 0;
+    private OnCategoryListener listener;
 
-    public HomeCategoryAdapter(Context context, ArrayList<Categories> categories) {
+    public interface OnCategoryListener {
+        void onCategorySelected(Category category);
+    }
+
+    public HomeCategoryAdapter(Context context, ArrayList<Category> categories, OnCategoryListener listener) {
         this.context = context;
         this.categories = categories;
+        this.listener = listener;
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -35,7 +39,7 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Categories category = categories.get(position);
+        Category category = categories.get(position);
         if(position == selected_position) {
             holder.layout_selected_true.setVisibility(View.VISIBLE);
             holder.textView_selected_true.setVisibility(View.VISIBLE);
@@ -54,6 +58,7 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
             @Override
             public void onClick(View v) {
                 selected_position = position;
+                listener.onCategorySelected(category);
                 notifyDataSetChanged();
             }
         });
@@ -61,6 +66,7 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
             @Override
             public void onClick(View v) {
                 selected_position = position;
+                listener.onCategorySelected(category);
                 notifyDataSetChanged();
             }
         });

@@ -9,15 +9,17 @@ public class Post {
     private Product product;
     private int likeCount;
     private boolean likedByCurrentUser;
+    private boolean followedByCurrentUser;
     private ArrayList<Reviews> reviews;
 
-    public Post(int id, String title, String description, Product product, int likeCount, boolean likedByCurrentUser, ArrayList<Reviews> reviews) {
+    public Post(int id, String title, String description, Product product, int likeCount, boolean likedByCurrentUser, boolean followedByCurrentUser, ArrayList<Reviews> reviews) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.product = product;
         this.likeCount = likeCount;
         this.likedByCurrentUser = likedByCurrentUser;
+        this.followedByCurrentUser = followedByCurrentUser;
         this.reviews = reviews;
     }
 
@@ -76,5 +78,13 @@ public class Post {
 
     public void setLikedByCurrentUser(boolean likedByCurrentUser) {
         this.likedByCurrentUser = likedByCurrentUser;
+    }
+
+    public boolean isFollowedByCurrentUser() {
+        return followedByCurrentUser;
+    }
+
+    public void setFollowedByCurrentUser(boolean followedByCurrentUser) {
+        this.followedByCurrentUser = followedByCurrentUser;
     }
 }

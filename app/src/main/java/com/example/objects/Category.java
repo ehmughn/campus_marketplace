@@ -1,13 +1,13 @@
 package com.example.objects;
 
-public class Categories {
+public class Category {
 
     private static int incrementingId;
     private int id;
     private String name;
     private boolean selected;
 
-    public Categories(String name) {
+    public Category(String name) {
         this.id = incrementingId;
         incrementingId++;
         this.name = name;

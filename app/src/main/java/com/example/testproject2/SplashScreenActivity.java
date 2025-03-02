@@ -14,6 +14,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.objects.Account;
+import com.example.objects.Variation;
+import com.example.static_classes.Categories;
 import com.example.static_classes.CurrentAccount;
 import com.example.static_classes.DatabaseConnectionData;
 import com.example.static_classes.RegisterInfoHolder;
@@ -37,6 +39,8 @@ public class SplashScreenActivity extends AppCompatActivity {
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .build();
+    private int logged_account;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,22 +53,54 @@ public class SplashScreenActivity extends AppCompatActivity {
             return insets;
         });
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        int logged_account = sharedPreferences.getInt("logged_account", 0);
-        String password = sharedPreferences.getString("password", "");
+        logged_account = sharedPreferences.getInt("logged_account", 0);
+        password = sharedPreferences.getString("password", "");
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        new Handler().postDelayed(new Runnable() {
+        Categories.init();
+        getDatabaseCategories();
+    }
+
+    private void getDatabaseCategories() {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/get_all_categories.php";
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
             @Override
-            public void run() {
-                if(logged_account == 0) {
-                    Intent intent = new Intent(SplashScreenActivity.this, SignInActivity.class);
-                    startActivity(intent);
-                    finish();
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> Toast.makeText(SplashScreenActivity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    try {
+                        JSONArray responseArray = new JSONArray(responseData);
+                        for(int i = 0; i < responseArray.length(); i++) {
+                            JSONObject jsonObject = responseArray.getJSONObject(i);
+                            String name = jsonObject.getString("name");
+                            Categories.addCategory(name);
+                        }
+                        if(logged_account == 0) {
+                            Intent intent = new Intent(SplashScreenActivity.this, SignInActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                        else {
+                            loginWithId(logged_account, password);
+                        }
+                    } catch (Exception e) {
+                        runOnUiThread(() -> Toast.makeText(SplashScreenActivity.this, "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
                 }
                 else {
-                    loginWithId(logged_account, password);
+                    runOnUiThread(() -> Toast.makeText(SplashScreenActivity.this, "Network error", Toast.LENGTH_SHORT).show());
                 }
             }
-        },3000);
+        });
     }
 
     private void loginWithId(int id, String password) {

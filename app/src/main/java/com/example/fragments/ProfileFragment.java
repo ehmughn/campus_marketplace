@@ -336,6 +336,7 @@ public class ProfileFragment extends Fragment {
                                 ),
                                 jsonObject.getInt("like_count"),
                                 (jsonObject.getInt("liked_by_current_user") == 1),
+                                false,
                                 example_reviews
                         );
 
@@ -453,6 +454,7 @@ public class ProfileFragment extends Fragment {
                                 ),
                                 jsonObject.getInt("like_count"),
                                 (jsonObject.getInt("liked_by_current_user") == 1),
+                                false,
                                 example_reviews
                         );
 

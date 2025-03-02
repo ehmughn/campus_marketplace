@@ -230,6 +230,7 @@ public class PostActivity extends AppCompatActivity {
                                 ),
                                 jsonObject.getInt("like_count"),
                                 (jsonObject.getInt("liked_by_current_user") == 1),
+                                false,
                                 reviews
                         );
                         productId = jsonObject.getInt("product_id");
