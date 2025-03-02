@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReviewActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:id="@+id/foreground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:padding="8dp">
+
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_gravity="center"
+                    layout="@layout/header_numart_without_logo"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="40dp"
+                android:textSize="18dp"
+                android:text="Product:"
+                android:fontFamily="@font/montserrat_bold"/>
+
+            <TextView
+                android:id="@+id/review_textView_productName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:textSize="18dp"
+                android:text="Product Name"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                android:textSize="18dp"
+                android:text="Variant:"
+                android:fontFamily="@font/montserrat_bold"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/review_textField_variantName"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_marginStart="10dp"
+                android:layout_width="200dp"
+                android:layout_height="60dp">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/review_autoComplete_variantName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    android:textSize="12sp"
+                    android:textColor="@color/text_blue"
+                    android:background="@drawable/semi_rounded_corner"
+                    android:backgroundTint="#D6DBE2"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="20dp"
+                    android:textAlignment="center"
+                    android:textSize="18dp"
+                    android:text="Rate variant"
+                    android:fontFamily="@font/montserrat_bold"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/review_imageView_star1"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginHorizontal="2dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/star_empty"
+                        android:layout_columnWeight="1"/>
+
+                    <ImageView
+                        android:id="@+id/review_imageView_star2"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginHorizontal="2dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/star_empty"
+                        android:layout_columnWeight="1"/>
+
+                    <ImageView
+                        android:id="@+id/review_imageView_star3"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginHorizontal="2dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/star_empty"
+                        android:layout_columnWeight="1"/>
+
+                    <ImageView
+                        android:id="@+id/review_imageView_star4"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginHorizontal="2dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/star_empty"
+                        android:layout_columnWeight="1"/>
+
+                    <ImageView
+                        android:id="@+id/review_imageView_star5"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginHorizontal="2dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/star_empty"
+                        android:layout_columnWeight="1"/>
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/review_editText_comment"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginHorizontal="40dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:orientation="horizontal"
+                    android:inputType="textMultiLine"
+                    android:gravity="top"
+                    android:padding="10dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/main_blue"
+                    android:scrollbars="vertical"
+                    android:background="@drawable/semi_rounded_corner"
+                    android:backgroundTint="#D6DBE2"/>
+
+                <Button
+                    android:id="@+id/review_button_submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_gravity="center"
+                    android:paddingHorizontal="30dp"
+                    android:background="@drawable/rounded_corner"
+                    app:backgroundTint="@color/main_yellow"
+                    android:text="Submit"
+                    android:textSize="15dp"
+                    android:textColor="@color/main_blue"
+                    android:fontFamily="@font/montserrat_bold"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

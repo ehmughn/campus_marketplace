@@ -77,7 +77,11 @@ public class UploadProductActivity extends AppCompatActivity {
     private Button button_submit;
     private EditText editText_productName;
     private TextInputLayout editText_category;
-    private OkHttpClient client = new OkHttpClient();
+    private OkHttpClient client = new OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .build();
     private LayoutInflater inflaterPleaseWait;
     private View dialogPleaseWaitView;
     private AlertDialog.Builder builderDialogPleaseWait;
@@ -391,7 +395,7 @@ public class UploadProductActivity extends AppCompatActivity {
         double price = Double.parseDouble(dialogVariation_editText_variationPrice.getText().toString().trim());
         int stock = Integer.parseInt(dialogVariation_editText_variationStock.getText().toString().trim());
         String image = EncodeImage.encodeFromBitmap(bitmap);
-        Variation variation = new Variation(name, price, stock, image);
+        Variation variation = new Variation(0, name, price, stock, image);
         variations.add(variation);
         uploadProductVariationsAdapter.notifyDataSetChanged();
         dialogVariation.dismiss();

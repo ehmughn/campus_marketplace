@@ -288,6 +288,7 @@ public class VisitProfileActivity extends AppCompatActivity {
                         JSONObject jsonObject = responseArray.getJSONObject(0);
                         ArrayList<Variation> singleVariation = new ArrayList<>();
                         singleVariation.add(new Variation(
+                                0,
                                 jsonObject.getString("variant_name"),
                                 jsonObject.getDouble("variant_cost"),
                                 jsonObject.getInt("variant_stock"),
@@ -394,6 +395,7 @@ public class VisitProfileActivity extends AppCompatActivity {
                         JSONObject jsonObject = responseArray.getJSONObject(0);
                         ArrayList<Variation> singleVariation = new ArrayList<>();
                         singleVariation.add(new Variation(
+                                0,
                                 jsonObject.getString("variant_name"),
                                 jsonObject.getDouble("variant_cost"),
                                 jsonObject.getInt("variant_stock"),

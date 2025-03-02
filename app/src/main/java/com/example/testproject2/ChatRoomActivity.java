@@ -24,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -104,6 +105,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                         JSONObject jsonObject = responseArray.getJSONObject(0);
                         ArrayList<Variation> singleVariation = new ArrayList<>();
                         singleVariation.add(new Variation(
+                                0,
                                 "not needed",
                                 0,
                                 0,
@@ -429,7 +431,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                 .add("room_id", Integer.toString(chatRoom))
                 .add("sender_id", Integer.toString(CurrentAccount.getAccount().getId()))
                 .add("content", binding.chatRoomEditTextMessage.getText().toString().trim())
-                .add("datetime_sent", new Date().toString())
+                .add("datetime_sent", new SimpleDateFormat("HH:mm").format(new Date()).toString())
                 .build();
 
         Request request = new Request.Builder()
@@ -455,7 +457,7 @@ public class ChatRoomActivity extends AppCompatActivity {
                                             CurrentAccount.getAccount().getName(),
                                             CurrentAccount.getAccount().getImage(),
                                             binding.chatRoomEditTextMessage.getText().toString().trim(),
-                                            new Date().toString(),
+                                            new SimpleDateFormat("HH:mm").format(new Date()).toString(),
                                             "SENDER"
                                     ));
                                     updateMessages();

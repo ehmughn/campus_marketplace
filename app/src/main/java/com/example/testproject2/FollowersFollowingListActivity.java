@@ -24,7 +24,6 @@ import com.example.objects.Product;
 import com.example.objects.Variation;
 import com.example.static_classes.CurrentAccount;
 import com.example.static_classes.DatabaseConnectionData;
-import com.example.temporary_values.TemporaryAccountList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

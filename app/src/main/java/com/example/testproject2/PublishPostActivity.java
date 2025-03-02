@@ -246,6 +246,7 @@ public class PublishPostActivity extends AppCompatActivity {
                             lastCategory = jsonObject.getString("category");
                         }
                         variations.add(new Variation(
+                                0,
                                 jsonObject.getString("variant_name"),
                                 jsonObject.getDouble("cost"),
                                 jsonObject.getInt("stock"),

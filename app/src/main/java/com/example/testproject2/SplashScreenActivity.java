@@ -17,8 +17,6 @@ import com.example.objects.Account;
 import com.example.static_classes.CurrentAccount;
 import com.example.static_classes.DatabaseConnectionData;
 import com.example.static_classes.RegisterInfoHolder;
-import com.example.temporary_values.TemporaryAccountList;
-import com.example.temporary_values.TemporaryPostList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

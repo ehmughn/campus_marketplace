@@ -26,8 +26,6 @@ import com.example.objects.Variation;
 import com.example.static_classes.CurrentAccount;
 import com.example.static_classes.DatabaseConnectionData;
 import com.example.static_classes.EncodeImage;
-import com.example.temporary_values.TemporaryAccountList;
-import com.example.temporary_values.TemporaryPostList;
 import com.example.testproject2.EditProfileActivity;
 import com.example.testproject2.FollowersFollowingListActivity;
 import com.example.testproject2.MainActivity;
@@ -310,6 +308,7 @@ public class ProfileFragment extends Fragment {
                         JSONObject jsonObject = responseArray.getJSONObject(0);
                         ArrayList<Variation> singleVariation = new ArrayList<>();
                         singleVariation.add(new Variation(
+                                0,
                                 jsonObject.getString("variant_name"),
                                 jsonObject.getDouble("variant_cost"),
                                 jsonObject.getInt("variant_stock"),
@@ -426,6 +425,7 @@ public class ProfileFragment extends Fragment {
                         JSONObject jsonObject = responseArray.getJSONObject(0);
                         ArrayList<Variation> singleVariation = new ArrayList<>();
                         singleVariation.add(new Variation(
+                                0,
                                 jsonObject.getString("variant_name"),
                                 jsonObject.getDouble("variant_cost"),
                                 jsonObject.getInt("variant_stock"),

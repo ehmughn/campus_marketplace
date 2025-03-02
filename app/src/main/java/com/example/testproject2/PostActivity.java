@@ -35,7 +35,6 @@ import com.example.static_classes.CurrentAccount;
 import com.example.static_classes.DatabaseConnectionData;
 import com.example.static_classes.Decimals;
 import com.example.static_classes.EncodeImage;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
@@ -83,7 +82,7 @@ public class PostActivity extends AppCompatActivity {
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .build();
-    private ArrayList<Reviews> example_reviews;
+    private ArrayList<Reviews> reviews;
     private Post post;
     private TextInputLayout textField_variantName;
     private AutoCompleteTextView autoComplete_variantName;
@@ -96,6 +95,8 @@ public class PostActivity extends AppCompatActivity {
     private AlertDialog dialogPleaseWait;
     private TextView dialogPleaseWait_textView_progress;
     private int productId;
+
+    private ImageView imageView_review;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,15 +153,36 @@ public class PostActivity extends AppCompatActivity {
         dialogPleaseWait.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogPleaseWait_textView_progress = dialogPleaseWaitView.findViewById(R.id.dialogPleaseWait_textView_progress);
 
-        example_reviews = new ArrayList<>();
-        example_reviews.add(new Reviews());
-        example_reviews.add(new Reviews());
-        example_reviews.add(new Reviews());
-        example_reviews.add(new Reviews());
+        reviews = new ArrayList<>();
+        adapter_postReview = new PostReviewAdapter(this, reviews);
+        recyclerView_reviews = findViewById(R.id.post_recyclerView_reviews);
+        recyclerView_reviews.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView_reviews.setAdapter(adapter_postReview);
         int postId = getIntent().getIntExtra("postId", 0);
         getProductData(postId);
         textField_variantName = findViewById(R.id.post_textField_variantName);
         autoComplete_variantName = findViewById(R.id.post_autoComplete_variantName);
+
+        imageView_review = findViewById(R.id.post_imageView_review);
+        imageView_review.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(post.getProduct().getAccount().getId() == CurrentAccount.getAccount().getId())
+                    return;
+                Intent intent = new Intent(PostActivity.this, ReviewActivity.class);
+                intent.putExtra("product_name", post.getProduct().getName());
+                intent.putExtra("product_id", post.getProduct().getId());
+                intent.putExtra("seller_id", post.getProduct().getAccount().getId());
+                intent.putExtra("post_id", post.getId());
+                int variationCount = post.getProduct().getVariations().size();
+                intent.putExtra("variation_count", variationCount);
+                for(int i = 0; i < variationCount; i++) {
+                    intent.putExtra("variationId" + i, post.getProduct().getVariations().get(i).getId());
+                    intent.putExtra("variationName" + i, post.getProduct().getVariations().get(i).getName());
+                }
+                startActivity(intent);
+            }
+        });
     }
 
     private void getProductData(int postId) {
@@ -208,7 +230,7 @@ public class PostActivity extends AppCompatActivity {
                                 ),
                                 jsonObject.getInt("like_count"),
                                 (jsonObject.getInt("liked_by_current_user") == 1),
-                                example_reviews
+                                reviews
                         );
                         productId = jsonObject.getInt("product_id");
                         // get the variations
@@ -282,6 +304,7 @@ public class PostActivity extends AppCompatActivity {
                         JSONArray responseArray = new JSONArray(responseData);
                         JSONObject jsonObject = responseArray.getJSONObject(0);
                         post.getProduct().getVariations().add(new Variation(
+                                jsonObject.getInt("variant_id"),
                                 jsonObject.getString("variant_name"),
                                 jsonObject.getDouble("variant_cost"),
                                 jsonObject.getInt("variant_stock"),
@@ -310,9 +333,6 @@ public class PostActivity extends AppCompatActivity {
             textView_description.setText(post.getDescription());
             imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getAccount().getImage()));
             textView_sellerName.setText(post.getProduct().getAccount().getName());
-            adapter_postReview = new PostReviewAdapter(this, post, example_reviews);
-            recyclerView_reviews.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView_reviews.setAdapter(adapter_postReview);
             variationList = new ArrayList<>();
             if(post.getProduct().getAccount().getId() == CurrentAccount.getAccount().getId()) {
                 button_message.setClickable(false);
@@ -336,6 +356,94 @@ public class PostActivity extends AppCompatActivity {
         });
     }
 
+    private void getReviewsCount() {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/get_reviews_count.php?product_id=" + post.getProduct().getId();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> Toast.makeText(PostActivity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    try {
+                        JSONObject jsonResponse = new JSONObject(responseData);
+                        int totalReviews = jsonResponse.getInt("total_reviews");
+                        reviews = new ArrayList<>();
+                        getReviews(0, totalReviews);
+
+                    } catch (Exception e) {
+                        runOnUiThread(() -> Toast.makeText(PostActivity.this, "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                }
+                else {
+                    runOnUiThread(() -> Toast.makeText(PostActivity.this, "Network error", Toast.LENGTH_SHORT).show());
+                }
+            }
+        });
+    }
+
+    private void getReviews(int recursion, int end) {
+        if(recursion == end) {
+            setReviews();
+            return;
+        }
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/post_select_reviews.php?product_id=" + post.getProduct().getId() + "&offset=" + recursion;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> Toast.makeText(PostActivity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseData = response.body().string();
+                    try {
+                        JSONArray responseArray = new JSONArray(responseData);
+                        JSONObject jsonObject = responseArray.getJSONObject(0);
+                        reviews.add(new Reviews(
+                                jsonObject.getString("reviewer_name"),
+                                jsonObject.getString("reviewer_image"),
+                                jsonObject.getInt("rating"),
+                                jsonObject.getString("variant_name"),
+                                jsonObject.getString("comment")
+                        ));
+                        getReviews(recursion + 1, end);
+
+                    } catch (Exception e) {
+                        runOnUiThread(() -> Toast.makeText(PostActivity.this, "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                    }
+                }
+                else {
+                    runOnUiThread(() -> Toast.makeText(PostActivity.this, "Network error", Toast.LENGTH_SHORT).show());
+                }
+            }
+        });
+    }
+
+    private void setReviews() {
+        runOnUiThread(() -> {
+            adapter_postReview = new PostReviewAdapter(this, reviews);
+            recyclerView_reviews = findViewById(R.id.post_recyclerView_reviews);
+            recyclerView_reviews.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView_reviews.setAdapter(adapter_postReview);
+            adapter_postReview.notifyDataSetChanged();
+        });
+    }
+
     private void toDetails() {
         layout_details.setVisibility(View.VISIBLE);
         layout_reviews.setVisibility(View.INVISIBLE);
@@ -352,5 +460,6 @@ public class PostActivity extends AppCompatActivity {
         button_detailsUnpressed.setVisibility(View.VISIBLE);
         button_reviewsPressed.setVisibility(View.VISIBLE);
         button_reviewsUnpressed.setVisibility(View.INVISIBLE);
+        getReviewsCount();
     }
 }

@@ -60,7 +60,9 @@ public class NotificationsListAdapter extends RecyclerView.Adapter<Notifications
                     context.startActivity(intent);
                 }
                 else if(notification.getType().equals("REVIEW")) {
-                    //
+                    Intent intent = new Intent(context, PostActivity.class);
+                    intent.putExtra("postId", notification.getReference());
+                    context.startActivity(intent);
                 }
             }
         });

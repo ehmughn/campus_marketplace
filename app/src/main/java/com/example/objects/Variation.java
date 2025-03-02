@@ -1,12 +1,14 @@
 package com.example.objects;
 
 public class Variation {
+    private int id;
     private String name;
     private double price;
     private int stock;
     private String image;
 
-    public Variation(String name, double price, int stock, String image) {
+    public Variation(int id, String name, double price, int stock, String image) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -43,5 +45,13 @@ public class Variation {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

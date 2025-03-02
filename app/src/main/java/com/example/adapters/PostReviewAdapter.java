@@ -24,13 +24,11 @@ import java.util.ArrayList;
 public class PostReviewAdapter extends RecyclerView.Adapter<PostReviewAdapter.ViewHolder> {
 
     private Context context;
-    private Post post;
 
     private ArrayList<Reviews> reviews;
 
-    public PostReviewAdapter(Context context, Post post, ArrayList<Reviews> reviews) {
+    public PostReviewAdapter(Context context, ArrayList<Reviews> reviews) {
         this.context = context;
-        this.post = post;
         this.reviews = reviews;
     }
     @Override
@@ -80,11 +78,9 @@ public class PostReviewAdapter extends RecyclerView.Adapter<PostReviewAdapter.Vi
                 holder.imageView_star5.setImageResource(R.drawable.star_full);
                 break;
         }
+        holder.imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(review.getImage()));
         holder.textView_variation.setText("Variation: " + review.getVariation());
         holder.textView_comment.setText(review.getComment());
-        holder.imageView_picture1.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
-        holder.imageView_picture2.setImageBitmap(EncodeImage.decodeFromStringBlob(post.getProduct().getVariations().get(0).getImage()));
-        holder.textView_helpful.setText("Helpful(" + review.getHelpful_likes() + ")");
     }
 
     @Override
@@ -101,12 +97,9 @@ public class PostReviewAdapter extends RecyclerView.Adapter<PostReviewAdapter.Vi
         public ImageView imageView_star3;
         public ImageView imageView_star4;
         public ImageView imageView_star5;
+        public ImageView imageView_profilePicture;
         public TextView textView_variation;
         public TextView textView_comment;
-        public ImageView imageView_picture1;
-        public ImageView imageView_picture2;
-        public TextView textView_helpful;
-        public  ImageView imageView_like;
 
         public ViewHolder(View reviewView) {
             super(reviewView);
@@ -117,12 +110,9 @@ public class PostReviewAdapter extends RecyclerView.Adapter<PostReviewAdapter.Vi
             imageView_star3 = reviewView.findViewById(R.id.postReview_imageView_star3);
             imageView_star4 = reviewView.findViewById(R.id.postReview_imageView_star4);
             imageView_star5 = reviewView.findViewById(R.id.postReview_imageView_star5);
+            imageView_profilePicture = reviewView.findViewById(R.id.postReview_imageView_profile_picture);
             textView_variation = reviewView.findViewById(R.id.postReview_textView_variation);
             textView_comment = reviewView.findViewById(R.id.postReview_textView_comment);
-            imageView_picture1 = reviewView.findViewById(R.id.postReview_imageView_picture1);
-            imageView_picture2 = reviewView.findViewById(R.id.postReview_imageView_picture2);
-            textView_helpful = reviewView.findViewById(R.id.postReview_textView_helpful);
-            imageView_like = reviewView.findViewById(R.id.postReview_imageView_like);
         }
     }
 }

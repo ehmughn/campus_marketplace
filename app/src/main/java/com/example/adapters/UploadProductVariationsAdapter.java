@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.objects.Post;
 import com.example.objects.Variation;
 import com.example.static_classes.EncodeImage;
-import com.example.temporary_values.TemporaryAccountList;
 import com.example.testproject2.PostActivity;
 import com.example.testproject2.R;
 
