@@ -51,7 +51,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/homePost_textView_buyer"
+                android:id="@+id/postReview_textView_buyer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="5dp"

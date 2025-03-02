@@ -97,6 +97,7 @@ public class PostActivity extends AppCompatActivity {
     private int productId;
 
     private ImageView imageView_review;
+    private TextView textView_seller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +184,7 @@ public class PostActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        textView_seller = findViewById(R.id.post_textView_seller);
     }
 
     private void getProductData(int postId) {
@@ -354,6 +356,8 @@ public class PostActivity extends AppCompatActivity {
                 }
             });
             dialogPleaseWait.dismiss();
+            if(CurrentAccount.getAccount().getId() == post.getProduct().getAccount().getId())
+                textView_seller.setText("Seller (You)");
         });
     }
 

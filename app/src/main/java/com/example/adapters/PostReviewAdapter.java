@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.objects.Post;
 import com.example.objects.Reviews;
+import com.example.static_classes.CurrentAccount;
 import com.example.static_classes.EncodeImage;
 import com.example.testproject2.PostActivity;
 import com.example.testproject2.R;
@@ -81,6 +82,8 @@ public class PostReviewAdapter extends RecyclerView.Adapter<PostReviewAdapter.Vi
         holder.imageView_profilePicture.setImageBitmap(EncodeImage.decodeFromStringBlob(review.getImage()));
         holder.textView_variation.setText("Variation: " + review.getVariation());
         holder.textView_comment.setText(review.getComment());
+        if(review.getName().equals(CurrentAccount.getAccount().getName()))
+            holder.textView_buyer.setText("Buyer (You)");
     }
 
     @Override
@@ -100,6 +103,7 @@ public class PostReviewAdapter extends RecyclerView.Adapter<PostReviewAdapter.Vi
         public ImageView imageView_profilePicture;
         public TextView textView_variation;
         public TextView textView_comment;
+        public TextView textView_buyer;
 
         public ViewHolder(View reviewView) {
             super(reviewView);
@@ -113,6 +117,7 @@ public class PostReviewAdapter extends RecyclerView.Adapter<PostReviewAdapter.Vi
             imageView_profilePicture = reviewView.findViewById(R.id.postReview_imageView_profile_picture);
             textView_variation = reviewView.findViewById(R.id.postReview_textView_variation);
             textView_comment = reviewView.findViewById(R.id.postReview_textView_comment);
+            textView_buyer = reviewView.findViewById(R.id.postReview_textView_buyer);
         }
     }
 }

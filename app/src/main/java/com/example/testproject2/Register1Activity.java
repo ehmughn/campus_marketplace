@@ -33,6 +33,8 @@ public class Register1Activity extends AppCompatActivity {
     private Button button_continue;
     private OkHttpClient client = new OkHttpClient();
 
+    private static final String EMAIL_SUFFIX = "@students.nu-dasma.edu.ph";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +67,7 @@ public class Register1Activity extends AppCompatActivity {
                     textView_errorMessage.setText("Please fill up the fields.");
                     return;
                 }
-                if(!Patterns.EMAIL_ADDRESS.matcher(check_email).matches()) {
+                if(!isValidEmail(check_email)) {
                     textView_errorMessage.setText("Invalid email format.");
                     return;
                 }
@@ -115,6 +117,13 @@ public class Register1Activity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public static boolean isValidEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            return false;
+        }
+        return email.endsWith(EMAIL_SUFFIX);
     }
 
 }
