@@ -55,6 +55,12 @@ public class SplashScreenActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         logged_account = sharedPreferences.getInt("logged_account", 0);
         password = sharedPreferences.getString("password", "");
+        DatabaseConnectionData.setHost(sharedPreferences.getString("host", "none"));
+        if(DatabaseConnectionData.getHost().equals("none")) {
+            Intent intent = new Intent(SplashScreenActivity.this, SetHostActivity.class);
+            startActivity(intent);
+            finish();
+        }
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Categories.init();
         getDatabaseCategories();
@@ -70,7 +76,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                runOnUiThread(() -> Toast.makeText(SplashScreenActivity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                Intent intent = new Intent(SplashScreenActivity.this, SetHostActivity.class);
+                startActivity(intent);
+                finish();
             }
 
             @Override

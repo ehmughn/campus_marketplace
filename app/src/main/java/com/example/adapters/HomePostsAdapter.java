@@ -95,6 +95,8 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
                     likePost(holder, post);
             }
         });
+        if(CurrentAccount.getAccount().getId() == post.getProduct().getAccount().getId())
+            holder.textView_seller.setText("Seller (You)");
     }
 
     private void unlikePost(ViewHolder holder, Post post) {
@@ -252,6 +254,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
         public ImageView imageView_profilePicture;
         public TextView textView_sellerName;
         public ImageView imageView_like;
+        public TextView textView_seller;
 
         public ViewHolder(View postView) {
             super(postView);
@@ -266,6 +269,7 @@ public class HomePostsAdapter extends RecyclerView.Adapter<HomePostsAdapter.View
             imageView_profilePicture = postView.findViewById(R.id.homePost_imageView_profile_picture);
             textView_sellerName = postView.findViewById(R.id.homePost_textView_seller_name);
             imageView_like = postView.findViewById(R.id.homePost_imageView_like);
+            textView_seller = postView.findViewById(R.id.homePost_textView_seller);
         }
     }
 }
