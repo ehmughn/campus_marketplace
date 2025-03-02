@@ -24,6 +24,7 @@ import com.example.objects.Variation;
 import com.example.static_classes.Categories;
 import com.example.static_classes.CurrentAccount;
 import com.example.static_classes.DatabaseConnectionData;
+import com.example.static_classes.EncodeImage;
 import com.example.testproject2.NotificationActivity;
 import com.example.testproject2.R;
 
@@ -103,7 +104,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        getPostCount();
+        loadPosts();
     }
 
     private void filterPosts(String categoryName) {
@@ -132,8 +133,8 @@ public class HomeFragment extends Fragment {
         adapter_posts.notifyDataSetChanged();
     }
 
-    private void getPostCount() {
-        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/get_post_count.php?";
+    private void loadPosts() {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/select_post_home.php?current_user=" + CurrentAccount.getAccount().getId();
 
         Request request = new Request.Builder()
                 .url(url)
@@ -142,35 +143,85 @@ public class HomeFragment extends Fragment {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                if (!isFragmentActive)
+                    return;
+                requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                if (!isFragmentActive)
+                    return;
                 if (response.isSuccessful()) {
                     String responseData = response.body().string();
                     try {
-                        JSONObject jsonResponse = new JSONObject(responseData);
-                        int total_post = jsonResponse.getInt("total_post");
-                        loadPosts(0, total_post);
+                        JSONArray responseArray = new JSONArray(responseData);
+                        for(int i = 0; i < responseArray.length(); i++) {
+                            JSONObject jsonObject = responseArray.getJSONObject(i);
+                            ArrayList<Variation> singleVariation = new ArrayList<>();
+                            singleVariation.add(new Variation(
+                                    0,
+                                    jsonObject.getString("variant_name"),
+                                    jsonObject.getDouble("variant_cost"),
+                                    jsonObject.getInt("variant_stock"),
+                                    EncodeImage.encodeFromDrawable(getResources(), R.drawable.loading_image)
+                            ));
+                            Post post = new Post(
+                                    jsonObject.getInt("post_id"),
+                                    jsonObject.getString("title"),
+                                    jsonObject.getString("description"),
+                                    new Product(
+                                            jsonObject.getInt("product_id"),
+                                            jsonObject.getString("product_name"),
+                                            jsonObject.getString("category"),
+                                            new Account(
+                                                    jsonObject.getInt("seller_id"),
+                                                    EncodeImage.encodeFromDrawable(getResources(), R.drawable.loading_image),
+                                                    jsonObject.getString("first_name"),
+                                                    jsonObject.getString("last_name"),
+                                                    "not needed",
+                                                    "not needed",
+                                                    "not needed",
+                                                    "not needed"
+                                            ),
+                                            singleVariation
+                                    ),
+                                    jsonObject.getInt("like_count"),
+                                    (jsonObject.getInt("liked_by_current_user") == 1),
+                                    (jsonObject.getInt("followed_by_current_user") == 1),
+                                    example_reviews
+                            );
+
+                            requireActivity().runOnUiThread(() -> {
+                                if (!isFragmentActive)
+                                    return;
+                                homePosts.add(post);
+                            });
+                        }
+                        requireActivity().runOnUiThread(() -> adapter_posts.notifyDataSetChanged());
+                        loadImages(0, responseArray.length());
 
                     } catch (Exception e) {
-                        getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        if (!isFragmentActive)
+                            return;
+                        requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                     }
                 }
                 else {
-                    getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show());
+                    if (!isFragmentActive)
+                        return;
+                    requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show());
                 }
             }
         });
     }
 
-    private void loadPosts(int reccursion, int end) {
-        if(!isFragmentActive || reccursion == end) {
-            //finish
+    private void loadImages(int recursion, int end) {
+        if(recursion == end) {
+            requireActivity().runOnUiThread(() -> adapter_posts.notifyDataSetChanged());
             return;
         }
-        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/select_post_home.php?post_number=" + reccursion + "&current_user=" + CurrentAccount.getAccount().getId();
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/select_post_home_images.php?offset=" + recursion + "&current_user=" + CurrentAccount.getAccount().getId();
 
         Request request = new Request.Builder()
                 .url(url)
@@ -193,47 +244,14 @@ public class HomeFragment extends Fragment {
                     try {
                         JSONArray responseArray = new JSONArray(responseData);
                         JSONObject jsonObject = responseArray.getJSONObject(0);
-                        ArrayList<Variation> singleVariation = new ArrayList<>();
-                        singleVariation.add(new Variation(
-                                0,
-                                jsonObject.getString("variant_name"),
-                                jsonObject.getDouble("variant_cost"),
-                                jsonObject.getInt("variant_stock"),
-                                jsonObject.getString("variant_image")
-                        ));
-                        Post post = new Post(
-                                jsonObject.getInt("post_id"),
-                                jsonObject.getString("title"),
-                                jsonObject.getString("description"),
-                                new Product(
-                                        jsonObject.getInt("product_id"),
-                                        jsonObject.getString("product_name"),
-                                        jsonObject.getString("category"),
-                                        new Account(
-                                                jsonObject.getInt("seller_id"),
-                                                jsonObject.getString("seller_image"),
-                                                jsonObject.getString("first_name"),
-                                                jsonObject.getString("last_name"),
-                                                "not needed",
-                                                "not needed",
-                                                "not needed",
-                                                "not needed"
-                                        ),
-                                        singleVariation
-                                ),
-                                jsonObject.getInt("like_count"),
-                                (jsonObject.getInt("liked_by_current_user") == 1),
-                                (jsonObject.getInt("followed_by_current_user") == 1),
-                                example_reviews
-                        );
-
-                        requireActivity().runOnUiThread(() -> {
-                            if (!isFragmentActive)
-                                return;
-                            homePosts.add(post);
-                            adapter_posts.notifyDataSetChanged();
-                        });
-                        loadPosts(reccursion + 1, end);
+                        for(Post post: homePosts) {
+                            if(post.getId() == jsonObject.getInt("post_id")) {
+                                post.getProduct().getVariations().get(0).setImage(jsonObject.getString("variant_image"));
+                                post.getProduct().getAccount().setImage(jsonObject.getString("seller_image"));
+                                break;
+                            }
+                        }
+                        loadImages(recursion + 1, end);
 
                     } catch (Exception e) {
                         if (!isFragmentActive)

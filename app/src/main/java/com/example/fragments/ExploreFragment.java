@@ -15,6 +15,7 @@ import com.example.adapters.ExploreAdapter;
 import com.example.objects.Reviews;
 import com.example.objects.VariationForExploreFragment;
 import com.example.static_classes.DatabaseConnectionData;
+import com.example.static_classes.EncodeImage;
 import com.example.testproject2.R;
 
 import org.json.JSONArray;
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -64,11 +66,11 @@ public class ExploreFragment extends Fragment {
         exploreVariations = new ArrayList<>();
         adapter_explore = new ExploreAdapter(getContext(), exploreVariations);
         recyclerView_posts.setAdapter(adapter_explore);
-        getVariationCount();
+        loadPosts();
     }
 
-    private void getVariationCount() {
-        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/get_all_variant_count.php?";
+    private void loadPosts() {
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/select_post_explore.php";
 
         Request request = new Request.Builder()
                 .url(url)
@@ -77,35 +79,55 @@ public class ExploreFragment extends Fragment {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                if (!isFragmentActive)
+                    return;
+                requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
+                if (!isFragmentActive)
+                    return;
                 if (response.isSuccessful()) {
                     String responseData = response.body().string();
                     try {
-                        JSONObject jsonResponse = new JSONObject(responseData);
-                        int total_variants = jsonResponse.getInt("total_variants");
-                        loadPosts(0, total_variants);
+                        JSONArray responseArray = new JSONArray(responseData);
+                        for(int i = 0; i < responseArray.length(); i++) {
+                            JSONObject jsonObject = responseArray.getJSONObject(i);
+                            exploreVariations.add(new VariationForExploreFragment(
+                                    jsonObject.getInt("post_id"),
+                                    jsonObject.getInt("variant_id"),
+                                    EncodeImage.encodeFromDrawable(getResources(), R.drawable.loading_image)
+                            ));
+                        }
+                        requireActivity().runOnUiThread(() -> {
+                            if (!isFragmentActive)
+                                return;
+                            Collections.shuffle(exploreVariations);
+                            adapter_explore.notifyDataSetChanged();
+                        });
+                        loadPostsImages(0, responseArray.length());
 
                     } catch (Exception e) {
-                        getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        if (!isFragmentActive)
+                            return;
+                        requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                     }
                 }
                 else {
-                    getActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show());
+                    if (!isFragmentActive)
+                        return;
+                    requireActivity().runOnUiThread(() -> Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show());
                 }
             }
         });
     }
-
-    private void loadPosts(int reccursion, int end) {
+    private void loadPostsImages(int reccursion, int end) {
         if(!isFragmentActive || reccursion == end) {
-            //finish
+
             return;
         }
-        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/select_post_explore.php?post_number=" + reccursion;
+        String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/select_post_explore_images.php?post_number=" + reccursion;
 
         Request request = new Request.Builder()
                 .url(url)
@@ -128,17 +150,18 @@ public class ExploreFragment extends Fragment {
                     try {
                         JSONArray responseArray = new JSONArray(responseData);
                         JSONObject jsonObject = responseArray.getJSONObject(0);
-                        exploreVariations.add(new VariationForExploreFragment(
-                                jsonObject.getInt("post_id"),
-                                jsonObject.getString("image")
-                        ));
-
+                        for(VariationForExploreFragment variation: exploreVariations) {
+                            if(variation.getVariant_id() == jsonObject.getInt("variant_id")) {
+                                variation.setImage(jsonObject.getString("image"));
+                                break;
+                            }
+                        }
                         requireActivity().runOnUiThread(() -> {
                             if (!isFragmentActive)
                                 return;
                             adapter_explore.notifyDataSetChanged();
                         });
-                        loadPosts(reccursion + 1, end);
+                        loadPostsImages(reccursion + 1, end);
 
                     } catch (Exception e) {
                         if (!isFragmentActive)

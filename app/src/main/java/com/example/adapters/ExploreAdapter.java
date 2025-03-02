@@ -44,7 +44,7 @@ public class ExploreAdapter extends RecyclerView.Adapter<ExploreAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PostActivity.class);
-                intent.putExtra("postId", variation.getId());
+                intent.putExtra("postId", variation.getPost_id());
                 context.startActivity(intent);
             }
         });

@@ -57,7 +57,7 @@
                                     android:id="@+id/profile_imageView_profilePicture"
                                     android:layout_width="125dp"
                                     android:layout_height="125dp"
-                                    android:src="@drawable/temp_pfp"
+                                    android:src="@drawable/loading_image"
                                     android:scaleType="centerCrop"/>
 
                             </androidx.cardview.widget.CardView>
@@ -86,7 +86,7 @@
                         android:id="@+id/profile_textView_name"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Ulysses Simpson"
+                        android:text="___"
                         android:textAlignment="center"
                         android:textSize="20dp"
                         android:fontFamily="@font/montserrat_bold"/>
@@ -95,7 +95,7 @@
                         android:id="@+id/profile_textView_bio"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="I'm so useless but not depressed."
+                        android:text=""
                         android:maxLines="3"
                         android:textAlignment="center"
                         android:textSize="14dp"/>
@@ -120,7 +120,7 @@
                             android:id="@+id/profile_textView_followers"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="10"
+                            android:text="-"
                             android:textSize="25sp"
                             android:textAlignment="center"
                             android:fontFamily="@font/montserrat_bold"/>
@@ -145,7 +145,7 @@
                             android:id="@+id/profile_textView_following"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="68"
+                            android:text="-"
                             android:textSize="25sp"
                             android:textAlignment="center"
                             android:fontFamily="@font/montserrat_bold"/>
@@ -170,7 +170,7 @@
                             android:id="@+id/profile_textView_likes"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:text="103"
+                            android:text="-"
                             android:textSize="25sp"
                             android:textAlignment="center"
                             android:fontFamily="@font/montserrat_bold"/>
