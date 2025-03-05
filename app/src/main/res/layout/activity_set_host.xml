@@ -72,7 +72,7 @@
 If you don't know your host:
 \n1. Go to the pc/laptop that the database is stored.
 \n2. Open command prompt or any terminal.
-\n3. Type 'ipconfig' and press ente.r
+\n3. Type 'ipconfig' and press enter.
 \n4. Look for IPv4 Address, copy what you see and type it in the text field above."
         android:textAlignment="center"
         android:textColor="@color/main_blue"

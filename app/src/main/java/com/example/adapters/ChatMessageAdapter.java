@@ -21,6 +21,7 @@ import com.example.testproject2.databinding.TemplateChatMessageReceivedBinding;
 import com.example.testproject2.databinding.TemplateChatMessageSentBinding;
 import com.example.testproject2.databinding.TemplateChatMessageSystemBinding;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -61,10 +62,10 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int viewType = getItemViewType(position);
         if(viewType == 1) {
-            ((SentMessageViewHolder) holder).setData(messages.get(position));
+            ((SentMessageViewHolder) holder).setData(position, messages);
         }
         else if(viewType == 2) {
-            ((ReceivedMessageViewHolder) holder).setData(messages.get(position));
+            ((ReceivedMessageViewHolder) holder).setData(position, messages);
         }
         else {
             ((SystemMessageViewHolder) holder).setData(messages.get(position), product);
@@ -85,9 +86,18 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             binding = templateChatMessageSentBinding;
         }
 
-        void setData(Message message) {
-            binding.textMessage.setText(message.getMessage());
-            binding.textDateTime.setText(message.getDatetime());
+        void setData(int position, ArrayList<Message> messages) {
+            binding.textMessage.setText(messages.get(position).getMessage());
+            try {
+                if(!messages.get(position + 1).getType().equals(messages.get(position).getType()))
+                    binding.textDateTime.setText(messages.get(position).getDatetime());
+            } catch (Exception e) {
+                if(messages.size() - 1 == position) {
+                    binding.textDateTime.setText(messages.get(position).getDatetime());
+                }
+                else
+                    binding.textDateTime.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -99,10 +109,23 @@ public class ChatMessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             binding = templateChatMessageReceivedBinding;
         }
 
-        void setData(Message message) {
-            binding.textMessage.setText(message.getMessage());
-            binding.textDateTime.setText(message.getDatetime());
-            binding.imageProfle.setImageBitmap(EncodeImage.decodeFromStringBlob(message.getImage()));
+        void setData(int position, ArrayList<Message> messages) {
+            binding.textMessage.setText(messages.get(position).getMessage());
+            try {
+                if(!messages.get(position + 1).getType().equals(messages.get(position).getType())) {
+                    binding.textDateTime.setText(messages.get(position).getDatetime());
+                    binding.imageProfle.setImageBitmap(EncodeImage.decodeFromStringBlob(messages.get(position).getImage()));
+                }
+            } catch (Exception e) {
+                if(messages.size() - 1 == position) {
+                    binding.textDateTime.setText(messages.get(position).getDatetime());
+                    binding.imageProfle.setImageBitmap(EncodeImage.decodeFromStringBlob(messages.get(position).getImage()));
+                }
+                else {
+                    binding.textDateTime.setVisibility(View.GONE);
+                    binding.imageProfle.setVisibility(View.GONE);
+                }
+            }
         }
     }
 
