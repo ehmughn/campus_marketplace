@@ -228,7 +228,6 @@ public class Register4Activity extends AppCompatActivity {
     }
 
     private void attemptToInsertRegisteredAccount() {
-        runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Inserting account", Toast.LENGTH_SHORT).show());
         button_next.setClickable(false);
         String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/register.php";
 
@@ -255,7 +254,6 @@ public class Register4Activity extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (response.isSuccessful() && responseData.contains("success")) {
-                                Toast.makeText(Register4Activity.this, "Signup Successful", Toast.LENGTH_SHORT).show();
                                 getRegisteredId();
                             } else {
                                 dialogPleaseWait.dismiss();
@@ -279,7 +277,6 @@ public class Register4Activity extends AppCompatActivity {
     }
 
     private void getRegisteredId() {
-        runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Getting registered id", Toast.LENGTH_SHORT).show());
         String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/get_registered_id.php?username=" + RegisterInfoHolder.getUsername();
 
         Request request = new Request.Builder()
@@ -315,7 +312,6 @@ public class Register4Activity extends AppCompatActivity {
     }
 
     private void insertDefaultUserProfileData(int userId) {
-        runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Inserting default user profile data", Toast.LENGTH_SHORT).show());
         String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/modify_user_profile.php";
 
         RequestBody body = new FormBody.Builder()
@@ -359,7 +355,6 @@ public class Register4Activity extends AppCompatActivity {
     }
 
     private void setCurrentAccount() {
-        runOnUiThread(() -> Toast.makeText(Register4Activity.this, "Setting current account", Toast.LENGTH_SHORT).show());
         String url = "http://" + DatabaseConnectionData.getHost() +"/numart_db/login_after_register.php?username=" + RegisterInfoHolder.getUsername();
 
         Request request = new Request.Builder()

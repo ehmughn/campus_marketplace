@@ -370,7 +370,6 @@ public class EditProfileActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             if (response.isSuccessful() && responseData.contains("success")) {
-                                Toast.makeText(EditProfileActivity.this, "Account Update Successful", Toast.LENGTH_SHORT).show();
                                 insertUserProfileData();
                             } else {
                                 dialogPleaseWait.dismiss();

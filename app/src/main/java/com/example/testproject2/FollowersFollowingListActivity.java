@@ -74,8 +74,6 @@ public class FollowersFollowingListActivity extends AppCompatActivity {
             return insets;
         });
         userId = getIntent().getIntExtra("userId", 0);
-        imageView_profilePicture = findViewById(R.id.followersFollowing_imageView_profilePicture);
-        textView_name = findViewById(R.id.followersFollowing_textView_name);
         textView_followers = findViewById(R.id.followersFollowing_textView_followers);
         textView_followers.setOnClickListener(new View.OnClickListener() {
             @Override

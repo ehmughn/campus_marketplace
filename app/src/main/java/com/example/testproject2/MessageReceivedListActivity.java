@@ -68,7 +68,7 @@ public class MessageReceivedListActivity extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                runOnUiThread(() -> Toast.makeText(MessageReceivedListActivity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                //
             }
 
             @Override
@@ -81,11 +81,11 @@ public class MessageReceivedListActivity extends AppCompatActivity {
                         loadMessages(0, total_rooms);
 
                     } catch (Exception e) {
-                        runOnUiThread(() -> Toast.makeText(MessageReceivedListActivity.this, "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        //
                     }
                 }
                 else {
-                    runOnUiThread(() -> Toast.makeText(MessageReceivedListActivity.this, "Network error", Toast.LENGTH_SHORT).show());
+                    //
                 }
             }
         });
@@ -105,7 +105,7 @@ public class MessageReceivedListActivity extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                runOnUiThread(() -> Toast.makeText(MessageReceivedListActivity.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                //
             }
 
             @Override
@@ -128,11 +128,11 @@ public class MessageReceivedListActivity extends AppCompatActivity {
                         loadMessages(reccursion + 1, end);
 
                     } catch (Exception e) {
-                        runOnUiThread(() -> Toast.makeText(MessageReceivedListActivity.this, "Unexpected Response: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        //
                     }
                 }
                 else {
-                    runOnUiThread(() -> Toast.makeText(MessageReceivedListActivity.this, "Network error", Toast.LENGTH_SHORT).show());
+                    //
                 }
             }
         });
